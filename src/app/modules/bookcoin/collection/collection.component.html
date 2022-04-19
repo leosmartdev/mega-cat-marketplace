@@ -1,0 +1,191 @@
+<div class="container py-10">
+  <div class="row">
+    <div class="col-md-9 center-vertically">
+      <em
+        ><h1 class="h6 script bm20">{{ subheadCol?.value }}</h1></em
+      >
+      <h1 class="h1 gradient hero-head pr-5" style="font-size: 64px !important">{{ offer?.nft.contract.name }}</h1>
+      <div style="width: 150px; border-bottom: 1px solid #ddba77; height: 1px; margin-bottom: 10px; margin-top: 10px"></div>
+      <div class="d-flex flex-row">
+        <img [src]="avatar" style="height: 30px; width: 30px" />
+        <span class="mt-1 ml-2"> {{ username }}</span>
+      </div>
+
+      <h6 class="pr-20">
+        <p style="color: black !important" class="ml-2">{{ this.aboutCol?.value }}</p>
+      </h6>
+    </div>
+    <div class="col-md-3">
+      <carousel class="drops-corousel" [arrows]="false" [height]="400" [cellsToShow]="1" [cellWidth]="190">
+        <div class="carousel-cell" *ngFor="let saleNFT of cards">
+          <div class="card card-feat" style="background-color: #000; max-width: 300px">
+            <img class="card-img" [src]="saleNFT.image" style="object-fit: contain !important" />
+            <div class="mt-5 text-center">
+              <h4 class="h4 strong center bm4">{{ saleNFT.name.slice(0, 16) }}</h4>
+
+              <p>{{ saleNFT.description.slice(0, 70) }}</p>
+
+              <p class="drop-date container">
+                {{ saleNFT.createdAt | date: 'EEEE, MMMM d, y, h:mm:s' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </carousel>
+    </div>
+    <div style="display: block">
+      <div style="width: 60%; border-bottom: 2px solid #ddba77; height: 2px; margin-bottom: 10px; margin-top: 60px; margin-left: auto; margin-right: auto"></div>
+    </div>
+  </div>
+</div>
+<div class="container py-10">
+  <div class="row mt-7">
+    <div class="col-md-7">
+      <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('about-collection')">
+        <div class="me-auto">
+          <h2 class="feat-drops">About the Collection</h2>
+        </div>
+        <div>
+          <button *ngIf="activePanel !== 'about-collection'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+          <button *ngIf="activePanel === 'about-collection'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+        </div>
+      </div>
+
+      <div *ngIf="activePanel === 'about-collection'" class="pt-4">
+        <div class="row mt-7">
+          <div class="d-flex flex-row">
+            <img style="height: 100px; width: 100px" src="{{ offer?.nft.contract.imageUrl }}" />
+
+            <div>
+              <h4 style="font-family: GT Spectra Display" class="ml-2">{{ offer?.nft.contract.name }}</h4>
+              <p style="color: black !important" class="ml-2">{{ offer?.nft.contract.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('story')">
+        <div class="me-auto">
+          <h2 class="feat-drops">The Story</h2>
+        </div>
+        <div>
+          <button *ngIf="activePanel !== 'story'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+          <button *ngIf="activePanel === 'story'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+        </div>
+      </div>
+
+      <div *ngIf="activePanel === 'story'" class="pt-4">
+        <p style="color: #202020">
+          {{ story?.value ? story?.value : defaultStory }}
+        </p>
+      </div>
+      <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('perks')">
+        <div class="me-auto">
+          <h2 class="feat-drops">The Perks</h2>
+        </div>
+        <div>
+          <button *ngIf="activePanel !== 'perks'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+          <button *ngIf="activePanel === 'perks'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+        </div>
+      </div>
+
+      <div *ngIf="activePanel === 'perks'" class="pt-4">
+        <p style="color: #202020">
+          {{ perks?.value ? perks?.value : defaultPerks }}
+        </p>
+        <img src="assets/bookcoin/collection-signature.png" style="width: 30% !important" />
+      </div>
+    </div>
+    <!-- <div class="col-md-5">
+      <div class="">
+        <h2 class="text-center">Collection</h2>
+        <div class="d-flex justify-content-center">
+          <div class="pt-5" style="border: 1px solid #d6c4c4; width: 170px; height: 100px">
+            <h2 class="text-center">{{ filteredNFts.length }}</h2>
+            <p class="text-center" style="color: black">items</p>
+          </div>
+          <div class="pt-5" style="border: 1px solid #d6c4c4; width: 170px; height: 100px">
+            <h2 class="text-center">{{ sellers.length }}</h2>
+            <p class="text-center" style="color: black">owners</p>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center mt-2">
+          <div class="pt-5" style="border: 1px solid #d6c4c4; width: 170px; height: 100px">
+            <h2 class="text-center">{{ floorPrice }}</h2>
+            <p class="text-center" style="color: black">floor price</p>
+          </div>
+          <div class="pt-5" style="border: 1px solid #d6c4c4; width: 170px; height: 100px">
+            <h2 class="text-center">0.15</h2>
+            <p class="text-center" style="color: black">volume traded</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="col-md-5">
+      <div class="collection-box">
+        <div class="row justify-content-center">
+          <h2 class="text-center" style="font-family: Neue World Regular">Collection</h2>
+          <div class="col-md-6" style="border-right: 3px solid #000; border-bottom: 3px solid #000; width: 120px; height: 100px">
+            <h2 class="text-center" style="font-family: GT Sectra Display; font-size: 24px">{{ filteredNFts.length }}</h2>
+            <p class="text-center" style="font-family: Neue World Regular; color: #ddba77">ARTIFACTS</p>
+          </div>
+          <div class="col-md-6" style="border-bottom: 3px solid #000; width: 120px; height: 100px">
+            <h2 class="text-center" style="font-family: GT Sectra Display; font-size: 24px">{{ filteredNFts.length }}</h2>
+            <p class="text-center" style="font-family: Neue World Regular; color: #ddba77">PREMIUM</p>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-6 pt-3" style="border-right: 3px solid #000; width: 120px; height: 100px">
+            <h2 class="text-center" style="font-family: GT Sectra Display; font-size: 16px">{{ colDate }}</h2>
+            <p class="text-center" style="font-family: Neue World Regular; color: #ddba77; padding-top: 12px">DROP DATE</p>
+          </div>
+          <div class="col-md-6 pt-3" style="width: 120px; height: 100px">
+            <a class="text-center" [routerLink]="['/bookcoin/home']"
+              ><h2 class="text-center" style="color: #000; font-family: GT Sectra Display !important; font-size: 12px !important; text-decoration-color: #000 !important">
+                VIEW ON OPENSEA
+              </h2></a
+            >
+            <p class="text-center" style="font-family: Neue World Regular; color: #ddba77">FLOOR PRICE</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container py-10">
+  <div class="d-flex mb-3">
+    <h2 class="gold-line black-neue h3 strong">PREMIUM ARTIFACTS</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 py-2" *ngFor="let nft of auctionNfts">
+      <app-nft-card-bkcn [nft]="nft.nft" [auction]="nft.auction?.id" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card-bkcn>
+    </div>
+  </div>
+  <div class="no-results">
+    <span class="no-nft-label" *ngIf="auctionNfts.length === 0">No NFT found</span>
+  </div>
+  <div style="display: block">
+    <div style="width: 60%; border-bottom: 2px solid #ddba77; height: 2px; margin-bottom: 30px; margin-top: 40px; margin-left: auto; margin-right: auto"></div>
+  </div>
+  <div class="container py-10">
+    <div class="d-flex mb-3">
+      <h2 class="gold-line black-neue h3 strong">EXPLORE</h2>
+      <div class="mt-2 ml-5"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 py-2" *ngFor="let nft of filteredNFtsToDisplay">
+        <app-nft-card-bkcn [nft]="nft.nft" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card-bkcn>
+
+        <div *ngIf="this.filteredNFtsToDisplay.length < this.filteredNFts.length" class="container">
+          <div class="justify-content-center" style="text-align: center">
+            <a class="btn btn-outline-primary mcl-button-outline_auction btn-border" style="width: 20%; background-color: #ddba77" (click)="loadMore()">Load More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="no-results">
+      <span class="no-nft-label" *ngIf="filteredNFtsToDisplay.length === 0">No NFT found</span>
+    </div>
+  </div>
+</div>

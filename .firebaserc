@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "mega-cat-labs-329521": {
+      "hosting": {
+        "mega-cat-labs-marketplace": [
+          "mega-cat-labs-329521"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "mega-cat-labs-329521"
+  }
+}

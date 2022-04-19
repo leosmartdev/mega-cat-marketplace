@@ -1,0 +1,285 @@
+<header class="mcl-header">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <div class="site-identity">
+        <img src="assets/images/logo/mcl_logo.png" alt="Mega Cat Studios  Logo" />
+      </div>
+      <!-- Mobile -->
+      <div class="mresponsive-notif notification-wrapper" style="position: relative" *ngIf="!isLoggedIn()">
+        <button class="mcl notification" (click)="openNotification()">
+          <i class="fas fa-bell notification-icon"></i>
+          <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="top: 8px; left: 13px">
+            {{ newNotificationList.length }}
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </button>
+
+        <div class="notification-container" [ngClass]="{ 'notification-container-collapse': isNotificationClicked }">
+          <div class="arrow-up"></div>
+          <div class="notification-dropdown">
+            <span class="close-icon-modal" (click)="openNotification()">
+              <span class="material-icons"> close </span>
+            </span>
+            <div class="notification-option">
+              <button class="notification-btn-1" [ngClass]="{ 'selected-btn': !isGettingArchive }" (click)="getUnreadNotification()">
+                Notifications <span>({{ newNotificationList.length }})</span>
+              </button>
+              <button class="notification-btn-2" [ngClass]="{ 'selected-btn': isGettingArchive }" (click)="getArchiveNotification()">
+                Archive <span>({{ archiveList.length }})</span>
+              </button>
+            </div>
+
+            <div class="card-wrapper mt-3" *ngFor="let notif of notificationList; let i = index">
+              <!-- Card 1 -->
+              <div class="card-notification mb-3" *ngIf="notif.type === 'info'">
+                <span class="close-icon" (click)="removeCard(i)" *ngIf="notif.status !== 'archive'">
+                  <span class="material-icons"> close </span>
+                </span>
+                <h5 class="card-title">{{ notif.title }}</h5>
+                <div class="card-body">
+                  {{ notif.message }}
+                </div>
+              </div>
+              <!-- Card 2 -->
+              <div class="card-notification mb-3" *ngIf="notif.type === 'warning'">
+                <span class="close-icon" (click)="removeCard(i)" *ngIf="notif.status !== 'archive'">
+                  <span class="material-icons"> close </span>
+                </span>
+                <h5 class="card-title">{{ notif.title }}</h5>
+                <div class="card-body row">
+                  <div class="col-sm-2 icon-left">
+                    <span class="material-icons"> info </span>
+                  </div>
+                  <div class="col-sm-10">
+                    {{ notif.message }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3 empty-notification" *ngIf="notificationList.length === 0">
+              <div class="row mx-auto">
+                <h5 class="text-light">No notification(s)</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button [routerLink]="['/cart']" class="mresponsive-cart mcl cart-items">
+        <i class="fas fa-shopping-cart notification-icon"> </i>
+      </button>
+      <a *ngIf="!isLoggedIn()" [routerLink]="['/sign-in']" class="mresponsive-btn btn-primary mcl">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+          />
+        </svg>
+        Login
+      </a>
+      <button
+        class="navbar-toggler toggle-button nav-toggle"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line" style="margin-bottom: 0"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="menu-item" *ngFor="let item of nav">
+            <a [routerLink]="[item.url]">{{ item.title }}</a>
+          </li>
+        </ul>
+        <div class="actions">
+          <!-- Notification -->
+          <!-- TODO: SHOW ONLY WHEN THE USER IS LOGGED IN -->
+          <div class="notification-wrapper" style="position: relative" *ngIf="!isLoggedIn()">
+            <button class="w-notif mcl notification" (click)="openNotification()">
+              <i class="fas fa-bell notification-icon"></i>
+              <span *ngIf="newNotificationList.length > 0" class="position-absolute translate-middle badge rounded-pill bg-danger" style="top: 8px; left: 13px">
+                {{ newNotificationList.length }}
+                <span class="visually-hidden">unread messages</span>
+              </span>
+              <!-- -->
+            </button>
+
+            <div class="notification-container" [ngClass]="{ 'notification-container-collapse': isNotificationClicked }">
+              <div class="arrow-up"></div>
+              <div class="notification-dropdown">
+                <span class="close-icon-modal" (click)="openNotification()">
+                  <span class="material-icons"> close </span>
+                </span>
+                <div class="notification-option">
+                  <button class="notification-btn-1" [ngClass]="{ 'selected-btn': !isGettingArchive }" (click)="getUnreadNotification()">
+                    Notifications <span>({{ newNotificationList.length }})</span>
+                  </button>
+                  <button class="notification-btn-2" [ngClass]="{ 'selected-btn': isGettingArchive }" (click)="getArchiveNotification()">
+                    Archive <span>({{ archiveList.length }})</span>
+                  </button>
+                </div>
+
+                <div class="card-wrapper mt-3" *ngFor="let notif of notificationList; let i = index">
+                  <!-- Card 1 -->
+                  <div class="card-notification mb-3" *ngIf="notif.type === 'info'">
+                    <span class="close-icon" (click)="removeCard(i)" *ngIf="notif.status !== 'archive'">
+                      <span class="material-icons"> close </span>
+                    </span>
+                    <h5 class="card-title">{{ notif.title }}</h5>
+                    <div class="card-body">
+                      {{ notif.message }}
+                    </div>
+                  </div>
+                  <!-- Card 2 -->
+                  <div class="card-notification mb-3" *ngIf="notif.type === 'warning'">
+                    <span class="close-icon" (click)="removeCard(i)" *ngIf="notif.status !== 'archive'">
+                      <span class="material-icons"> close </span>
+                    </span>
+                    <h5 class="card-title">{{ notif.title }}</h5>
+                    <div class="card-body row">
+                      <div class="col-sm-2 icon-left">
+                        <span class="material-icons"> info </span>
+                      </div>
+                      <div class="col-sm-10">
+                        {{ notif.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3 empty-notification" *ngIf="notificationList.length === 0">
+                  <div class="row mx-auto">
+                    <h5 class="text-light">No notification(s)</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button [routerLink]="['/cart']" class="w-cart mcl cart-items"><i class="fas fa-shopping-cart notification-icon"> </i> {{ getProductsCount() }} Items</button>
+          <a *ngIf="!isLoggedIn()" [routerLink]="['/sign-in']" class="w-btn btn-primary mcl">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+              />
+            </svg>
+            Login
+          </a>
+
+          <div class="mcs-account-dropdown-wrapper" [ngClass]="{ 'mcs-account-dropdown-wrapper-user': !isAdminRole() }" *ngIf="isLoggedIn()">
+            <a [routerLink]="['/dashboard']" class="user"> {{ getUser().name ? getUser().name : getUser().email }}</a>
+            <div class="wallet">
+              <button *ngIf="this.walletAddress" class="wallet-address">
+                <span class="label">Wallet Address: </span>{{ walletAddress.slice(0, 4) + '...' + walletAddress.slice(walletAddress.length - 4) }}
+              </button>
+              <span class="wallet-connect label role" *ngIf="isAdminOrSuperUser()">Role: {{ authService.user.role }}</span>
+              <button *ngIf="!this.walletService.isMetaMaskInstalled()" class="wallet-connect" (click)="this.walletService.beginMetaMaskOnboarding()">Install Wallet</button>
+              <button
+                *ngIf="this.walletService.isMetaMaskInstalled() && !this.walletService.currentAccount"
+                class="wallet-connect"
+                (click)="this.walletService.connectToMetaMask()"
+              >
+                Connect Wallet
+              </button>
+            </div>
+            <div class="dropdown-wrapper">
+              <ul class="items">
+                <li [routerLink]="['/profile']">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </span>
+                  <span class="title">Profile</span>
+                </li>
+                <li *ngIf="isAdminRole()" [routerLink]="['/profile/create']">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </span>
+                  <span class="title">Create NFT</span>
+                </li>
+                <li *ngIf="isAdminRole()" [routerLink]="['/profile/create-collection']">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </span>
+                  <span class="title">Create Collection</span>
+                </li>
+                <li [routerLink]="['/profile/settings']">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                      />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </span>
+                  <span class="title">Settings</span>
+                </li>
+                <li [routerLink]="['/profile/payouts']">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                      />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </span>
+                  <span class="title">Payouts</span>
+                </li>
+
+                <li *ngIf="isAdminOrSuperUser()" [routerLink]="['/dashboard']">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                      />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </span>
+                  <span class="title">Dashboard</span>
+                </li>
+
+                <li [routerLink]="['/sign-out']">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
+                  </span>
+                  <span class="title">Log out</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

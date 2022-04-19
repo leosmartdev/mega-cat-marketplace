@@ -1,0 +1,163 @@
+<div class="container py-4">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6">
+          <a [routerLink]="['/cart']" style="color: #000; text-decoration: none"> <i class="fas fa-arrow-left"></i> Back to Bag</a>
+        </div>
+        <div class="col-md-6">
+          <div>
+            <h3 style="font-family: GT Sectra Display; font-weight: bold">Promo Code</h3>
+          </div>
+
+          <div class="d-flex flex-row news-letter mt-5">
+            <input type="text" class="input-style form-control" placeholder="Code" [disabled]="true" />
+            <button class="btn btn-primary button-style ml-4" [disabled]="true">Apply</button>
+          </div>
+        </div>
+      </div>
+      <h3 style="font-family: GT Sectra Display; font-weight: bold">Billing Details</h3>
+      <button (click)="fillTestData()" mat-raised-button color="accent">Use Test Data</button>
+      <form class="mt-8" [formGroup]="checkoutForm">
+        <div class="row">
+          <div class="field-row">
+            <h3 style="font-family: GT Sectra Display; font-weight: bold">Select Saved Card</h3>
+            <span class="label"> Saved Card <i class="required"></i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12" appearance="fill">
+              <mat-select [formControlName]="'selectedCard'" (selectionChange)="selectSavedCard($event)">
+                <mat-option>Select saved card</mat-option>
+                <mat-option *ngFor="let card of cards" [value]="card" class="select-style">
+                  <span style="color: black !important">{{ card.cardNumber }}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- <select class="form-select mb-3" aria-label="Default select example" [formControlName]="'selectedCard'" (change)="selectSavedCard($event.target.value)" [(value)]="checkoutForm.value.selectedCard">
+              <option selected>Select alreay saved cards</option>
+              <option *ngFor="let card of cards" [value]="card">{{card.cardNumber}}</option>
+            </select> -->
+          </div>
+          <h3 style="font-family: GT Sectra Display; font-weight: bold">Create New Card</h3>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>Card Holder Name</mat-label>
+              <input id="name" matInput [formControlName]="'name'" />
+              <mat-error *ngIf="checkoutForm.get('name').hasError('required')"> Card holder name is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>Card Number</mat-label>
+              <input id="cardNumber" matInput [formControlName]="'cardNumber'" />
+              <mat-error *ngIf="checkoutForm.get('cardNumber').hasError('required')"> Card number is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>Expiry Month</mat-label>
+              <input id="expiryMonth" matInput [formControlName]="'expiryMonth'" />
+              <mat-error *ngIf="checkoutForm.get('expiryMonth').hasError('required')"> Expiry month is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>Expiry Year</mat-label>
+              <input id="expiryYear" matInput [formControlName]="'expiryYear'" />
+              <mat-error *ngIf="checkoutForm.get('expiryYear').hasError('required')"> Expiry year is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>CSV Code</mat-label>
+              <input id="csv" matInput [formControlName]="'csv'" />
+              <mat-error *ngIf="checkoutForm.get('csv').hasError('required')"> CSV code is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>City</mat-label>
+              <input id="city" matInput [formControlName]="'city'" />
+              <mat-error *ngIf="checkoutForm.get('city').hasError('required')"> City is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>Country</mat-label>
+              <input id="country" matInput [formControlName]="'country'" />
+              <mat-error *ngIf="checkoutForm.get('country').hasError('required')"> Country is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>Address Line 1</mat-label>
+              <input id="line1" matInput [formControlName]="'line1'" />
+              <mat-error *ngIf="checkoutForm.get('line1').hasError('required')"> Address line 1 is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>Address Line 2</mat-label>
+              <input id="line2" matInput [formControlName]="'line2'" />
+              <mat-error *ngIf="checkoutForm.get('line2').hasError('required')"> Address line 2 is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>District</mat-label>
+              <input id="district" matInput [formControlName]="'district'" />
+              <mat-error *ngIf="checkoutForm.get('district').hasError('required')"> District is required! </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-full">
+              <mat-label>Postal</mat-label>
+              <input id="postalCode" matInput [formControlName]="'postalCode'" />
+              <mat-error *ngIf="checkoutForm.get('postalCode').hasError('required')"> Postal is required! </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <h3>Ethereum</h3>
+          <mat-form-field class="w-full">
+            <mat-label>Ethereum Address</mat-label>
+            <input id="username" matInput [formControlName]="'username'" />
+            <mat-error *ngIf="checkoutForm.get('username').hasError('required')">
+              Full name is required!
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" [formControlName]="'saveCard'" />
+          <label class="form-check-label" for="flexCheckIndeterminate"> Save Card </label>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-lg" (click)="ProceedToOrder()" [disabled]="checkoutForm.disabled" style="font-family: Editorial New; font-style: italic">Continue</button>
+        </div>
+        <!-- <button
+          class="w-full mt-6 continue-button"
+          mat-flat-button
+          [disabled]="checkoutForm.disabled"
+        >
+          <span *ngIf="!checkoutForm.disabled"> Continue </span>
+          <mat-progress-spinner
+            *ngIf="checkoutForm.disabled"
+            [diameter]="24"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+        </button> -->
+      </form>
+      <div class="row py-7">
+        <div class="col-md-6">
+          <h3 class="mt-7" style="font-family: GT Spectra Display; font-style: bold">Need Help Setting up Your Wallet?</h3>
+          <p style="color: black !important" class="mt-4">
+            To purchase a Digital Collectible, you must have somewhere to store it's token. We've made it easy to set-up a wallet. Simply follow these steps.
+          </p>
+          <a class="btn mcl_btn" [routerLink]="['wallet-connect']"> Set Up Your Wallet</a>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>

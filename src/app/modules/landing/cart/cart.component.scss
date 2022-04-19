@@ -1,0 +1,271 @@
+$label-text: white;
+$bg-color: rgb(0, 0, 0, 0.4);
+$border-color: rgb(21, 27, 34);
+$primary: #f99b1d;
+$font: Poppins, sans-serif !important;
+$font-size: 14px;
+
+.mcl-container {
+  line-height: 1.5;
+  font-family: Poppins, sans-serif !important;
+  padding: 100px 0 100px 0;
+
+  .title {
+    font-weight: 600;
+    font-size: 20px;
+    color: rgb(4, 17, 29);
+    line-height: 110%;
+  }
+
+  .mcl-cart-container {
+    border: 1px solid rgb(229, 232, 235);
+    border-radius: 10px;
+    background: rgb(255, 255, 255);
+    padding: 24px 44px;
+  }
+
+  .cart-item {
+    padding: 20px 0;
+    border-bottom: 1px solid rgb(229, 232, 235);
+  }
+
+  .cart-header {
+    font-weight: 600;
+    font-size: 16px;
+    color: rgb(4, 17, 29);
+  }
+
+  p {
+    margin: 0 0 0 0;
+  }
+
+  .collection-name {
+    color: rgb(32, 129, 226);
+    font-size: 14px;
+    height: 21px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-decoration-color: rgb(32, 129, 226);
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    text-decoration-thickness: auto;
+    text-overflow: ellipsis;
+    text-size-adjust: 100%;
+    white-space: nowrap;
+
+    .icon-font {
+      font-size: 12px;
+    }
+  }
+
+  .nft-name {
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgb(53, 56, 64);
+  }
+
+  .royalty {
+    font-weight: 500;
+    font-size: 12px;
+    color: rgb(112, 122, 131);
+
+    svg {
+      display: inline;
+      vertical-align: text-top;
+    }
+  }
+
+  .currency-container {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+  }
+
+  .price-crypto {
+    img {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+    }
+
+    margin-left: 0.3em;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(53, 56, 64);
+  }
+
+  .price-conversion {
+    font-size: 12px;
+    color: rgb(53, 56, 64);
+  }
+}
+
+.cart-container {
+  width: 100%;
+  padding: 0;
+  position: relative;
+  min-height: 555px;
+  font-size: $font-size;
+  font: $font;
+}
+
+.cart-empty-wrapper {
+  padding: 100px 0 100px;
+  text-align: center;
+  .cart-empty-label {
+    text-align: center;
+    color: white;
+    opacity: 0.7;
+  }
+  .cart-empty {
+    width: 1100px;
+    margin: auto;
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    padding: 30px;
+    height: 100px;
+    border-radius: 10px;
+  }
+  .cart-empty-btn {
+    margin-top: 20px;
+    color: white;
+    padding: 15px;
+    background-color: $primary;
+    border-radius: 10px;
+
+    svg {
+      display: inline-block;
+    }
+  }
+}
+
+.cart-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size;
+  font: $font;
+  .cart-item-wrapper {
+    padding: 100px 0 100px;
+    .cart-label {
+      text-align: center;
+      color: $label-text;
+      opacity: 0.8;
+      margin-bottom: 2rem;
+    }
+    .cart-container {
+      border: 1px solid border-color;
+      min-height: 500px;
+      width: 700px;
+      border-radius: 15px;
+      background-color: $bg-color;
+      padding: 15px;
+      position: relative;
+
+      .item-list {
+        margin: 15px;
+        height: 100px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #3a3a3b;
+        padding-right: 15px;
+
+        p {
+          margin: 0;
+          font: $font;
+          &:hover {
+            color: $primary;
+          }
+        }
+        .product-img {
+          color: $label-text;
+          height: 100%;
+          border-radius: 5px 0 0 5px;
+          width: 150px;
+
+          img {
+            height: 100%;
+            border-radius: 5px 0 0 5px;
+          }
+        }
+        .product-price {
+          font-size: 20px;
+          color: $label-text;
+        }
+        .remove-icon {
+          cursor: pointer;
+          &:hover {
+            height: 35px;
+            transition: all 0.2 ease 0.5;
+            color: $primary;
+          }
+        }
+        .price-container {
+          display: flex;
+          .price-wrapper {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+      .cart-total {
+        color: $label-text;
+        display: flex;
+        justify-content: space-around;
+        .cart-total-wrapper {
+          display: flex;
+
+          h2 {
+            display: flex;
+            align-items: center;
+            margin-right: 5px;
+          }
+          .total-price {
+            font-size: 32px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}
+
+.space-wrapper {
+  margin-top: 10rem;
+}
+
+.product-total {
+  display: flex;
+  flex-direction: column;
+  .product-js-flex {
+    color: $label-text;
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.input-quantity {
+  width: 15px;
+  height: 15px;
+  line-height: 1;
+  font-size: 14px;
+  &:hover {
+    color: $primary;
+  }
+}
+
+.checkout {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  button {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: $primary;
+  }
+}

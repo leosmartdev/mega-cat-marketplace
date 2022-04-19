@@ -1,0 +1,233 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "mega-cat-labs-marketplace": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist/mega-cat-labs-marketplace",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": ["apexcharts", "highlight.js", "crypto-js/enc-utf8", "crypto-js/hmac-sha256", "crypto-js/enc-base64"],
+            "assets": [
+              "src/favicon.png",
+              "src/assets",
+              {
+                "glob": "_redirects",
+                "input": "src",
+                "output": "/"
+              }
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/@fuse/styles"]
+            },
+            "styles": [
+              "src/assets/fonts/inter/inter.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/@fuse/styles/tailwind.scss",
+              "src/@fuse/styles/themes.scss",
+              "src/styles/vendors.scss",
+              "src/@fuse/styles/main.scss",
+              "src/styles/styles.scss",
+              "src/styles/tailwind.scss"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
+              "node_modules/marked/marked.min.js"
+            ],
+            "extraWebpackConfig": "webpack.config.js"
+          },
+          "configurations": {
+            "bkcn-production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "8mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "100kb",
+                  "maximumError": "150kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.bkcn.prod.ts"
+                }
+              ]
+            },
+            "bkcn-staging": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "budgets": [],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.bkcn.staging.ts"
+                }
+              ]
+            },
+            "mcl-production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "8mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "100kb",
+                  "maximumError": "150kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mcl.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "mcl-staging": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "budgets": [],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mcl.staging.ts"
+                }
+              ]
+            },
+            "mcl-dev": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "budgets": [],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mcl.dev.ts"
+                }
+              ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "extraWebpackConfig": "webpack.config.js"
+          },
+          "configurations": {
+            "mcl-production": {
+              "browserTarget": "mega-cat-labs-marketplace:build:mcl-production"
+            },
+            "mcl-staging": {
+              "browserTarget": "mega-cat-labs-marketplace:build:mcl-staging"
+            },
+            "mcl-dev": {
+              "browserTarget": "mega-cat-labs-marketplace:build:mcl-dev"
+            },
+            "bkcn-production": {
+              "browserTarget": "mega-cat-labs-marketplace:build:bkcn-production"
+            },
+            "bkcn-staging": {
+              "browserTarget": "mega-cat-labs-marketplace:build:bkcn-staging"
+            },
+
+            "production": {
+              "browserTarget": "mega-cat-labs-marketplace:build:mcl-production"
+            },
+            "staging": {
+              "browserTarget": "mega-cat-labs-marketplace:build:mcl-staging"
+            },
+            "development": {
+              "browserTarget": "mega-cat-labs-marketplace:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "mega-cat-labs-marketplace:build"
+          }
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": ["src/favicon.png", "src/assets"],
+            "styles": ["src/styles/styles.scss"],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "eslintConfig": ".eslintrc.json",
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "mega-cat-labs-marketplace:build:production",
+            "firebaseProject": "mega-cat-labs-329521",
+            "firebaseHostingSite": "mega-cat-labs-329521"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "mega-cat-labs-marketplace",
+  "cli": {
+    "analytics": "8669e455-8da1-464e-ac3f-f6524f511e4a",
+    "defaultCollection": "@angular-eslint/schematics"
+  }
+}

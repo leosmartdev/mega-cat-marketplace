@@ -1,0 +1,445 @@
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  min-width: 250px;
+}
+
+.nft-drop-mint-container {
+  margin-top: 20%;
+  width: 1000px;
+  max-width: 10000px;
+  height: 350px;
+  max-height: 350px;
+
+  .modal-content {
+    width: 100%;
+  }
+}
+
+mat-option {
+  color: white;
+  background: #444040;
+  border: 1px dashed whitesmoke;
+  margin: 5px 0;
+
+  &:hover {
+    border: 1px solid orange;
+  }
+}
+
+.hidden-input {
+  display: none !important;
+}
+
+.descriptor {
+  font-style: italic;
+  font-size: 0.8em;
+}
+
+.drop.container {
+  > .row {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .dropImage {
+    max-height: 500px;
+    width: auto;
+    margin: auto;
+  }
+
+  .btn.btn-primary {
+    background-color: #ddba77;
+    border-radius: 10px;
+    font-size: 24px;
+    font-family: Neue World Regular;
+    width: 200px;
+    margin-top: 0px;
+    margin-bottom: 25px;
+    padding: 10px;
+  }
+}
+
+.sections {
+  .section {
+    .feat-drops2 {
+      font-family: Neue World Regular;
+      font-weight: bold;
+      padding-top: 10px;
+      margin-bottom: 0rem;
+    }
+
+    p {
+      color: black;
+    }
+
+    .padding-drops {
+      padding-top: 18px;
+      padding-bottom: 10px;
+    }
+  }
+}
+
+form {
+  input[disabled] {
+    color: grey !important;
+  }
+
+  .drop-metadata {
+    mat-form-field {
+      width: 100%;
+    }
+
+    textarea {
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    input[name='name'],
+    h1#drop-name {
+      color: #d75f2a;
+      font-size: 2.5rem;
+    }
+
+    p#drop-chain {
+      color: #adadad;
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+
+    input[name='description'] {
+      color: black;
+    }
+
+    .image-container {
+      width: 100%;
+      min-height: 150px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+
+      .image {
+        position: absolute;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        opacity: 0;
+      }
+
+      &:hover {
+        .change-image-hover {
+          opacity: 1;
+          background: rgba(32, 32, 32, 0.66);
+
+          svg {
+            stroke: white;
+          }
+        }
+      }
+
+      .change-image-hover {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 1;
+
+        svg {
+          stroke: black;
+        }
+
+        i {
+          font-size: 11px;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .btn.btn-accent {
+    color: white;
+    background-color: #ddba77;
+  }
+
+  textarea.markdown-editor {
+    width: 100%;
+  }
+
+  .section-builder {
+    input,
+    textarea {
+      border: 1px solid black;
+    }
+
+    label {
+      font-weight: 700;
+      display: block;
+      width: 100%;
+      font-size: 1.2em;
+    }
+  }
+
+  markdown {
+    ul {
+      list-style-type: disc;
+      list-style-position: inside;
+    }
+    ol {
+      list-style-type: decimal;
+      list-style-position: inside;
+    }
+    ul ul,
+    ol ul {
+      list-style-type: circle;
+      list-style-position: inside;
+      margin-left: 15px;
+    }
+    ol ol,
+    ul ol {
+      list-style-type: lower-latin;
+      list-style-position: inside;
+      margin-left: 15px;
+    }
+  }
+
+  .mint,
+  .nfts-title,
+  .become-a-member {
+    background-color: black;
+    margin-bottom: 0px;
+
+    color: white;
+  }
+
+  .drop-metadata,
+  .mint,
+  .faqs,
+  .nfts-title,
+  .sections,
+  .become-a-member {
+    padding: 50px 0px;
+  }
+
+  .become-a-member {
+    .btn.btn-secondary {
+      background-color: #2f3033;
+      color: #b19757;
+      padding: 15px;
+    }
+
+    h1 {
+      font-family: Neueworld, sans-serif;
+    }
+
+    p {
+      color: #3b4044;
+    }
+  }
+
+  .minted-nfts-admin {
+    width: 50%;
+    margin: auto;
+  }
+
+  .mint-gas-fee {
+    color: #ddba77;
+  }
+
+  a {
+    color: #ddba77;
+  }
+
+  .mint {
+    h1 {
+      font-family: 'Gt sectra display', sans-serif;
+    }
+
+    .scheduling {
+      margin-bottom: 15px;
+    }
+
+    .timer {
+      // padding: 10px 15px;
+      text-align: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: 16px;
+      letter-spacing: 2px;
+      .label {
+        display: block;
+        font-size: 10px;
+        letter-spacing: -0.5px;
+        span {
+          margin: 8px;
+        }
+      }
+    }
+
+    input.datepicker {
+      background-color: white;
+      color: black;
+      padding: 5px;
+    }
+
+    label,
+    label .mat-form-field-label {
+      color: rgb(165, 165, 165);
+      text-transform: uppercase;
+
+      &.mat-form-field-empty {
+        left: 10px;
+        top: 30px;
+      }
+    }
+
+    .already-minted {
+      color: red;
+    }
+
+    .price {
+      font-size: 1.3em;
+    }
+
+    p {
+      text-align: center;
+    }
+
+    input.mint-quantity {
+      background-color: white;
+      color: black;
+      height: 35px;
+      border-radius: 5px;
+      padding: 3px;
+      line-height: 35px;
+    }
+
+    .remaining-mint-quantity {
+      padding-top: 15px;
+      font-family: Neueworld, sans-serif;
+      font-size: 1.75em;
+    }
+
+    .price {
+      margin-top: 15px;
+    }
+
+    table.contract-verification-table {
+      color: white;
+      margin: auto;
+
+      img {
+        max-height: 50px;
+        width: auto;
+      }
+    }
+  }
+
+  input[name='price'] {
+  }
+
+  input[name='currency'] {
+  }
+}
+
+.drop-metadata,
+.faqs {
+  background-color: white;
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  input {
+    color: black;
+  }
+
+  h1 {
+    color: #d75f2a;
+  }
+}
+
+.mint,
+.nfts-title,
+.become-a-member {
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  input {
+    color: white;
+  }
+}
+
+.drop-metadata {
+  padding-left: 25px;
+
+  .description {
+    margin-bottom: 20px;
+  }
+
+  > .name {
+    padding-top: 15px;
+  }
+}
+
+.author-signature {
+  img {
+    padding: 0;
+    margin: 0;
+    object-fit: contain;
+  }
+
+  .name {
+    padding-left: 5px;
+  }
+
+  .image {
+    display: inline;
+    width: 40px;
+    height: 40px;
+  }
+
+  .bluecheck {
+    display: inline;
+    width: 14px;
+  }
+}
+
+.faqs {
+  .faq {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-top: 1px solid black;
+
+    .question {
+      color: rgb(201, 137, 20);
+    }
+
+    .answer {
+      color: rgb(39, 38, 38);
+    }
+  }
+}

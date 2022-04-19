@@ -1,0 +1,66 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6 sm:p-10">
+    <div class="prose prose-sm max-w-3xl">
+      <h1>Edit Product</h1>
+    </div>
+    <mat-progress-spinner class="loader" color="primary" value="100;" mode="indeterminate" *ngIf="loader"> </mat-progress-spinner>
+    <form class="flex flex-col mt-2 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden" [formGroup]="createProductForm">
+      <div class="row">
+        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 col-md-6">
+          <mat-label>Name</mat-label>
+          <input id="name" matInput [formControlName]="'name'" />
+          <mat-error *ngIf="createProductForm.get('name').hasError('required')"> Name is required </mat-error>
+        </mat-form-field>
+        <div class="col-md-6 image">
+          <mat-label class="label">Image</mat-label>
+          <br />
+          <img *ngIf="fileUrl" [src]="fileUrl" class="product-image" />
+          <input id="image" (change)="onChange($event)" type="file" class="mt-2" multiple />
+          <div class="error mt-2" *ngIf="fileError">Image is required</div>
+        </div>
+      </div>
+      <div class="row"></div>
+
+      <div class="row mt-5">
+        <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-textarea flex-auto">
+          <mat-label>Description</mat-label>
+          <textarea id="description" matInput [formControlName]="'description'" [rows]="3" matTextareaAutosize></textarea>
+          <mat-error *ngIf="createProductForm.get('description').hasError('required')"> Description is required </mat-error>
+        </mat-form-field>
+      </div>
+
+      <h2>Metadata</h2>
+      <div>Fill out the attributes below to specify the metadata for your non-fungible token.</div>
+      <form [formGroup]="propertiesForm">
+        <div class="flex flex-row gt-md:flex-row mt-4">
+          <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-md:pr-3 ml-3">
+            <mat-label>Name</mat-label>
+            <input id="name" matInput [formControlName]="'name'" />
+            <mat-error *ngIf="propertiesForm.get('name').hasError('required')"> Name is required </mat-error>
+          </mat-form-field>
+          <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-md:pr-3 ml-3">
+            <mat-label>Value</mat-label>
+            <input id="value" matInput [formControlName]="'value'" />
+            <mat-error *ngIf="propertiesForm.get('value').hasError('required')"> Value is required </mat-error>
+          </mat-form-field>
+          <button class="px-6 ml-3 mt-7" mat-flat-button [color]="'primary'" (click)="addToProperties()">Add</button>
+        </div>
+        <ul>
+          <li *ngFor="let property of properties">
+            <div class="flex flex-col justify-content-between">
+              {{ property.name }} :
+              {{ property.value }}
+            </div>
+          </li>
+        </ul>
+      </form>
+      <div class="flex items-center justify-end mt-10">
+        <button mat-button (click)="cancel()">Cancel</button>
+        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" [disabled]="createProductForm.disabled" (click)="createProduct()">
+          <span *ngIf="!createProductForm.disabled"> Save </span>
+          <mat-progress-spinner *ngIf="createProductForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

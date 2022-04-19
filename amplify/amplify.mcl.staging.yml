@@ -1,0 +1,18 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - node -v
+        - npm ci
+    build:
+      commands:
+        - node -v
+        - npm run build-mcl-staging
+  artifacts:
+    baseDirectory: dist/mega-cat-labs-marketplace
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*

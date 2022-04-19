@@ -1,0 +1,103 @@
+.category-container {
+  font-family: Poppins, sans-serif !important;
+  height: 100%;
+  .bg-image {
+    width: 100%;
+    height: 300px;
+    img {
+      object-fit: cover;
+      max-height: 300px;
+      width: 100%;
+    }
+  }
+  .title-description {
+    width: 100%;
+    height: 250px;
+    // border-bottom: 1px solid rgb(21, 27, 34);
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+    padding: 0 300px 0 300px;
+    .category-title {
+      text-align: center;
+      color: #fff;
+      padding-top: 20px;
+      font-weight: 600;
+    }
+    p {
+      text-align: center;
+    }
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    gap: 1;
+
+    .card-wrapper {
+      width: 400px;
+      .category-item-wrapper {
+        .upper-wrapper {
+          background-color: black;
+          border-radius: 15px 15px 0 0;
+          img {
+            object-fit: contain;
+            width: 400px;
+            height: 200px;
+          }
+        }
+
+        .lower-wrapper {
+          position: relative;
+          background-color: rgb(48, 51, 57);
+          padding: 15px;
+          border-radius: 0 0 10px 10px;
+          color: #fff;
+          text-align: center;
+          height: 250px;
+
+          .profile-image-wrapper {
+            position: absolute;
+            top: -30px;
+            left: 165px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background-color: beige;
+          }
+          .item-list-wrapper {
+            padding: 25px;
+            .title-wrapper {
+              font-weight: 600;
+              .mat-icon-mcl {
+                font-size: 1rem;
+                color: #f99b1d;
+              }
+            }
+            .name-wrapper .user-name {
+              color: #2081e2;
+            }
+            .desc-wrapper {
+              opacity: 0.7;
+            }
+          }
+        }
+
+        &:hover {
+          cursor: pointer;
+          transform: scale(1.1);
+          transition: all 0.3s ease;
+          .lower-wrapper {
+            background-color: #f99b1d;
+          }
+        }
+      }
+    }
+  }
+
+  h2 {
+    text-align: center;
+    color: #fff;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+  }
+}

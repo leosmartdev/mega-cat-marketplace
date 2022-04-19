@@ -1,0 +1,21 @@
+<app-profile-navlinks></app-profile-navlinks>
+<div class="container my-5">
+  <section class="profile-main">
+    <div class="site-wrapper">
+      <div class="collection grid" *ngIf="filteredNFTs.length > 0">
+        <div *ngFor="let nft of filteredNFTs">
+          <app-nft-card-bkcn [nft]="nft.nft" [auction-id]="nft.auction.id" [walletAddress]="walletAddress"> </app-nft-card-bkcn>
+        </div>
+      </div>
+      <div class="no-results">
+        <span class="no-nft-label" *ngIf="!isFetching && filteredNFTs.length === 0">No NFT found</span>
+        <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
+          <span class="loading-label">Fetching NFTs</span>
+          <div class="spinner-grow spinner-wrapper text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

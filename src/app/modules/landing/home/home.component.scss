@@ -1,0 +1,126 @@
+$font: Poppins, sans-serif !important;
+.mcl-button {
+  width: 100%;
+  display: inline-block;
+  font-size: 9px;
+  font-weight: bold;
+  margin: 5px;
+  padding: 8px 13px;
+  background-color: #ea923e;
+  border-color: #ea923e;
+  border-radius: 30px;
+}
+.mcl-button-outline {
+  width: 100%;
+  display: inline-block;
+  font-size: 9px;
+  font-weight: bold;
+  margin: 5px;
+  padding: 8px 13px;
+  color: #ea923e;
+  background-color: transparent;
+  border-color: #ea923e;
+  border-radius: 30px;
+}
+.mcl-card {
+  background-color: #3a3b3c;
+  border-radius: 20px;
+  margin: 15px 10px;
+  position: relative;
+  box-shadow: 0 3px 20px rgb(0 0 0 / 40%);
+}
+.mcl-collection-image {
+  height: 100px;
+  border-radius: 10px;
+}
+.card-title {
+  color: #fff;
+}
+.carousel-cell {
+  padding-top: 4rem;
+  // fix card overlaying the header when scrolling
+  z-index: 1 !important;
+  img {
+    height: 50px !important;
+  }
+}
+
+.banner {
+  padding: 20px 100px;
+}
+
+.listings {
+  .title {
+    margin: 0;
+  }
+}
+
+.rankings {
+  height: 500px;
+  font-family: Poppins, sans-serif !important;
+  .rank-item-wrapper {
+    color: #fff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent transparent rgb(21, 27, 34);
+    width: 360px;
+    height: 70px;
+    padding: 8px 0 0 8px;
+  }
+
+  .rank-item-wrapper:hover {
+    border-radius: 10px;
+    border: 1px solid rgb(21, 27, 34);
+    box-shadow: rgb(4 17 29 / 25%) 0px 0px 8px 0px;
+    background-color: rgb(48, 51, 57);
+    transition: all 0.2s ease 0s;
+    cursor: pointer;
+  }
+
+  .img-wrapper {
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+  }
+
+  .icon-font {
+    position: absolute;
+    left: 35px;
+    top: 35px;
+    color: rgb(32, 129, 226);
+    font-size: 15px;
+  }
+}
+
+.category {
+  height: 600px;
+  font-family: Poppins, sans-serif !important;
+  .category-item-wrapper {
+    height: 230px;
+    width: 400px;
+
+    .upper-wrapper {
+      img {
+        width: 400px;
+        height: 200px;
+      }
+    }
+    .lower-wrapper {
+      background-color: rgb(48, 51, 57);
+      padding: 15px;
+      border-radius: 0 0 10px 10px;
+      color: #fff;
+      text-align: center;
+    }
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+      transition: all 0.3s ease;
+      .lower-wrapper {
+        background-color: #f99b1d;
+      }
+    }
+  }
+}

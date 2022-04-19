@@ -1,0 +1,116 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6 sm:p-10">
+    <div class="prose prose-sm max-w-3xl">
+      <h2>Payouts</h2>
+    </div>
+    <div *ngIf="!isSuperAdmin()" class="prose prose-sm max-w-3xl">
+      <h2>Unauthorized</h2>
+    </div>
+    <div>
+      <form [formGroup]="payoutStatusForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Select Status</mat-label>
+          <mat-select (selectionChange)="filter($event)" [(value)]="selectedFilter" name="options">
+            <mat-option *ngFor="let option of options" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <div class="flex flex-col mt-2 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden" *ngIf="isSuperAdmin()">
+        <table mat-table [dataSource]="filteredPayouts | paginate: { itemsPerPage: 5, currentPage: page }">
+          <!-- Selection Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+              >
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-checkbox *ngIf="element.status === 'cleared'" disabled> </mat-checkbox>
+              <mat-checkbox
+                *ngIf="element.status === 'pending'"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(element) : null"
+                [checked]="selection.isSelected(element)"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.nftName }}
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="status"
+            >Status
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.status }}
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="price"
+            >Price
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.nftPrice }}
+            </td>
+          </ng-container>
+          <!-- Description Column -->
+          <ng-container matColumnDef="order"
+            >Order
+            <th mat-header-cell *matHeaderCellDef>Order Id</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.order?._id }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fee"
+            >Fee (%)
+            <th mat-header-cell *matHeaderCellDef>Fee (%)</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.platformFee }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="payout"
+            >Payout
+            <th mat-header-cell *matHeaderCellDef>Payout</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.payoutAmount }}
+            </td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Approve Payout</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              <button (click)="approvePayout(element._id)">
+                <i class="far fa-money-bill-alt"></i>
+              </button>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="button">
+            <th mat-header-cell *matHeaderCellDef>
+              <button mat-raised-button (click)="approveAll()">Approve All</button>
+            </th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+        </table>
+        <div class="text-center pt-4">
+          <pagination-controls (pageChange)="page = $event" (pageBoundsCorrection)="page = $event"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

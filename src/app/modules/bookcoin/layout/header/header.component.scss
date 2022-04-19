@@ -1,0 +1,127 @@
+$primary: #f99b1d;
+$accent: #e04206;
+h2 {
+  padding-top: 10px;
+}
+.nav-allcaps {
+  text-transform: uppercase;
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+}
+.notification-icon {
+  color: #fff;
+  background-color: #000;
+  border-radius: 100px;
+  width: 44px;
+  height: 44px;
+  display: block;
+  padding: 13px;
+  &:hover {
+    background-color: $accent;
+  }
+}
+.badge {
+  color: #000;
+  background-color: #ddba77;
+  font-size: 12px;
+  border-radius: 50px;
+}
+.mat-badge-medium .mat-badge-content {
+  width: 22px;
+  height: 22px;
+  line-height: 30px;
+}
+.header-msg {
+  margin-top: 30px;
+  h1 {
+    margin-bottom: 0;
+    text-align: center;
+    color: #fff;
+  }
+}
+
+.navbar-shrink {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  background-color: #000;
+  .navbar-brand {
+    color: #212529;
+  }
+  .navbar-nav {
+    .nav-item {
+      .nav-link {
+        color: #fff;
+        padding: 0 1rem;
+      }
+    }
+  }
+}
+.search {
+  background-color: #202020;
+  border: 1px solid $primary;
+}
+.navbar-toggler {
+  width: 47px;
+  height: 34px;
+  background-color: #fff;
+  border: none;
+}
+.navbar-toggler .line {
+  width: 100%;
+  float: left;
+  height: 2px;
+  background-color: #000;
+  margin-bottom: 5px;
+}
+.header-image {
+  background-image: url('../../../../../assets/bookcoin/header.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-color: transparent;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 991px) {
+  .header_background {
+    padding: 5px;
+    // background-color: #bbbdbf;
+    padding-bottom: 29px;
+  }
+  .cart-notification {
+    margin-left: 80px !important;
+    padding-bottom: 10px;
+  }
+  .actions {
+    flex-direction: column;
+    .d-flex {
+      padding-top: 10px;
+    }
+  }
+}
+.nav-title {
+  color: #000;
+}
+
+.list-color {
+  color: #000;
+  padding: 10px !important;
+  &:hover {
+    color: #c19a5b !important;
+    border-radius: 5px !important;
+
+    background-color: rgba(95, 91, 91, 0.15) !important;
+  }
+}
+.message-heading {
+  color: #c19a5b !important;
+  font-family: Neue World;
+}
+.bkcn-icon {
+  color: #000;
+  padding: 10px !important;
+}

@@ -1,0 +1,59 @@
+<div
+  class="profile"
+  style="background: url({{ banner }}); 
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;"
+>
+  <div class="dark-theme d-flex flex-row justify-content-between mx-5" style="transform: translate(0px, 430px)">
+    <div class="flex-grow-1 d-flex justify-content-center">
+      <div class="profile-photo" style="background: url({{ avatar }});">
+        <input class="mcl-input" id="image" type="file" (change)="onAvatarChange($event)" accept="image/*" />
+        <span class="change-profile-hover">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dark-theme d-flex flex-row justify-content-between mx-5" style="margin-top: -80px; margin-bottom: 100px">
+  <div class="mcl-view-option-bookcoin nav ml-auto">
+    <div class="option" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }" data-tip="Home" [routerLink]="['/profile']">
+      <img src="/assets/icons/profile-home.svg" class="filters-icon" />
+    </div>
+    <div class="option" routerLinkActive="selected" data-tip="My Auctions" [routerLink]="['/profile/my-auctions']">
+      <img src="/assets/icons/profile-auction.svg" class="filters-icon" />
+    </div>
+    <div class="option" routerLinkActive="selected" data-tip="Participated Auction" [routerLink]="['/profile/participated-auctions']">
+      <img src="/assets/icons/profile-partauction.svg" class="filters-icon" />
+    </div>
+    <div class="option" routerLinkActive="selected" data-tip="Settings" [routerLink]="['/profile/settings']">
+      <img src="/assets/icons/profile-setting.svg" class="filters-icon" />
+    </div>
+    <div class="option" routerLinkActive="selected" data-tip="Edit Listing" [routerLink]="['/profile/edit-listing']">
+      <img src="/assets/icons/profile-edit.svg" class="filters-icon" />
+    </div>
+    <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="Create Collection" [routerLink]="['/profile/create-collection']">
+      <img src="/assets/icons/profile-createcollect.svg" class="filters-icon" />
+    </div>
+    <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="Create NFT" [routerLink]="['/profile/create']">
+      <img src="/assets/icons/profile-createnft.svg" class="filters-icon" />
+    </div>
+    <div class="option tool" routerLinkActive="selected" data-tip="Payout Status" [routerLink]="['/profile/payouts-status']">
+      <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
+    </div>
+  </div>
+</div>
+<div class="container mt-7">
+  <div class="d-flex justify-content-center mt-3">
+    <h4 style="font-family: GT Sectra Display; font-weight: bold; cursor: pointer">{{ user?.name ? user?.name : user?.username }}</h4>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+    <!-- CONTENT GOES HERE -->
+    <div style="height: 190px" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+      <!-- Summary -->
+      <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+        <div class="flex flex-col items-center mt-2">
+          <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
+            {{ newNFTs }}
+          </div>
+
+          <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+            <div class="text-md font-medium truncate">New NFTs</div>
+          </div>
+        </div>
+      </div>
+      <!-- Summary -->
+      <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+        <div class="flex flex-col items-center mt-2">
+          <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
+            {{ listedForSaleNFTs }}
+          </div>
+
+          <div class="flex items-baseline justify-center w-full mt-5 text-red-500">
+            <div class="text-md font-medium truncate">Listed For Sale NFTs</div>
+          </div>
+        </div>
+      </div>
+      <!-- Summary -->
+      <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+        <div class="flex flex-col items-center mt-2">
+          <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">
+            {{ soldNFTs }}
+          </div>
+
+          <div class="flex items-baseline justify-center w-full mt-5 text-amber-500">
+            <div class="text-md font-medium truncate">Sold NFTs</div>
+          </div>
+        </div>
+      </div>
+      <!-- Summary -->
+      <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+        <div class="flex flex-col items-center mt-2">
+          <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">
+            {{ totalUsers }}
+          </div>
+
+          <div class="flex items-baseline justify-center w-full mt-5 text-green-500">
+            <div class="text-md font-medium truncate">Total Users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

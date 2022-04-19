@@ -1,0 +1,58 @@
+<!-- TODO: refactor profile header so its reusable
+ Code below is straight from Opensea
+-->
+<div class="container">
+  <div class="title-header pt-4">
+    <h2 class="text-light text-center">Connect your wallet.</h2>
+  </div>
+  <div class="sub">
+    <p class="text-light text-center">Connect with one of the supported wallet providers below.</p>
+  </div>
+
+  <div class="wallet-wrapper mt-3 m-auto">
+    <div class="wallet-list">
+      <li class="wallet-item p-3">
+        <button class="wallet-button text-light" (click)="connectToWallet('metamask')">
+          <div class="row">
+            <div class="col-sm-1 pt-1">
+              <img class="wallet-icon" alt="MetaMask" src="/assets/images/logo/metamask-fox.svg" />
+            </div>
+            <div class="col-sm-4 p-1 text-left fw-bold">MetaMask</div>
+            <div class="col-sm-7 text-right opacity-75 pt-2 prg-right" *ngIf="this.walletService.isWalletActive()">Already Connected</div>
+            <div class="col-sm-7 text-right opacity-75 pt-2 prg-right" *ngIf="!this.walletService.isWalletActive()">Popular</div>
+          </div>
+        </button>
+      </li>
+
+      <!-- More option -->
+      <div [ngClass]="{ 'more-collapse': isShowingMore, 'more-uncollapse': !isShowingMore }">
+        <li class="wallet-item p-3">
+          <button class="wallet-button text-light">
+            <div class="row">
+              <div class="col-sm-1 pt-1">
+                <img class="wallet-icon" alt="Coinbase Wallet" src="/assets/images/logo/coinbase.webp" />
+              </div>
+              <div class="col-sm-4 p-1 text-left fw-bold">Coinbase Wallet</div>
+              <div class="col-sm-7 text-right opacity-75 pt-2 prg-right">Coming Soon</div>
+            </div>
+          </button>
+        </li>
+
+        <li class="wallet-item p-3">
+          <button class="wallet-button text-light">
+            <div class="row">
+              <div class="col-sm-1 pt-1">
+                <img class="wallet-icon" alt="Portis" src="/assets/images/logo/portis.png" />
+              </div>
+              <div class="col-sm-4 p-1 text-left fw-bold">Portis</div>
+              <div class="col-sm-7 text-right opacity-75 pt-2 prg-right">Coming Soon</div>
+            </div>
+          </button>
+        </li>
+      </div>
+    </div>
+  </div>
+  <div class="action-div m-auto p-4">
+    <h5 class="text-light text-center" (click)="showMore()">{{ optionLabel }}</h5>
+  </div>
+</div>

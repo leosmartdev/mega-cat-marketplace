@@ -1,0 +1,119 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-5 center-vertically">
+      <h1 class="h1">Featured <br /><span class="underline-quote">Book</span> Drops</h1>
+      <h6>
+        Collect your favourite books with<br />
+        Limited-Edition,Author-Issued<br />
+        NFTs!
+      </h6>
+
+      <input type="text" placeholder="Search Items, Titles or Authors" class="drop-field" />
+    </div>
+    <div class="col-md-7">
+      <carousel class="drops-corousel" arrowsOutside="true" height="500" [cellsToShow]="2" [cellWidth]="190">
+        <div class="carousel-cell" *ngFor="let saleNFT of cards">
+          <div class="card card-feat" style="background-color: #000" [routerLink]="['/drops', saleNFT._id]">
+            <img class="card-img" [src]="saleNFT.image" style="object-fit: contain !important" />
+            <div class="mt-5 text-center">
+              <h4 class="h4 strong center bm4">{{ saleNFT.name }}</h4>
+
+              <p>{{ saleNFT.description | truncate: 70:'No description provided' }}</p>
+
+              <p class="drop-date container">
+                {{ saleNFT.createdAt | date: 'EEEE, MMMM d, y, h:mm:s' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </carousel>
+      <h3 class="feat-drops">
+        Featured
+        <a [routerLink]="['/drops']" *ngIf="canViewDrops()">Drops</a>
+        <span *ngIf="!canViewDrops()">Drops</span>
+      </h3>
+    </div>
+  </div>
+</div>
+<div class="container-fluid intro" style="margin-top: 50px">
+  <div class="container row mx-auto" style="margin-left: 56px !important; padding-right: 0px; margin-right: 50px; padding-left: 0px">
+    <div class="col-md-5">
+      <h4 class="white-neue h2 strong">How to</h4>
+      <h1 class="white-neue h1">BookCoin</h1>
+
+      <p class="text-uppercase" style="font-family: Source Serif">start collecting in 3 easy steps</p>
+    </div>
+
+    <div class="col-md-7" style="color: white; align-items: center; padding-left: 50px">
+      <div class="d-flex flex-coloumn">
+        <div style="padding-right: 20px; padding-top: 20px">
+          <h5 class="gold-line neue-reg">01) CREATE YOUR ACCOUNT</h5>
+          <h5 class="neue-reg">02) CONNECT YOUR WALLET</h5>
+          <h5 class="neue-reg">03) BUILD YOUR LIBRARY</h5>
+        </div>
+        <div class="white-rect"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container carousel-padding">
+  <h2 class="black-neue h2 strong" style="padding-bottom: 20px"><span class="gold-line black-neue">FEATUR</span>ED TITLES</h2>
+  <carousel height="500" class="pad" [arrowsOutside]="true" [cellsToShow]="4" [margin]="45">
+    <div class="carousel-cell" *ngFor="let saleNFT of cards">
+      <div class="card card-feat" style="background-color: #000">
+        <img class="card-img" [src]="saleNFT.image" style="object-fit: contain !important" />
+        <div class="mt-5 text-center">
+          <h4 class="h4 strong center bm4">{{ saleNFT.name.slice(0, 16) }}</h4>
+
+          <p>{{ saleNFT.description | truncate: 70:'No description provided' }}</p>
+
+          <div class="d-flex mt-2 drop-btn container">
+            <a class="btn btn-outline-primary mcl-button-outline_auction btn-border" [routerLink]="['/drops', saleNFT._id]">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </carousel>
+</div>
+
+<div class="container py-5">
+  <div class="d-flex my-10">
+    <h2 class="gold-line black-neue h2 strong">EXPLORE</h2>
+    <div class="mt-2 ml-5 z-ind">
+      <mat-select class="ml-5" [(value)]="Collection" (selectionChange)="PriceFilter($event.value, 'collection')">
+        <mat-option value="all">All</mat-option>
+        <mat-option *ngFor="let collection of ExistCollections" [value]="{collection}">{{ collection }}</mat-option>
+      </mat-select>
+      <mat-select class="ml-5" (selectionChange)="PriceFilter($event.value, 'type')" [(value)]="SaleType">
+        <mat-option value="buy">Buy</mat-option>
+        <mat-option value="auction">Auction</mat-option>
+      </mat-select>
+      <mat-select class="ml-5" [(value)]="pricefilterValue" (selectionChange)="PriceFilter($event.value, 'price')">
+        <mat-option value="All">All Prices</mat-option>
+        <mat-option value="Less Than 50">Less Than 50</mat-option>
+        <mat-option value="50-100">50-100</mat-option>
+        <mat-option value="Greater Than 100">Greater Than 100</mat-option>
+      </mat-select>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="SaleType === 'buy' && filteredNFt.length > 0">
+    <div class="col-md-3 py-2" *ngFor="let nft of filteredNFt">
+      <app-nft-card-bkcn [nft]="nft.nft" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card-bkcn>
+    </div>
+  </div>
+  <div class="row" *ngIf="SaleType === 'auction' && filteredNFt.length > 0">
+    <div class="col-md-3 py-2" *ngFor="let nft of filteredNFt">
+      <app-nft-card-bkcn [nft]="nft.nft" [auction-id]="nft.auction?.id" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card-bkcn>
+    </div>
+  </div>
+  <div class="no-results">
+    <span class="no-nft-label" *ngIf="!isFetching && filteredNFt.length === 0">No NFT found</span>
+    <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
+      <span class="loading-label">Fetching NFTs</span>
+      <div class="spinner-grow spinner-wrapper text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</div>

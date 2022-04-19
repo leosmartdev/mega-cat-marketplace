@@ -1,0 +1,60 @@
+image: node:lts-alpine
+
+before_script:
+  - node -v
+
+variables:
+  CLI_VERSION: 12.2.0
+
+stages:
+  - lint
+  - test
+  - build
+
+build:
+  stage: build
+  image: trion/ng-cli:${CLI_VERSION}
+  before_script:
+    - npm ci
+  script:
+    - ng build --configuration=bkcn-production
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - dist/
+  tags:
+    - docker
+
+test:karma:
+  stage: test
+  image: trion/ng-cli-karma
+  before_script:
+    - npm ci
+  allow_failure: false
+  script:
+    - ng test  --code-coverage --progress false --watch false
+  coverage: '/Lines \W+: (\d+\.\d+)%.*/'
+  artifacts:
+    paths:
+      - coverage/
+    reports:
+      junit: [reports/*.xml, karma_html/index.html]
+  tags:
+    - docker
+
+test:lint:
+  stage: lint
+  before_script:
+    - npm ci
+  allow_failure: false
+  script:
+    - npm run lint
+  tags:
+    - docker
+
+todo:e2e:
+  stage: test
+  # image: trion/ng-cli:${CLI_VERSION}
+  allow_failure: false
+  script:
+    - echo "Implement"

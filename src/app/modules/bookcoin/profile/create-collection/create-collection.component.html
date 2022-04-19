@@ -1,0 +1,132 @@
+<app-profile-navlinks></app-profile-navlinks>
+<section class="profile-main create-item">
+  <div class="site-wrapper">
+    <div class="form-wrapper">
+      <form class="overflow-hidden dark-theme" [formGroup]="createCollectionForm">
+        <div class="group-fields">
+          <div class="field-row">
+            <span class="label">
+              Image <i class="required">*</i>
+              <span>File types supported: JPG, PNG, GIF, SVG</span>
+            </span>
+
+            <div class="file-upload-wrapper">
+              <input id="image" (change)="onChange($event)" type="file" multiple />
+              <div class="icon-wrapper" [class.update]="fileUrl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="rgb(229, 232, 235)">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <img *ngIf="fileUrl" [src]="fileUrl" class="product-image" />
+            </div>
+          </div>
+          <div class="field-row">
+            <span class="label"> Name <i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input id="username" matInput [formControlName]="'name'" />
+              <mat-error *ngIf="createCollectionForm.get('name').hasError('required')"> Name is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-row">
+            <span class="label"> Subheading <i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input id="subheading" matInput [formControlName]="'subheading'" />
+              <mat-error *ngIf="createCollectionForm.get('subheading').hasError('required')"> Subheading is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-row">
+            <span class="label"> About the Collection <i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input id="about" matInput [formControlName]="'about'" />
+              <mat-error *ngIf="createCollectionForm.get('about').hasError('required')"> Is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-row">
+            <span class="label"> Symbol <i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input id="symbol" matInput [formControlName]="'symbol'" />
+              <mat-error *ngIf="createCollectionForm.get('symbol').hasError('required')"> Symbol is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-row">
+            <span class="label"> Royality Fee<i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input type="number" id="royality" matInput [formControlName]="'royality'" />
+              <mat-error *ngIf="createCollectionForm.get('royality').hasError('required')"> Royality Fee is required </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field-row">
+            <span class="label"> Story <i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input id="story" matInput [formControlName]="'story'" />
+              <mat-error *ngIf="createCollectionForm.get('story').hasError('required')"> Story is required </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field-row">
+            <span class="label"> Perks <i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input id="perks" matInput [formControlName]="'perks'" />
+              <mat-error *ngIf="createCollectionForm.get('perks').hasError('required')"> Perks are required </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field-row">
+            <span class="label">
+              Description <i class="required">*</i>
+              <span>The description will be included on the item's detail page underneath its image.</span>
+            </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <textarea id="desc" matInput [formControlName]="'description'" [rows]="3" matTextareaAutosize></textarea>
+              <mat-error *ngIf="createCollectionForm.get('description').hasError('required')"> Description is required </mat-error>
+            </mat-form-field>
+          </div>
+
+          <button class="btn primary" [disabled]="createCollectionForm.invalid" (click)="createCollection()">
+            <span> Create </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="loader-wrapper" *ngIf="loader">
+    <svg
+      version="1.1"
+      id="loader"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      width="80px"
+      height="80px"
+      viewBox="0 0 40 40"
+      enable-background="new 0 0 40 40"
+      xml:space="preserve"
+    >
+      <path
+        opacity="0.2"
+        fill="#e04206"
+        d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"
+      />
+      <path
+        fill="#e04206"
+        d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                    C22.32,8.481,24.301,9.057,26.013,10.047z"
+      >
+        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="0.9s" repeatCount="indefinite" />
+      </path>
+    </svg>
+    <span>Please wait..</span>
+  </div>
+</section>

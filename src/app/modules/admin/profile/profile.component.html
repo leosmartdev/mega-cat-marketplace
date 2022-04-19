@@ -1,0 +1,96 @@
+<section class="profile-header">
+  <div class="cover-photo" style="background: url({{ banner }});"></div>
+  <div class="profile-info">
+    <div class="profile-photo" style="background: url({{ avatar }});">
+      <input class="mcl-input" id="image" (change)="onChangeAvatar($event)" type="file" accept="image/*" />
+      <span class="change-profile-hover">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+          />
+        </svg>
+      </span>
+    </div>
+    <div class="info-wrapper">
+      <span class="name">{{ user.name ? user.name : 'Mr. Cat' }}</span>
+      <span class="email">{{ user.email ? user.email : '' }}</span>
+      <span class="wallet-address" *ngIf="this.walletAddress">
+        {{ walletAddress.slice(0, 4) + '...' + walletAddress.slice(walletAddress.length - 4) }}
+      </span>
+    </div>
+    <div class="filters-wrapper">
+      <div class="site-wrapper flex">
+        <div class="gap" style="width: 40%"></div>
+        <div class="mcl-view-option">
+          <div class="option" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }" data-tip="Home" [routerLink]="['/profile']">
+            <img src="/assets/icons/profile-home.svg" class="filters-icon" />
+          </div>
+          <div class="option" routerLinkActive="selected" data-tip="My Auctions" [routerLink]="['/profile/user-auctions']">
+            <img src="/assets/icons/profile-auction.svg" class="filters-icon" />
+          </div>
+          <div class="option" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }" data-tip="Achievement" [routerLink]="['/achievement/profile']">
+            <img class="icon-image" src="/assets/img/piggy-bank.png" />
+          </div>
+          <div class="option" routerLinkActive="selected" data-tip="Participated Auction" [routerLink]="['/profile/participated-auctions']">
+            <img src="/assets/icons/profile-partauction.svg" class="filters-icon" />
+          </div>
+          <div class="option" routerLinkActive="selected" data-tip="Wallet" [routerLink]="['/profile/wallet']">
+            <img src="/assets/icons/profile-wallet.svg" class="filters-icon" />
+          </div>
+          <div class="option" routerLinkActive="selected" data-tip="Settings" [routerLink]="['/profile/settings']">
+            <img src="/assets/icons/profile-setting.svg" class="filters-icon" />
+          </div>
+          <div class="option" routerLinkActive="selected" data-tip="Edit Listing" [routerLink]="['/profile/edit-listing']">
+            <img src="/assets/icons/profile-edit.svg" class="filters-icon" />
+          </div>
+          <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="Create Collection" [routerLink]="['/profile/create-collection']">
+            <img src="/assets/icons/profile-createcollect.svg" class="filters-icon" />
+          </div>
+          <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="Create NFT" [routerLink]="['/profile/create']">
+            <img src="/assets/icons/profile-createnft.svg" class="filters-icon" />
+          </div>
+          <div class="option tool" routerLinkActive="selected" data-tip="Payout Status" [routerLink]="['/profile/payouts']">
+            <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
+          </div>
+        </div>
+        <!-- <button class="mcl btn-primary">
+                     Create NFT</button> -->
+      </div>
+    </div>
+  </div>
+</section>
+<router-outlet></router-outlet>
+<div class="loader-wrapper" *ngIf="loading">
+  <svg
+    version="1.1"
+    id="loader"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0px"
+    y="0px"
+    width="80px"
+    height="80px"
+    viewBox="0 0 40 40"
+    enable-background="new 0 0 40 40"
+    xml:space="preserve"
+  >
+    <path
+      opacity="0.2"
+      fill="#e04206"
+      d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"
+    />
+    <path
+      fill="#e04206"
+      d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                C22.32,8.481,24.301,9.057,26.013,10.047z"
+    >
+      <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="0.9s" repeatCount="indefinite" />
+    </path>
+  </svg>
+  <span>Please wait..</span>
+</div>

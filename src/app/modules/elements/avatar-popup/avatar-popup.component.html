@@ -1,0 +1,20 @@
+<div class="modal-style content-style mcl-card" role="dialog">
+  <div class="modal-body modal-style">
+    <div class="card mcl-card px-5 py-5">
+      <div class="card-body">
+        <h3 class="heading">Upload Photo</h3>
+        <p>Change your avatar by uploading an image.</p>
+        <div class="d-flex flex-col">
+          <div class="flex flex-col image">
+            <label class="label mb-3">Image</label>
+            <input class="mcl-input" id="image" (change)="onChange($event)" type="file" accept="image/*" />
+          </div>
+          <div class="flex items-center justify-end mt-5">
+            <button class="btn btn-primary mcl-button ml-3" data-dismiss="modal" type="submit" (click)="updateAvatar()">Change</button>
+            <button class="btn btn-primary mcl-button ml-3" data-dismiss="modal" type="submit" (click)="removeAvatar()">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+.continue-button {
+  height: 200px;
+  background-color: black;
+  color: white;
+}
+.btn-lg {
+  width: 100%;
+  background-color: #3a3a3b;
+  height: 80px;
+  color: #fff;
+  padding: 20px;
+}
+.mcl_btn {
+  border: 2px solid black;
+  color: black;
+  padding: 14px 28px;
+}
+.select-style {
+  background-color: rgb(218, 213, 213);
+  color: red;
+}
+
+.mat-select-value {
+  color: #60d2a7 !important;
+}
+.button-style {
+  color: #fff;
+  background-color: #ddba77;
+  border: 0px;
+  &focus {
+    outline: none !important;
+  }
+}
+mat-option {
+  background-color: #aca9a9 !important;
+  &:hover {
+    background-color: #c19a5b !important;
+  }
+}

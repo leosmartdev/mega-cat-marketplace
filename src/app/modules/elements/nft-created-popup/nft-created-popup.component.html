@@ -1,0 +1,19 @@
+<div class="container nft-created">
+  <div class="row">
+    <div class="col-sm-6">
+      <img src="{{ nft.metadata.image }}" />
+    </div>
+    <div class="col-sm-6">
+      <h1>{{ nft.metadata.name }}</h1>
+      <p>ID: {{ nft.tokenIds[0] }}</p>
+      <p>{{ nft.metadata.description.length > 50 ? (nft.metadata.description | slice: 0:50) + '...' : nft.metadata.description }}</p>
+
+      <p>
+        <a href="https://polygonscan.com/tx/{{ nft.transactionHash }}">Tx Hash: {{ nft.transactionHash | slice: -8 }}</a>
+      </p>
+      <p>Chain: Polygon</p>
+      <a (click)="goBackToProfile()" style="color: chocolate">Back to Profile</a>
+    </div>
+    <div class="col-sm-12">Your NFT will show up in a few minutes once the transaction has sufficient confirmations.</div>
+  </div>
+</div>

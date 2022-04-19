@@ -1,0 +1,53 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 600;
+}
+
+.mat-dialog-container {
+  background-color: whitesmoke !important;
+}
+
+button.closing {
+  border: 2px solid red;
+}
+
+.wizard-container {
+  background: whitesmoke;
+
+  p {
+    color: black;
+  }
+
+  .wizard {
+    padding: 25px;
+    text-align: center;
+    max-width: 250px;
+
+    $imgSide: 50px;
+    .status-icon {
+      margin: auto;
+      width: $imgSide;
+      height: $imgSide;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &.dormant {
+    }
+
+    &.active {
+    }
+
+    &.finished {
+    }
+  }
+}

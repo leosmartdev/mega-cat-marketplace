@@ -1,0 +1,114 @@
+.mcl-card {
+  border: 1px solid #e9ecef;
+  box-sizing: border-box;
+  border-radius: 8px;
+  position: relative;
+}
+.no-results {
+  font-family: Poppins, sans-serif !important;
+  opacity: 50;
+  text-align: center;
+  margin: 80px 0;
+  color: #fff;
+  font-size: 25px;
+  .no-nft-label {
+    font-size: 20px;
+    color: #000;
+  }
+  .nr-wrapper {
+    .loading-label {
+      font-size: 20px;
+      margin-right: 5px;
+      color: #000;
+    }
+    .spinner-wrapper {
+      height: 10px;
+      width: 10px;
+    }
+  }
+}
+.mcl-collection-image {
+  height: 220px;
+  object-fit: cover !important;
+}
+.mcl-collection-image_auction {
+  height: 220px;
+  object-fit: cover !important;
+}
+.mcl-button {
+  width: 100%;
+  display: inline-block;
+  font-size: 9px;
+  font-weight: bold;
+  margin: 2px;
+  padding: 8px 13px;
+  background-color: #3a3a3b;
+  border-color: white;
+  // border-radius: 30px;
+}
+.mcl-button-outline {
+  width: 100%;
+  display: inline-block;
+  font-size: 9px;
+  font-weight: bold;
+  margin: 2px;
+  padding: 8px 13px;
+  color: #3a3a3b;
+  background-color: transparent;
+  border-color: #3a3a3b;
+  // border-radius: 20px;
+}
+.mcl-button-outline_auction {
+  width: 100%;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 5px;
+  padding: 8px 13px;
+  color: #ffffff;
+  background-color: #ddba77;
+  border: none;
+}
+.timer {
+  width: 100%;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+}
+.card-title {
+  color: black !important;
+}
+.vl {
+  border-left: 1px solid black;
+  height: 50px;
+}
+
+.card-body {
+  padding: 10px !important;
+}
+.feat-drops {
+  //margin-top: 10px;
+  //padding-bottom: 5px;
+  text-decoration: underline;
+  text-decoration-color: #c19a5b;
+  text-underline-offset: 13px;
+  text-decoration-thickness: 5px;
+  font-family: Neue World Regular;
+  font-weight: bold;
+  padding-top: 10px;
+  margin-bottom: 0rem;
+}
+
+mat-select {
+  border: 1px solid #d6c4c4;
+  border-radius: 30px;
+  padding: 4px 20px;
+  height: 40px;
+  width: fit-content;
+}
+mat-option {
+  background-color: #aca9a9 !important;
+  &:hover {
+    background-color: #c19a5b !important;
+  }
+}

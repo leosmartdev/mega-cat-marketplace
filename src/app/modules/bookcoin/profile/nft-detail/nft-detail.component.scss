@@ -1,0 +1,138 @@
+.vl {
+  border-left: 1px solid black;
+  height: 50px;
+}
+.bundle {
+  height: 55px;
+  border-left: 1px solid #e3c285;
+  border-bottom: 1px solid #e3c285;
+  padding-left: 10px;
+}
+.bundle-1 {
+  height: 55px;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  padding-left: 10px;
+}
+.price {
+  margin-top: 54px !important;
+}
+.timer {
+  border-left: 1px solid rgb(224, 210, 210);
+  height: 50px;
+}
+ul {
+  padding: 0;
+}
+.main-layout {
+  margin: 0;
+}
+.bid {
+  background-color: #fff;
+  height: 60px;
+  padding: 8px;
+  border-radius: 10px;
+}
+.bid-button {
+  background-color: black;
+  color: #fff;
+  border: none;
+  width: 150px;
+}
+#eth-button {
+  background: transparent;
+}
+li {
+  list-style: none;
+  display: inline-block;
+  margin-right: 1px;
+}
+.premium-style {
+  background-color: #000;
+  border-radius: 4px;
+  padding: 25px;
+}
+.premium-btn {
+  border: 1px solid #ddba77;
+  color: #ddba77;
+  background-color: transparent;
+}
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.feat-drops {
+  //margin-top: 10px;
+  //padding-bottom: 5px;
+  text-decoration: underline;
+  text-decoration-color: #c19a5b;
+  text-underline-offset: 13px;
+  text-decoration-thickness: 5px;
+  font-family: Neue World Regular;
+  font-weight: bold;
+  padding-top: 10px;
+  margin-bottom: 0rem;
+}
+.feat-drops2 {
+  font-family: Neue World Regular;
+  font-weight: bold;
+  padding-top: 10px;
+  margin-bottom: 0rem;
+}
+
+.padding-drops {
+  padding-top: 18px;
+  padding-bottom: 10px;
+}
+
+.neue-head {
+  font-family: Neue World Regular;
+  font-weight: bold;
+}
+.neue-bold {
+  font-family: Neue World;
+  font-weight: bold;
+}
+.buy-btn {
+  background-color: #ddba77;
+  border-radius: 10px;
+  font-size: 24px;
+  font-family: Neue World Regular;
+  width: 200px;
+}
+.offer-btn {
+  border: 2px solid #202020;
+}
+.cntr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.panels {
+  padding-left: 15%;
+  padding-right: 15%;
+}
+.col-btn {
+  margin-top: 50px;
+}
+.mcl-button-outline_auction {
+  margin-bottom: 30px !important;
+  width: 100%;
+  max-width: fit-content;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin: -15px;
+  padding: 8px 13px;
+  color: #ffffff;
+  background-color: #c19a5b;
+  border: none;
+  -webkit-transition: background-color 300ms ease-out;
+  -moz-transition: background-color 300ms ease-out;
+  -o-transition: background-color 300ms ease-out;
+  transition: background-color 300ms ease-out;
+  &:hover {
+    background-color: #ddba77 !important;
+  }
+}

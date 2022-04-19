@@ -1,0 +1,73 @@
+.wallet_cont {
+  width: 100%;
+  background-color: rgb(229, 237, 243);
+  padding: 20px 0px;
+}
+.row {
+  margin: 0;
+}
+::ng-deep .mat-tab-group .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label.mat-tab-label-active {
+  background-color: #3a3a3b !important;
+  color: white !important;
+}
+.col-md-10 {
+  padding-left: 0px;
+}
+.promo_cont {
+  width: 100%;
+  padding: 20px 0px;
+}
+.mcl_head {
+  font-size: 45px;
+}
+p {
+  color: #000 !important;
+  font-size: 14px;
+}
+.mcl_btn {
+  border: 2px solid black;
+  color: black;
+  padding: 14px 28px;
+}
+.input-style {
+  background-color: #e9ecef;
+  border: 0px;
+  width: 300px;
+  &focus {
+    outline: none !important;
+  }
+}
+.button-style {
+  color: #fff;
+  background-color: #ddba77;
+  border: 0px;
+  &focus {
+    outline: none !important;
+  }
+}
+.btn-lg {
+  width: 100%;
+  background-color: #3a3a3b;
+  height: 80px;
+  color: #fff;
+}
+.bkcn_th {
+  text-align: left;
+}
+.cart_detail {
+  padding: 20px 0px;
+}
+.flex_bottom {
+  border-top: 1px solid #000;
+}
+.flex_header {
+  border-bottom: 1px solid #000;
+}
+.col {
+  min-width: 70px;
+  flex: 1;
+}
+.item {
+  flex: 3;
+  min-width: 250px;
+}

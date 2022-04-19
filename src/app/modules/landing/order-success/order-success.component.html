@@ -1,0 +1,42 @@
+<div class="row py-7">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 py-7 px-7">
+    <h1 class="heading">Your order has been placed successfully with following details!</h1>
+    <table class="table mt-4">
+      <thead>
+        <tr style="color: #9a9090">
+          <th scope="col">Item</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Sub Total</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody style="color: white">
+        <tr *ngFor="let product of products; let i = index">
+          <td scope="row">
+            <div class="flex flex:row">
+              <img src="{{ product.image }}" class="w-20 rounded-lg object-cover py-2 h-15" />
+              <h6 class="mt-5 ml-3">{{ product.name }}</h6>
+            </div>
+          </td>
+          <td class="mt-7">${{ product.price }}</td>
+          <td>{{ product.count }}</td>
+          <td>${{ product.subTotal }}</td>
+          <td class="row" *ngIf="itemStatuses[i] && itemStatuses[i].success">
+            <p class="sm-col-3">Order Success: {{ itemStatuses[i].success }}</p>
+            <p class="sm-col-3" *ngIf="itemStatuses[i].success">Offer Status: {{ itemStatuses[i].result.status }}</p>
+            <p class="sm-col-3" *ngIf="itemStatuses[i].success">Buyer: {{ itemStatuses[i].result.buyerWalletAddress }}</p>
+          </td>
+          <td class="row" *ngIf="!(itemStatuses[i] && itemStatuses[i].success)">
+            <p>Item failed to be purchased. Please contact an administrator regarding these details.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-center mt-7">
+      <button [routerLink]="['/market']" type="button" class="btn btn-primary btn-lg">Back To Market</button>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>

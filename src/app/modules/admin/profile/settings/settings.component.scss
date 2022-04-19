@@ -1,0 +1,32 @@
+h2.section-title {
+  display: block;
+  text-align: center;
+  color: white;
+  margin-top: 50px;
+}
+
+section {
+  &.settings {
+    padding: 15px 0;
+    // position: sticky;
+    // width: 100%;
+    // z-index: 1000000;
+    // top: 70px;
+    .site-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .message {
+      display: block;
+      font-size: 12px;
+      color: #fff;
+      text-align: right;
+      padding: 10px;
+      opacity: 0;
+    }
+    .copy {
+      cursor: pointer;
+    }
+  }
+}

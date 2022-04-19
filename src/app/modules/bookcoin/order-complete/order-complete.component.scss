@@ -1,0 +1,27 @@
+.detail_list {
+  border-bottom: 1px solid rgb(141, 101, 16);
+}
+p {
+  color: #000 !important;
+}
+.flex_bottom {
+  border-top: 1px solid #000;
+}
+.flex_header {
+  border-bottom: 1px solid #000;
+}
+.col {
+  min-width: 70px;
+  flex: 1;
+}
+.item {
+  flex: 3;
+  min-width: 250px;
+}
+.btn-lg {
+  width: 100%;
+  background-color: #3a3a3b;
+  height: 80px;
+  color: #fff;
+  padding: 20px;
+}

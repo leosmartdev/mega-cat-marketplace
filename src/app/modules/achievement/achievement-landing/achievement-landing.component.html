@@ -1,0 +1,136 @@
+<section class="sectionDesign">
+  <div class="container">
+    <h1 class="mainHeading">Achievements</h1>
+    <div class="row">
+      <div class="col-12 col-md-9">
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <div class="numbers">
+              <span>Last 7 days</span>
+              <h2>{{ last7dayCount > 0 ? '+' + last7dayCount : last7dayCount }}</h2>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="numbers">
+              <span>Last Month</span>
+              <h2>{{ lastMonthCount > 0 ? '+' + lastMonthCount : lastMonthCount }}</h2>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <select class="form-control" (change)="changeStateFilter($event)">
+              <option value="">Filter</option>
+              <option value="Unlocked">Unlocked</option>
+              <option value="Locked">Locked</option>
+            </select>
+          </div>
+        </div>
+        <div class="row customRow">
+          <div class="col-12 col-md-3 col-lg-3" *ngFor="let achievement of displayAchievements">
+            <div class="productCard" [ngClass]="achievement.state === 'Locked' ? 'locked' : ''">
+              <div class="productImg">
+                <a>
+                  <img [src]="achievement.image || 'assets/images/question.jpg'" [alt]="achievement.nftname" />
+                </a>
+              </div>
+              <div class="productFooter">
+                <div class="productInfo">
+                  <span></span>
+                  <h3 class="productTitle">{{ achievement.title || achievement.nftname || achievement.state | slice: 0:20 }}</h3>
+                  <p class="productConent">{{ achievement.actionTaken || achievement.nftname || achievement.state }}-{{ achievement.point }}</p>
+                  <div class="buttonGroup" hidden>
+                    <a class="myBtn">List</a>
+                    <a class="myBtn">Transfer</a>
+                  </div>
+                  <a class="myBtn primary" hidden>Read</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container mt-3">
+            <div class="col-md-12 text-center">
+              <input type="button" class="btn btn-primary" *ngIf="showLoadMore" (click)="onLoadMore($event)" value="showMore" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 ml-auto">
+        <div class="user">
+          <div class="UserImg">
+            <img [src]="user?.avatar || 'assets/images/user.png'" onerror="this.onerror=null;this.src='assets/images/user.png'" [alt]="user?.name" />
+          </div>
+          <h2>@ {{ user?.name }}</h2>
+          <span class="wallet-address" *ngIf="this.walletAddress">
+            {{ walletAddress.slice(0, 4) + '...' + walletAddress.slice(walletAddress.length - 4) }}
+          </span>
+          <h3>{{ user?.email ? user?.email : '' }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sectionDesign inprogress">
+  <div class="container">
+    <h1 class="mainHeading">In-Progress Achievements</h1>
+
+    <div class="row align-items-center mb-4" *ngFor="let achievement of inprogressAchievementList | slice: 0:6">
+      <div class="col-12 col-md-4">
+        <p class="mb-0">{{ achievement.title || achievement.nftname || achievement.state | slice: 0:15 }}</p>
+      </div>
+      <div class="col-12 col-md-8">
+        <div class="linearWrapper">
+          <small>{{ achievement.percentage }}% <span>Out of 100%</span></small>
+          <div class="progress text-center">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [aria-valuenow]="achievement.percentage"
+              aria-valuemin="0"
+              aria-valuemax="2195"
+              [style]="'width: ' + achievement.percentage + '%'"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sectionDesign collection" hidden>
+  <div class="container">
+    <h1 class="mainHeading">Collections</h1>
+
+    <div class="row align-items-center mb-4">
+      <div class="col-12 col-md-3">
+        <h2>McConaughey <br />Greenlights</h2>
+        <a class="myBtn" href="#">Browse Collection</a>
+      </div>
+      <div class="col-12 col-md-5">
+        <div class="row customRow">
+          <div class="col-12 col-md-3" *ngFor="let achievement of achievementList">
+            <div class="productCard" [ngClass]="achievement.state === 'Locked' ? 'locked' : ''">
+              <div class="productImg">
+                <a>
+                  <img [src]="achievement.image || 'assets/images/images.jfif'" [alt]="achievement.nftname" />
+                </a>
+              </div>
+              <div class="productFooter">
+                <div class="productInfo">
+                  <span>{{ achievement.title || achievement.nftname || achievement.state | slice: 0:20 }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="linearWrapper">
+          <small>98.09% <span>Out of 100%</span></small>
+          <div class="progress text-center">
+            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="2195" style="width: 70%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

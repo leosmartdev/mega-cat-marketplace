@@ -1,0 +1,365 @@
+<div class="drop container" *ngIf="ready">
+  <form [formGroup]="creationFormGroup">
+    <div class="row justify-content-start text-left drop-metadata">
+      <div *ngIf="creationMode" class="col-sm-12 text-center">
+        <h1>NFT Drop Creation</h1>
+      </div>
+
+      <div class="col-sm-4">
+        <p class="descriptor">Exclusive NFT Drop</p>
+        <mat-form-field *ngIf="creationMode" appearance="{{ 'outline' }}">
+          <mat-label>Name your Drop</mat-label>
+          <input matInput formControlName="name" name="name" [(ngModel)]="drop.name" />
+        </mat-form-field>
+        <h1 id="drop-name" *ngIf="!creationMode">{{ drop.name }}</h1>
+        <p id="drop-chain" *ngIf="!creationMode">{{ drop.chain }}</p>
+        <mat-form-field *ngIf="creationMode" appearance="{{ creationMode ? 'outline' : 'standard' }}">
+          <mat-label>Story</mat-label>
+          <textarea matInput class="description" name="description" formControlName="description" (input)="inputChangeHandler($event)" [(ngModel)]="drop.description"></textarea>
+        </mat-form-field>
+        <p *ngIf="!creationMode">{{ drop.description }}</p>
+
+        <div class="col-sm-12 author-signature">
+          <img class="align-middle image" [src]="drop.user.avatar ? drop.user.avatar : 'assets/images/mcl/cat.png'" />
+          <span class="align-middle name">
+            {{ drop.user.username ? drop.user.username : drop.user.name }}
+            <img class="col-sm-1 bluecheck" src="assets/icons/bluecheck.png" />
+          </span>
+        </div>
+      </div>
+
+      <div class="col-sm-8">
+        <div class="row justify-content-center" *ngIf="creationMode">
+          <div class="col-sm-12">
+            <!-- input type="file" is not supported by mat-form-field nor by Angular's reactive forms, so the HTML markup here is a hack -->
+            <mat-form-field appearance="{{ creationMode ? 'outline' : 'standard' }}">
+              <mat-label *ngIf="creationMode">Drop Banner</mat-label>
+              <input matInput class="hidden-input" type="text" formControlName="fakeImage" [(ngModel)]="bannerImage" />
+              <div class="image-container" [ngStyle]="{ 'background-image': 'url(' + bannerImage + ')' }" (mouseenter)="displaySvg = true" (mouseleave)="displaySvg = false">
+                <input type="file" accept="image/*" class="image" name="image" (change)="onChangeBannerImage($event)" />
+                <span class="change-image-hover" *ngIf="bannerImage === '' || displaySvg">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row justify-content-center" *ngIf="!creationMode">
+          <div class="col-sm-12" *ngIf="drop.image">
+            <img [src]="drop.image" class="dropImage" />
+          </div>
+          <div class="col-sm-12" *ngIf="!drop.image">
+            <img src="assets/images/mcl/cat.png" class="dropImage" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-start text-center mint">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <div *ngIf="!creationMode">
+          <h1>MINT NOW</h1>
+          <div class="quantity text-center" *ngIf="!creationMode">
+            <div>
+              <p class="price">
+                PRICE: {{ drop.price }} ETH + <span class="mint-gas-fee">{{ proposedGasFeeForSingleMint }} ETH</span> mint cost
+              </p>
+              <mat-form-field appearance="'standard'">
+                <mat-label>Choose quantity (1)</mat-label>
+                <input matInput class="mint-quantity" [disabled]="'disabled'" [ngModelOptions]="{ standalone: true }" type="text" [(ngModel)]="mint.quantity" />
+              </mat-form-field>
+            </div>
+            <div>
+              <p>
+                <input type="checkbox" [(ngModel)]="agreeToTermsOfService" [ngModelOptions]="{ standalone: true }" /> I agree to the
+                <a href="https://help.bookcoin.com/Legal/uAwesWqn2qCz1wgk9UEGTu/Terms-of-Service/oraomuxzD5A3nyoNjxmCSE" target="_blank" rel="noopener noreferrer"
+                  >Terms of Service</a
+                >
+              </p>
+              <p>
+                <input type="checkbox" [(ngModel)]="agreeToPayMintFees" [ngModelOptions]="{ standalone: true }" />
+                I understand mint and gas fees are combined.
+                <a href="https://help.bookcoin.com/general-faqs/sWzuSP9ddvD7aoAAmYwQ8G/how-we-handle-gas-fees/7k3eqYm3fFAQDjJqoGxS9N" target="_blank" rel="noopener noreferrer"
+                  >(?)</a
+                >
+              </p>
+              <button class="connect-wallet btn btn-primary" *ngIf="isWalletActive()" (click)="mintNftDrop()" [disabled]="isMintDisabled() ? 'disabled' : null">Mint</button>
+              <button class="connect-wallet btn btn-primary" *ngIf="!isWalletActive()" [routerLink]="['connect-wallet']">Connect Wallet</button>
+            </div>
+          </div>
+          <div class="text-center">
+            <span class="remaining-mint-quantity">{{ calculateRemainingMints() }}/{{ drop.standardTokens + drop.premiumTokens }}</span>
+            <p>*Number of Books left.</p>
+          </div>
+        </div>
+        <table class="contract-verification-table text-center" *ngIf="!creationMode">
+          <tr class="text-left">
+            <td>Eligible to Mint Now?</td>
+            <td>
+              <img *ngIf="isEligibleToMint()" src="assets/images/wizard/mcl-check.png" />
+              <img *ngIf="!isEligibleToMint()" src="assets/images/wizard/mcl-error.png" />
+            </td>
+          </tr>
+          <tr *ngIf="!isWhitelisted">
+            <td colspan="2">
+              <p>See the whitelist schedule below for more information.</p>
+            </td>
+          </tr>
+        </table>
+        <div *ngIf="!creationMode && mint.alreadyMinted" class="already-minted">You've already minted a Book.</div>
+        <div *ngIf="false && !creationMode && !isWhitelisted">
+          <button class="btn btn-primary" (click)="navigateToWhitelist()">Get Whitelisted</button>
+          <p class="whitelist-disclaimer text-center">Check back here after you get whitelisted.</p>
+        </div>
+        <div class="scheduling text-center row" *ngIf="false">
+          <div class="col-sm-6">
+            <h1>Launch Date</h1>
+            <input class="datepicker" type="datetime-local" [value]="drop.launchDateTime" [disabled]="'disabled'" />
+          </div>
+          <div class="col-sm-6">
+            <h1>Public Minting Date</h1>
+            <input class="datepicker" type="datetime-local" [value]="drop.publicDateTime" [disabled]="'disabled'" />
+          </div>
+        </div>
+        <div *ngIf="creationMode">
+          <div class="smartContract">
+            <mat-form-field appearance="{{ 'outline' }}" [style.width.px]="350">
+              <mat-label>Smart Contract Address</mat-label>
+              <input
+                matInput
+                type="text"
+                name="smartContractAddress"
+                formControlName="smartContractAddress"
+                (change)="checkSmartContract($event)"
+                [(ngModel)]="drop.smartContractAddress"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="{{ 'outline' }}" [style.width.px]="150">
+              <mat-label>Chain</mat-label>
+              <input matInput type="text" name="chain" formControlName="chain" [(ngModel)]="drop.chain" />
+            </mat-form-field>
+            <table class="contract-verification-table" *ngIf="creationFormGroup.controls.smartContractAddress.dirty">
+              <tr>
+                <td>Exists</td>
+                <td>
+                  <img *ngIf="smartContractVerified.exists" src="assets/images/wizard/mcl-check.png" />
+                  <img *ngIf="!smartContractVerified.exists" src="assets/images/wizard/mcl-error.png" />
+                </td>
+                <td>Owner</td>
+                <td>
+                  <img *ngIf="smartContractVerified.areOwner" src="assets/images/wizard/mcl-check.png" />
+                  <img *ngIf="!smartContractVerified.areOwner" src="assets/images/wizard/mcl-error.png" />
+                </td>
+                <td>Minter Role</td>
+                <td>
+                  <img *ngIf="smartContractVerified.hasMintRole" src="assets/images/wizard/mcl-check.png" />
+                  <img *ngIf="!smartContractVerified.hasMintRole" src="assets/images/wizard/mcl-error.png" />
+                </td>
+              </tr>
+              <tr>
+                <td>Mint</td>
+                <td>
+                  <img *ngIf="smartContractVerified.hasMint" src="assets/images/wizard/mcl-check.png" />
+                  <img *ngIf="!smartContractVerified.hasMint" src="assets/images/wizard/mcl-error.png" />
+                </td>
+                <td>Mint Batch</td>
+                <td>
+                  <img *ngIf="smartContractVerified.hasMintBatch" src="assets/images/wizard/mcl-check.png" />
+                  <img *ngIf="!smartContractVerified.hasMintBatch" src="assets/images/wizard/mcl-error.png" />
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="price text-center">
+            <mat-form-field appearance="{{ 'outline' }}">
+              <mat-label>Price per NFT.</mat-label>
+              <input matInput type="text" name="price" formControlName="price" [(ngModel)]="drop.price" />
+            </mat-form-field>
+            <mat-form-field appearance="{{ 'outline' }}">
+              <mat-label>Currency</mat-label>
+              <mat-select matInput type="currency" panelClass="nft-drop-currency" name="currency" formControlName="currency" [(ngModel)]="drop.currency" [placeholder]="'Ether'">
+                <mat-option *ngFor="let currency of ['USD', 'Ether']" [value]="currency">
+                  {{ currency }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="tokens text-center">
+            <mat-form-field appearance="{{ creationMode ? 'outline' : 'standard' }}">
+              <mat-label>Standard Tokens</mat-label>
+              <input matInput type="text" name="standardTokens" formControlName="standardTokens" [(ngModel)]="drop.standardTokens" />
+            </mat-form-field>
+            <mat-form-field appearance="{{ creationMode ? 'outline' : 'standard' }}">
+              <mat-label># of Premium Tokens</mat-label>
+              <input matInput type="text" name="premiumTokens" formControlName="premiumTokens" [(ngModel)]="drop.premiumTokens" />
+            </mat-form-field>
+            <mat-form-field appearance="{{ creationMode ? 'outline' : 'standard' }}">
+              <mat-label>Premium Token Id to Reserve</mat-label>
+              <input matInput type="text" name="premiumTokenIds" formControlName="premiumTokenIds" [(ngModel)]="drop.premiumTokenIds" />
+            </mat-form-field>
+            <mat-form-field appearance="{{ creationMode ? 'outline' : 'standard' }}">
+              <mat-label># of Reserved Tokens</mat-label>
+              <input matInput type="text" name="reservationNumber" formControlName="reservationNumber" [(ngModel)]="drop.reservationNumber" />
+            </mat-form-field>
+          </div>
+          <div class="scheduling text-center row" *ngIf="creationMode">
+            <div class="col-sm-6">
+              <label>Launch Date</label><br />
+              <input class="datepicker" type="datetime-local" [value]="drop.launchDateTime" (change)="drop.launchDateTime = $event.target.value" />
+            </div>
+            <div class="col-sm-6">
+              <label>Public Minting Date</label><br />
+              <input class="datepicker" type="datetime-local" [value]="drop.publicDateTime" (change)="drop.publicDateTime = $event.target.value" />
+            </div>
+          </div>
+          <div class="whitelist text-center">
+            <mat-form-field appearance="{{ 'outline' }}" [style.width.px]="350">
+              <mat-label>Google Form Whitelist URL</mat-label>
+              <input matInput type="text" name="whitelistUrl" formControlName="whitelistUrl" [(ngModel)]="drop.whitelistUrl" />
+            </mat-form-field>
+            <mat-form-field appearance="{{ 'outline' }}" [style.width.px]="350">
+              <mat-label>Whitelist Spreadsheet</mat-label>
+              <input matInput type="text" name="whitelist" formControlName="whitelist" (change)="checkWhitelist($event)" [(ngModel)]="drop.whitelist" />
+            </mat-form-field>
+            <table class="contract-verification-table" *ngIf="creationFormGroup.controls.whitelist.dirty">
+              <tr>
+                <td>Google Sheet Exists</td>
+                <td>
+                  <img *ngIf="whitelistVerified.googleSpreadsheetExists" src="assets/images/wizard/mcl-check.png" />
+                  <img *ngIf="!whitelistVerified.googleSpreadsheetExists" src="assets/images/wizard/mcl-error.png" />
+                </td>
+                <td>Formatted Properly</td>
+                <td>
+                  <img *ngIf="whitelistVerified.isFormatted" src="assets/images/wizard/mcl-check.png" />
+                  <img *ngIf="!whitelistVerified.isFormatted" src="assets/images/wizard/mcl-error.png" />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="row" *ngIf="isAdmin()">
+          <h1>ADMIN ONLY</h1>
+          <h3>EtherScan Gas Oracle</h3>
+          <pre>{{ gasOracle | json }}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 row justify-content-center sections" *ngIf="!creationMode" id="schedule">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <div class="container py-10 panels">
+          <div class="row section" *ngFor="let section of drop.sections; let index = index">
+            <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="activePanel = 'drop-' + index">
+              <div class="me-auto">
+                <h2 class="feat-drops2">{{ section.title }}</h2>
+              </div>
+              <div>
+                <button *ngIf="activePanel !== 'drop-' + index" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+                <button *ngIf="activePanel === 'drop-' + index" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+              </div>
+            </div>
+            <div *ngIf="activePanel === 'drop-' + index" class="pt-4">
+              <p style="color: #202020">
+                <markdown class="text-left" [data]="section.markdown"></markdown>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+    <div class="row justify-content-center faqs sections" *ngIf="creationMode">
+      <div class="col-sm-12 text-center row">
+        <h1>About the Drop</h1>
+        <p *ngIf="drop.sections.length === 0">Fill out the title and markdown below, then click the add button to create a new section.</p>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <div class="container py-10 panels">
+            <div class="row section" *ngFor="let section of drop.sections; let index = index">
+              <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="activePanel = 'drop-' + index">
+                <div class="me-auto">
+                  <h2 class="feat-drops2">{{ section.title }}</h2>
+                </div>
+                <div>
+                  <button *ngIf="activePanel !== 'drop-' + index" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+                  <button *ngIf="activePanel === 'drop-' + index" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+                </div>
+              </div>
+              <div *ngIf="activePanel === 'drop-' + index" class="pt-4">
+                <p style="color: #202020">
+                  <markdown class="text-left" [data]="section.markdown"></markdown>
+                </p>
+              </div>
+            </div>
+            <button class="btn btn-accent" (click)="deleteSection(i)">Delete</button>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+      <div class="col-sm-12 row">
+        <div class="col-sm-6 section-builder">
+          <p class="text-left">
+            <label>Section Title: </label>
+            <input [(ngModel)]="editor.title" [ngModelOptions]="{ standalone: true }" />
+          </p>
+
+          <p class="text-left">
+            <label>Section Markdown: </label>
+            <textarea class="markdown-editor text-left" [(ngModel)]="editor.markdown" [ngModelOptions]="{ standalone: true }" rows="15"> </textarea>
+          </p>
+        </div>
+        <div class="col-sm-6" id="markdown-viewer">
+          <h3>Section Previewer</h3>
+          <h1>{{ editor.title }}</h1>
+          <markdown [data]="editor.markdown"> </markdown>
+        </div>
+        <div class="col-sm-12">
+          <button class="btn btn-primary" (click)="addSection()">Add</button>
+        </div>
+      </div>
+      <div class="col-sm-12 row">
+        <div class="col-sm-12">
+          <button mat-button class="btn btn-primary" (click)="createDrop()">Create NFT Drop</button>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-start text-center nfts-title" *ngIf="isAdmin()">
+      <div class="col-sm-12 row">
+        <h1>ADMIN ONLY</h1>
+        Mint disabled: {{ isMintDisabled() }}
+        <h2>All Mints</h2>
+        <table class="text-left minted-nfts-admin">
+          <tr>
+            <th>Recipient</th>
+            <th>TokenId</th>
+          </tr>
+          <tr *ngFor="let mint of drop.mints">
+            <td>
+              {{ mint.recipient }}
+            </td>
+            <td>
+              {{ mint.tokenId }}
+            </td>
+          </tr>
+        </table>
+        <h2>NFTs You've Minted</h2>
+        <p>These are NFTs you've already minted from this drop.</p>
+      </div>
+      <div class="col-sm-12 row justify-content-start text-center nfts collection grid">
+        <div class="col-sm-4" *ngFor="let nft of contractNftsForUser">
+          <!-- {{ nft.name }} {{ nft.token }} @ {{ nft.contract.name }} {{ nft.contract.address }} -->
+          <app-nft-card [nft]="nft" [walletAddress]="walletAddress"></app-nft-card>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

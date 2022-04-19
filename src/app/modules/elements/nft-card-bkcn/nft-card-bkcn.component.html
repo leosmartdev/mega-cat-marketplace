@@ -1,0 +1,128 @@
+<div class="card mcl-card">
+  <div class="card-body">
+    <img style="min-height: 350px" [src]="nft.image" (error)="this.imageError()" class="mcl-collection-image_auction" />
+    <div class="mt-5">
+      <div class="px-1 mb-2">
+        <p class="card-title">{{ nftName }}</p>
+      </div>
+      <div class="d-flex justify-content-between flex-row px-1">
+        <div class="d-flex flex-row">
+          <img class="mr-2" [src]="imageSrc" style="height: 15px; width: 15px" />
+          <i class="card-text" style="color: black !important; font-size: 10px; font-weight: thin">
+            {{
+              nft.marketplace.type === 'owned' || nft.marketplace.type === 'listing-pending'
+                ? user.name
+                : nft?.auction?.status === AuctionStates.AWAITING || nft?.auction?.status === AuctionStates.EXPIRED || nft?.auction?.status === AuctionStates.ON_GOING
+                ? nft.auction.ownerId.name
+                : username
+                ? username
+                : nft.listing.sellerNickname
+            }}
+          </i>
+        </div>
+        <i *ngIf="nft.marketplace.type !== 'listing-buynow'" class="card-text" style="color: goldenrod !important; font-size: 10px; font-weight: thin; font-family: Editorial New">
+          {{ nft.chain }}
+        </i>
+      </div>
+      <div class="d-flex mt-2" *ngIf="nft.marketplace.type === 'listing-auction' && nft?.auction?.status !== AuctionStates.EXPIRED">
+        <a
+          class="btn btn-outline-primary mcl-button-outline_auction"
+          [routerLink]="['/collections/auction', nft.contract.address, auctionId, nft.listing.id]"
+          *ngIf="nft.auction?.ownerId?.username !== user.email"
+          >Bid ${{ maxBid ? maxBid.bidAmount : nft.listing.price }}</a
+        >
+        <div class="bid">
+          <div *ngIf="nft.auction.status === AuctionStates.ON_GOING" class="timer">
+            <countdown [config]="countDownConfig"></countdown>
+            <span class="label">
+              <span class="hours">HRS</span>
+              <span class="hours">MIN</span>
+              <span class="hours">SEC</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="nft?.auction?.status === AuctionStates.AWAITING">
+        <p style="color: black !important">Processing Auction</p>
+      </div>
+      <div *ngIf="nft?.auction?.status === AuctionStates.EXPIRED">
+        <p class="card-title">Expired!</p>
+        <p *ngIf="nft.auction.winnerId" style="color: black !important">Winner: {{ nft.auction.winnerId?.name }}</p>
+        <button *ngIf="nft.auction.winnerId?.username === user.username && !nft.auction?.isClaimed" class="btn-outline-primary mcl-button-outline_auction" (click)="addToCart(nft)">
+          Claim Now
+        </button>
+        <div *ngIf="nft.auction.winnerId?.username === user.username && nft.auction?.isClaimed">
+          <p class="card-title">This Auction is already claimed.</p>
+        </div>
+        <div *ngIf="!nft.auction.winnerId">
+          <p class="card-title">This Auction has no Winner.</p>
+        </div>
+      </div>
+      <div class="d-flex mt-2" *ngIf="nft.marketplace.type === 'owned'">
+        <a class="btn btn-outline-primary mcl-button-outline_auction" (click)="toggleSaleDrawer()">List For Sale</a>
+        <a class="btn btn-outline-primary mcl-button-outline_auction" (click)="toggleAuctionDrawer()">List For Auction</a>
+      </div>
+      <div class="d-flex mt-2" *ngIf="nft.marketplace.type === 'owned'">
+        <a class="btn btn-outline-primary mcl-button-outline_auction_detail" (click)="openDetail()" style="margin-top: 0px">Nft Detail</a>
+      </div>
+      <div class="d-flex justify-content-between flex-row px-1" *ngIf="nft.marketplace.type === 'listing-buynow'">
+        <p class="card-text" style="color: black !important">${{ nft.listing.price }}</p>
+        <p class="card-text" style="color: black !important">
+          {{ nft.contract.chain }}
+        </p>
+      </div>
+      <div class="d-flex justify-content-around" *ngIf="nft.marketplace.type === 'listing-buynow'">
+        <a [routerLink]="['/collections/sale', nft.listing.id]" class="btn btn-outline-primary mcl-button-outline_auction">Learn More</a>
+      </div>
+    </div>
+  </div>
+  <div class="sale-form" *ngIf="listingAction !== ListingActionType.NONE">
+    <div class="ml-3 field-wrapper d-flex" *ngIf="listingAction === ListingActionType.SALE">
+      <div class="currency mx-2 text-center py-2">
+        <span class="label">USD</span>
+      </div>
+      <input class="price mx-2 p-3" type="text" placeholder="Amount" [(ngModel)]="listingPrice" />
+    </div>
+    <div class="actions d-flex mt-3" *ngIf="listingAction === ListingActionType.SALE">
+      <button class="cancel" (click)="listingAction = ListingActionType.NONE">Cancel</button>
+      <button class="sell" (click)="listForSale(listingAction === ListingActionType.AUCTION)">Complete Listing</button>
+    </div>
+    <div class="ml-3 field-wrapper d-flex flex-col" *ngIf="listingAction === ListingActionType.AUCTION">
+      <div class="d-flex flex-row">
+        <div class="currency mx-2 text-center py-2">
+          <span class="label">Bid (USD)</span>
+        </div>
+        <input class="price mx-2 p-3" type="text" placeholder="Amount" [(ngModel)]="startingBid" />
+      </div>
+      <label class="alert alert-danger mx-5 mt-2" *ngIf="startingBidValidation">Price must be in between $10 and $10000</label>
+    </div>
+    <div class="ml-3 field-wrapper d-flex flex-col mt-2" *ngIf="listingAction === ListingActionType.AUCTION">
+      <div class="d-flex flex-row">
+        <div class="currency mx-2 text-center py-2">
+          <span class="label">End Time</span>
+        </div>
+        <input class="price mx-2 p-3" type="datetime-local" [value]="expirationDateTime" (change)="expirationDateTime = $event.target.value" />
+      </div>
+      <label class="alert alert-danger mx-5 mt-2" *ngIf="expirationTimeValidation">Invalid expiration time. Time should be in between 1 hour and 30 days</label>
+      <br />
+    </div>
+    <div class="actions d-flex mt-3" *ngIf="listingAction === ListingActionType.AUCTION">
+      <button class="cancel" (click)="listingAction = ListingActionType.NONE">Cancel</button>
+      <button class="sell" (click)="listForSale(listingAction === ListingActionType.AUCTION)">Complete Listing</button>
+    </div>
+  </div>
+  <div class="details no-padding" *ngIf="nft.marketplace.type === 'listing-pending'">
+    <div>
+      <span class="label">Status</span>
+      <p class="title" style="color: #000">Listing In Progress</p>
+      <p class="" style="color: #000">The marketplace is taking custody of this NFT.</p>
+    </div>
+  </div>
+  <div class="details no-padding" *ngIf="nft.marketplace.type === 'owned-pending'">
+    <div>
+      <span class="label">Status</span>
+      <p class="title" style="color: #000">Listing In Progress</p>
+      <p class="" style="color: #000">This NFT is currently being transferred to your wallet.</p>
+    </div>
+  </div>
+</div>

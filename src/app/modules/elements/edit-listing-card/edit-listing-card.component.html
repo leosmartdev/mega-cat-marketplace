@@ -1,0 +1,34 @@
+<div class="card mcl-card">
+  <div class="card-body">
+    <img [src]="nft?.imageUrl" (error)="this.imageError(nft)" class="mcl-collection-image_auction" />
+    <div class="mt-5">
+      <div class="px-1 mb-2 mx-2 d-flex justify-content-between">
+        <span class="card-title">{{ nft.name }}</span>
+        <span class="card-title">{{ offer.price }}</span>
+      </div>
+      <div class="d-flex mt-2 justify-content-left">
+        <span class="card-title">Status: {{ offer.status }}</span>
+      </div>
+      <span class="card-title">Chain: {{ nft.chain }}</span>
+      <div class="d-flex mt-2">
+        <a class="btn btn-outline-primary mcl-button-outline_auction" (click)="activeNft = nft">Edit Listing</a>
+        <a class="btn btn-outline-primary mcl-button-outline_auction" (click)="cancelListing()">Cancel Listing</a>
+      </div>
+    </div>
+  </div>
+  <div
+    [ngClass]="activeNft !== null && nft.id === activeNft.id && activeNft?.contract?.address === nft?.contract?.address && nft.type !== 'listing-pending' ? '' : 'hidePrice'"
+    class="sale-form"
+  >
+    <div class="ml-3 field-wrapper d-flex">
+      <div class="currency mx-2 text-center py-2">
+        <span class="label">USD</span>
+      </div>
+      <input type="number" class="price mx-2 p-3" min="0.5" placeholder="Amount" [(ngModel)]="offer.price" />
+    </div>
+    <div class="actions d-flex mt-3">
+      <button class="cancel" (click)="activeNft = ''">Cancel</button>
+      <button class="sell" (click)="editListing()">Update Listing</button>
+    </div>
+  </div>
+</div>

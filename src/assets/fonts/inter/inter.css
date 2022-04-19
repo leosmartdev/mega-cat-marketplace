@@ -1,0 +1,82 @@
+@font-face {
+  font-family: 'Inter var';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/Inter-roman.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter var';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/Inter-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Neue World';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/NeueWorld-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Neue World Regular';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/NeueWorld-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Serif';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/SourceSerifPro-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Avenir';
+  font-weight: lighter;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/Avenir.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Editorial New';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/Editorial.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'GT Sectra Display';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/GT-Sectra-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'GT Sectra Display Bold';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/GT-Sectra-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inconsolata';
+  src: url('https://bkcn.s3.ap-southeast-1.amazonaws.com/fonts/Inconsolata.woff2') format('woff2');
+}

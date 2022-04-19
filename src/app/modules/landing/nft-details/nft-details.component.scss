@@ -1,0 +1,282 @@
+// TODO
+// Merge mobile reponsive css
+$primary: #f99b1d;
+.nft-container {
+  height: 100%;
+  font-family: Poppins, sans-serif;
+  padding: 5rem 20rem 5rem 20rem;
+  .nft-wrapper {
+    width: 1280px;
+    .nft-block {
+      flex: 3 0 0%;
+      .card-image-wrapper {
+        height: 500px;
+        .action-header {
+          background-color: #000;
+          padding: 1rem;
+          border-radius: 15px 15px 0 0;
+        }
+        .img-box {
+          background-color: rgb(15, 15, 15);
+          height: 100%;
+          border: 1px solid #0f0f0f;
+        }
+
+        .nft-image {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+          max-width: 100%;
+          max-height: 100%;
+          border-radius: 0 0 0.3rem 0.3rem;
+        }
+      }
+
+      .f-details {
+        font-size: 13px;
+        .f-details-hl {
+          cursor: pointer;
+          color: rgb(32, 129, 226);
+          overflow: hidden;
+        }
+      }
+    }
+    .description-wrapper {
+      .accordion-item {
+        border-color: #000;
+        .accordion-button {
+          background-color: rgb(15, 15, 15);
+          .material-icons {
+            font-size: 22px;
+          }
+        }
+        .accordion-collapse {
+          background-color: rgb(38, 43, 47);
+        }
+        .accordion-body {
+          background-color: rgb(38, 43, 47);
+          .btn-properties {
+            border-radius: 1rem;
+            border: 1px solid #f99b1d;
+            padding: 5px;
+            text-align: center;
+            &:hover {
+              border-color: rgb(21, 178, 229);
+              transform: scale(1.1);
+              .btn-property-header {
+                color: rgb(21, 178, 229);
+              }
+              transition: all 0.3s ease;
+            }
+            .btn-property-header {
+              font-size: 14px;
+              font-weight: 500;
+              color: #f99b1d;
+            }
+            .btn-property-name {
+              font-size: 14px;
+              font-weight: 500;
+            }
+            .btn-property-sub {
+              font-size: 12px;
+              opacity: 0.7;
+            }
+          }
+          .full-btn {
+            width: 100%;
+          }
+        }
+      }
+    }
+    .details-container {
+      flex: 4 0 0%;
+      .details-wrapper {
+        height: fit-content;
+        background-color: rgb(15, 15, 15);
+        color: #fff;
+        border-radius: 1rem;
+        padding: 5rem;
+        .img-owner {
+          width: 5rem;
+          height: 5rem;
+          border-radius: 50%;
+          top: -2rem;
+        }
+        .details-block {
+          h5 {
+            &.owned-by {
+              font-family: 'Poppins';
+              font-weight: 400;
+              color: rgb(112, 122, 131);
+            }
+
+            .owner-name {
+              color: rgb(32, 129, 226);
+              cursor: pointer;
+            }
+          }
+        }
+        .details-action {
+          height: fit-content;
+          width: 100%;
+          app-bidding-details {
+            width: 100%;
+          }
+          .img-nft {
+            width: 2rem;
+            height: 5rem;
+          }
+          .price-sp {
+            font-size: 30px;
+          }
+          .status-sp {
+            font-size: 30px;
+            color: #f99b1d;
+            .material-icons {
+              width: 2rem;
+              height: 5rem;
+            }
+          }
+          .buy-btn,
+          .offer-btn {
+            padding: 1rem;
+            background-color: #ffd15b;
+            border-radius: 0.5rem;
+            font-size: 20px;
+            &:hover {
+              &:disabled {
+                transform: scale(1);
+                background-color: default;
+                color: default;
+              }
+              transform: scale(1.1);
+              color: #fff !important;
+              background-color: #f99b1d;
+              transition: all 0.3s ease;
+            }
+            &:disabled {
+              opacity: 70%;
+            }
+          }
+        }
+      }
+    }
+    .more-collection-wrapper {
+      width: 100%;
+      .accordion-item {
+        border-color: #000;
+        border-radius: 10px;
+        .accordion-button {
+          background-color: rgb(15, 15, 15);
+          .material-icons {
+            font-size: 22px;
+          }
+        }
+        .accordion-body {
+          background-color: rgb(38, 43, 47);
+        }
+        .card-list {
+          overflow: auto;
+          height: 500px;
+        }
+        .card-wrapper {
+          width: 250px;
+        }
+        .more-collection-action {
+          border-radius: 0 0 0.5rem 0.5rem;
+          background-color: #f99b1d;
+          button {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+    .field-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      color: white;
+      input {
+        padding: 5px 10px;
+        box-sizing: border-box;
+        height: 45px;
+        color: #fff;
+        background: #202020;
+        font-size: 12px;
+        border-radius: 10px;
+      }
+      > * {
+        flex-grow: 1;
+      }
+      .break {
+        flex-basis: 100%;
+      }
+      .mcl-select {
+        height: auto;
+        margin-bottom: 5px;
+        &.currency {
+          width: 30%;
+          height: 30px;
+          background: #090909;
+          color: #fff;
+          font-size: 12px;
+          overflow: hidden;
+          border-radius: 5px;
+          .option,
+          .selected {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            .symbol {
+              font-size: 15px;
+              font-weight: bold;
+              display: block;
+              margin-right: 5px;
+            }
+            svg {
+              transform: scale(0.6);
+            }
+          }
+          .option {
+            &:hover {
+              background-color: $primary;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1279px) {
+  .nft-container {
+    display: none;
+    .flex-block-nft {
+      flex-direction: column !important;
+    }
+    .card-image-wrapper,
+    .description-wrapper,
+    .details-wrapper,
+    .more-collection-wrapper {
+      width: 50% !important;
+      margin: auto;
+    }
+    .details-wrapper {
+      margin: 3rem auto;
+    }
+    .description-wrapper {
+      margin-top: 10px;
+    }
+    .more-collection-wrapper {
+      .card-list {
+        height: 800px !important;
+        .card-wrapper {
+          width: 600px !important;
+        }
+      }
+    }
+  }
+}

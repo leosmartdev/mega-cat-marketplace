@@ -1,0 +1,59 @@
+<div *ngIf="!isUserAuctions && !isParticipatedAuctions">
+  <h2 class="section-title">NFT Collection</h2>
+  <section class="profile-main">
+    <div class="site-wrapper">
+      <div class="collection grid" *ngIf="filteredNFTs.length > 0">
+        <app-nft-card *ngFor="let nft of filteredNFTs" [nft]="nft.nft" [walletAddress]="walletAddress"> </app-nft-card>
+      </div>
+      <div class="no-results">
+        <span class="no-nft-label" *ngIf="!isFetching && filteredNFTs.length === 0">No NFT found</span>
+        <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
+          <span class="loading-label">Fetching NFTs</span>
+          <div class="spinner-grow spinner-wrapper text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div *ngIf="isUserAuctions">
+  <h2 class="section-title">Your Auctions</h2>
+  <section class="profile-main">
+    <div class="site-wrapper">
+      <div class="collection grid" *ngIf="filteredNFTs.length > 0">
+        <app-nft-card *ngFor="let nft of filteredNFTs" [nft]="nft.nft" [auction-id]="nft.auction.id" [walletAddress]="walletAddress"> </app-nft-card>
+      </div>
+      <div class="no-results">
+        <span class="no-nft-label" *ngIf="!isFetching && filteredNFTs.length === 0">No Auction found</span>
+        <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
+          <span class="loading-label">Fetching Your Auctions</span>
+          <div class="spinner-grow spinner-wrapper text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div *ngIf="isParticipatedAuctions">
+  <h2 class="section-title">Participated Auctions</h2>
+  <section class="profile-main">
+    <div class="site-wrapper">
+      <div class="collection grid" *ngIf="filteredNFTs.length > 0">
+        <app-nft-card *ngFor="let nft of filteredNFTs" [nft]="nft.nft" [auction-id]="nft.auction.id" [walletAddress]="walletAddress"> </app-nft-card>
+      </div>
+      <div class="no-results">
+        <span class="no-nft-label" *ngIf="!isFetching && filteredNFTs.length === 0">No Participated Auction Found</span>
+        <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
+          <span class="loading-label">Fetching Auctions in which you participated</span>
+          <div class="spinner-grow spinner-wrapper text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

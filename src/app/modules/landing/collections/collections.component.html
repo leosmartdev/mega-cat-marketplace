@@ -1,0 +1,122 @@
+<section class="mcl-market">
+  <div class="filter-drawer" [class.open]="filter.toggle">
+    <div class="header">
+      <span class="title">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+          />
+        </svg>
+        Filter
+      </span>
+      <div class="action toggle" (click)="filter.toggle = filter.toggle ? false : true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+        </svg>
+      </div>
+    </div>
+    <div class="header status" [class.open]="filter.status.toggle">
+      <span class="title"> Status </span>
+      <div class="action toggle" (click)="filter.status.toggle = filter.status.toggle ? false : true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+      </div>
+    </div>
+    <div class="filter-options status" [class.open]="filter.status.toggle">
+      <span class="filter-option" [class.selected]="filter.status.listingCategory === ListingCategoryType.SALE" (click)="category(ListingCategoryType.SALE)">Buy Now</span>
+      <span class="filter-option" [class.selected]="filter.status.listingCategory === ListingCategoryType.AUCTION" (click)="category(ListingCategoryType.AUCTION)">On Auction</span>
+    </div>
+    <div class="header price" [class.open]="filter.price.toggle">
+      <span class="title"> Price </span>
+      <div class="action toggle" (click)="filter.price.toggle = filter.price.toggle ? false : true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+      </div>
+    </div>
+    <div class="filter-options price" [class.open]="filter.price.toggle">
+      <div class="range-field">
+        <div class="from">
+          <input type="number" placeholder="Min" [(ngModel)]="minValue" />
+        </div>
+        <span>to</span>
+        <div class="to">
+          <input type="number" placeholder="Max" [(ngModel)]="maxValue" />
+        </div>
+      </div>
+      <button class="btn btn-appy" (click)="priceFilter()">Apply</button>
+    </div>
+  </div>
+
+  <div class="mcl-collections">
+    <div class="search-sort-wrapper">
+      <span class="results-count">{{ filteredNFt.length }} results</span>
+      <div class="search">
+        <form [formGroup]="searchForm">
+          <div class="mcl-search">
+            <input
+              type="text"
+              [formControlName]="'search'"
+              (keyup.enter)="searchProducts()"
+              placeholder="Search listing"
+              (input)="handleInputChange()"
+              aria-label="Dollar amount (with dot and two decimal places)"
+            />
+            <button class="btn search" (click)="searchProducts()" type="button"><i class="fa fa-search"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="sort-by">
+        <div class="mcl-select">
+          <span class="selected">
+            <span *ngIf="sort === ''">Sort by </span>
+            <span *ngIf="sort !== ''">{{ sort }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </span>
+          <div class="options">
+            <div class="option" (click)="sort = 'Listings(Latest)'; filterProducts()">Listings (Latest)</div>
+            <div class="option" (click)="sort = 'Listings(Oldest)'; filterProducts()">Listings (Oldest)</div>
+            <div class="option" (click)="sort = 'Price(Highest)'; filterProducts()">Price (Highest)</div>
+            <div class="option" (click)="sort = 'Price(Oldest)'; filterProducts()">Price (Lowest)</div>
+          </div>
+        </div>
+      </div>
+      <div class="display-option">
+        <div class="option large" [class.selected]="layout === 'large'" (click)="layout = 'large'">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+            />
+          </svg>
+        </div>
+        <div class="option small" [class.selected]="layout === 'small'" (click)="layout = 'small'">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="collections-wrapper">
+      <div *ngIf="filter.status.listingCategory === 'auction'" class="collection grid {{ layout }}">
+        <app-nft-card *ngFor="let nft of filteredNFt" [nft]="nft.nft" [auction-id]="nft.auction.id" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card>
+      </div>
+      <div *ngIf="filter.status.listingCategory === 'sale'" class="collection grid {{ layout }}">
+        <app-nft-card *ngFor="let nft of filteredNFt" [nft]="nft.nft" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card>
+      </div>
+    </div>
+  </div>
+</section>

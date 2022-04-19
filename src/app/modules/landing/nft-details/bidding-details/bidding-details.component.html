@@ -1,0 +1,145 @@
+<div class="d-flex flex-column container-fluid mt-10">
+  <div class="description-wrapper">
+    <div class="accordion" id="accordionAuction">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="AuctionInfo">
+          <button class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#bidCollapseOne" aria-expanded="false" aria-controls="bidcollapseOne">
+            <span class="material-icons mr-3"> label </span>
+            Auction Info
+          </button>
+        </h2>
+        <div id="bidCollapseOne" class="accordion-collapse collapse show" aria-labelledby="AuctionInfo" data-bs-parent="#accordionAuction">
+          <div class="accordion-body text-white">
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+              <div class="btn-properties full-btn m-4">
+                <button>
+                  <div class="btn-property-header">Status: {{ auction?.status }}</div>
+                  <div class="timer" *ngIf="auction">
+                    <countdown [config]="countDownConfig"></countdown>
+                    <span class="label">
+                      <span class="hours">HRS</span>
+                      <span class="hours">MIN</span>
+                      <span class="hours">SEC</span>
+                    </span>
+                  </div>
+                  <div class="btn-property-name">Starting Bid: {{ auction?.startingBid }}</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="MaxBid">
+          <button class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#bidCollapseOne" aria-expanded="false" aria-controls="bidCollapseOne">
+            <span class="material-icons mr-3"> label </span>
+            Highest Bid
+          </button>
+        </h2>
+        <div id="bidCollapseOne" class="accordion-collapse collapse show" aria-labelledby="MaxBid" data-bs-parent="#accordionAuction">
+          <div class="accordion-body text-white">
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+              <div class="btn-properties full-btn p-2 m-4" *ngIf="maxBid">
+                <button>
+                  <div class="btn-property-header">Bid: {{ maxBid.bidAmount }}</div>
+                  <div class="btn-property-name">{{ maxBid.userId.name }}</div>
+                  <div class="btn-property-sub">{{ maxBid.createdAt | date: 'h:mm a dd/MM/yyyy' }}</div>
+                </button>
+              </div>
+              <span *ngIf="!maxBid" class="opacity-50">No Bid Present.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="Bids">
+          <button
+            class="accordion-button text-white collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#bidCollapseTwo"
+            aria-expanded="false"
+            aria-controls="bidcollapseTwo"
+          >
+            <span class="material-icons mr-3"> label </span>
+            Bids
+          </button>
+        </h2>
+        <div id="bidCollapseTwo" class="accordion-collapse collapse" aria-labelledby="Bids" data-bs-parent="#accordionAuction">
+          <div class="accordion-body text-white">
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+              <div class="btn-properties full-btn p-2 m-4" *ngFor="let bid of bids">
+                <button>
+                  <div class="btn-property-header">Bid: {{ bid.bidAmount }}</div>
+                  <div class="btn-property-name">{{ bid.userId.name }}</div>
+                  <div class="btn-property-sub">{{ bid.createdAt | date: 'h:mm a dd/MM/yyyy' }}</div>
+                </button>
+              </div>
+              <span *ngIf="!maxBid" class="opacity-50">No Bid Present.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="placeBid">
+          <button class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#bidCollapseOne" aria-expanded="false" aria-controls="bidCollapseOne">
+            <span class="material-icons mr-3"> label </span>
+            Place Bid
+          </button>
+        </h2>
+        <div id="bidCollapseOne" class="accordion-collapse collapse show" aria-labelledby="placeBid" data-bs-parent="#accordionAuction">
+          <div class="accordion-body text-white">
+            <div *ngIf="auction?.status === AuctionStatesType.AWAITING" class="d-flex flex-row flex-wrap justify-content-center">
+              <p>Processing Auction</p>
+            </div>
+            <div *ngIf="auction?.status === AuctionStatesType.ON_GOING && auction?.ownerId?.username === user.email" class="d-flex flex-row flex-wrap justify-content-center">
+              <span class="opacity-50"
+                >Your auction is currently Active <br />
+                We will let you know when we have a winner
+              </span>
+            </div>
+            <div *ngIf="auction?.status === AuctionStatesType.ON_GOING && auction?.ownerId?.username !== user.email" class="d-flex flex-row flex-wrap justify-content-center">
+              <div class="field-wrapper">
+                <div class="m-auto">
+                  <span class="label">Place Bid<span class="required">*</span></span>
+                </div>
+                <input type="text" placeholder="Amount" [(ngModel)]="userBid" ng-required="true" />
+                <label *ngIf="bidValidation" class="alert alert-danger"> Your bid must be greater than highest bid</label>
+                <label *ngIf="connectWalletValidation" class="alert alert-danger">Your Wallet is not connected</label>
+                <label *ngIf="balanceValidation" class="alert alert-danger">You donot have enough balance in your wallet</label>
+              </div>
+              <button class="bid-btn p-auto text-dark w-40 h-15 mr-2 d-inline-flex align-items-center justify-content-center fw-bold fs-5" (click)="placeBid()">Bid Now</button>
+            </div>
+            <div *ngIf="auction?.status === AuctionStatesType.EXPIRED && bids.length" class="d-flex flex-row flex-wrap justify-content-center">
+              <h3 class="align-text-center">Winner:</h3>
+              <div class="btn-properties full-btn m-4">
+                <button>
+                  <div class="btn-property-header">Bid: {{ maxBid.bidAmount }}</div>
+                  <div class="btn-property-name">{{ maxBid.userId.name }}</div>
+                  <div class="btn-property-sub">{{ maxBid.createdAt | date: 'h:mm a dd/MM/yyyy' }}</div>
+                </button>
+              </div>
+              <button *ngIf="auction?.winnerId?.username === user.email && offer" class="btn buy-now" (click)="preProcessAddToCart()">
+                <span class="text">Claim Now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#f99b1d">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+              <button *ngIf="auction?.winnerId?.username === user.email && offer" class="btn buy-now" (click)="disClaim()">
+                <span class="text">Disclaim</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#f99b1d">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+              <p *ngIf="auction?.winnerId?.username === user.email && !offer" class="opacity-50">You have already claimed this.</p>
+            </div>
+            <div *ngIf="auction?.status === AuctionStatesType.EXPIRED && !bids.length" class="text-center">
+              <p class="opacity-50">There was no Winner.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+</div>

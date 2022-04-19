@@ -1,0 +1,210 @@
+.mcl-market {
+  display: flex;
+  padding: 0px;
+  .mcl-collections {
+    padding: 28px;
+    width: 100%;
+    box-shadow: -10px 0px 30px rgba(0, 0, 0, 0.2);
+    .search-sort-wrapper {
+      display: flex;
+      align-items: center;
+      .search {
+        margin-left: auto;
+        .mcl-search {
+          display: flex;
+          justify-content: space-between;
+          background: #151515;
+          height: 50px;
+          margin: 0px 10px;
+          padding: 16px;
+          align-items: center;
+          color: #fff;
+          font-size: 14px;
+          border-radius: 10px;
+          overflow: hidden;
+          max-width: 300px;
+        }
+      }
+      .display-option {
+        display: flex;
+        height: 50px;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: 10px;
+        .option {
+          padding: 12px;
+          cursor: pointer;
+          &.small {
+            transform: scale(0.7);
+            padding: 22px;
+          }
+          &.selected {
+            background: #151515;
+            border-radius: 10px;
+          }
+        }
+      }
+      .results-count {
+        color: #fff;
+        font-size: 16px;
+      }
+    }
+  }
+  .filter-drawer {
+    width: 60px;
+    background: #151515;
+    position: sticky;
+    top: 70px;
+    align-self: flex-start;
+    .header {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      border: none;
+      .title {
+        display: flex;
+        font-size: 13px;
+        font-weight: bold;
+        color: #fff;
+        align-items: center;
+        display: none;
+        svg {
+          margin-right: 6px;
+        }
+      }
+      .action {
+        transform: rotateZ(180deg);
+        &.toggle {
+          cursor: pointer;
+          opacity: 0.5;
+          transition: ease-in-out opacity 0.2s;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+      &.status,
+      &.price {
+        .action {
+          display: none;
+        }
+        &.open {
+          .action {
+            transform: rotateZ(180deg);
+          }
+        }
+      }
+    }
+    .filter-options {
+      background: #060606;
+      display: none;
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+      &.open {
+        padding: 25px;
+        height: auto;
+        overflow: visible;
+      }
+      &.status {
+        display: grid;
+        grid-template-columns: 49% 49%;
+        grid-gap: 10px;
+        display: none;
+      }
+      .filter-option {
+        width: 100%;
+        display: block;
+        color: #fff;
+        font-size: 13px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #151515;
+        border: 1px solid #ffffff0d;
+        border-radius: 6px;
+        cursor: pointer;
+        &:hover {
+          background: hsla(0, 0%, 100%, 0.31);
+        }
+        &.selected {
+          background-color: #f99b1d;
+        }
+      }
+      .range-field {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        color: #fff;
+        input {
+          width: 100%;
+          color: #fff;
+          font-size: 13px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #151515;
+          border: 1px solid #ffffff0d;
+          border-radius: 6px;
+          padding: 11px;
+        }
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        input[type='number'] {
+          -moz-appearance: textfield;
+        }
+        .from,
+        .to {
+          width: 40%;
+        }
+      }
+      .btn {
+        &.btn-appy {
+          color: #fff;
+          background: #222;
+          font-weight: bold;
+          border: 1px solid #3c3c3c;
+          width: 100%;
+          margin-top: 20px;
+          text-transform: uppercase;
+          font-size: 12px;
+        }
+      }
+    }
+    &.open {
+      min-width: 360px;
+      .header {
+        padding: 15px 25px;
+        border-bottom: 1px solid #060606;
+        border-top: 1px solid #ffffff0f;
+        .title {
+          display: flex;
+        }
+        .action {
+          transform: rotateZ(0deg);
+        }
+        &.status,
+        &.price {
+          .action {
+            display: block;
+          }
+        }
+      }
+      .filter-options {
+        display: block;
+        &.status {
+          display: grid;
+        }
+      }
+    }
+  }
+}

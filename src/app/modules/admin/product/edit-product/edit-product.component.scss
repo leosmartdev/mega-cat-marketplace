@@ -1,0 +1,22 @@
+.image {
+  .label {
+    font-weight: 600;
+  }
+}
+
+.error {
+  color: #dc2626;
+}
+
+.product-image {
+  width: 75%;
+  height: 75%;
+  object-fit: contain;
+  object-position: left top;
+}
+
+.loader {
+  position: fixed;
+  z-index: 999999;
+  margin: 0px 28% 30%;
+}

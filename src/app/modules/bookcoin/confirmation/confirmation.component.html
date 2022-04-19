@@ -1,0 +1,40 @@
+<div class="container-fluid row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 py-7">
+    <div class="row">
+      <div class="col-md-6">
+        <a [routerLink]="['/checkout']" style="color: #000; text-decoration: none"> <i class="fas fa-arrow-left"></i> Back to Checkout</a>
+      </div>
+      <div class="col-md-6"></div>
+    </div>
+    <section class="flex-nowrap overflow-auto">
+      <div class="d-flex flex_header">
+        <div class="item">Item</div>
+        <div class="col" style="text-align: end">Qty</div>
+        <div class="col" style="text-align: end">Subtotal</div>
+      </div>
+
+      <div class="d-flex" *ngFor="let product of products">
+        <div class="item">
+          <div class="flex flex:row">
+            <img src="{{ product.image }}" class="w-20 rounded-lg object-cover py-2 h-22" />
+            <p class="ml-3">{{ product.name }}</p>
+          </div>
+        </div>
+        <div class="col" style="text-align: end">{{ product.count }}</div>
+        <div class="col" style="text-align: end">${{ product.subTotal }}</div>
+      </div>
+
+      <div class="d-flex flex_bottom">
+        <div class="item"></div>
+        <div class="col" style="text-align: end">Total</div>
+        <div class="col" style="text-align: end">0.04 ETH</div>
+      </div>
+    </section>
+
+    <div class="text-center">
+      <a class="btn btn-lg" [routerLink]="['/order-completed']" style="font-family: Editorial New; font-style: italic"> Place Order</a>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>

@@ -1,0 +1,83 @@
+<app-profile-navlinks></app-profile-navlinks>
+<div class="container">
+  <div class="d-flex justify-content-center mt-5">
+    <h4 style="font-family: GT Sectra Display; font-weight: bold; cursor: pointer" [ngClass]="selectedTab === 0 ? 'colored' : 'noColor'" (click)="changeTab(0)">NFTs</h4>
+    <div class="ml-2 vl"></div>
+    <h4 class="ml-2" style="font-family: GT Sectra Display; font-weight: bold; cursor: pointer" [ngClass]="selectedTab === 1 ? 'colored' : 'noColor'" (click)="changeTab(1)">
+      Rewards
+    </h4>
+  </div>
+  <div class="nft-border"></div>
+  <div class="row mt-7" *ngIf="selectedTab === 0">
+    <section class="profile-main">
+      <div class="site-wrapper">
+        <div class="flex" style="margin-right: 30px">
+          <h4>Filter Wallet Address:</h4>
+          <mat-select class="ml-5" [(value)]="walletAddressFilter" (selectionChange)="getNFTsForWallet()" [disabled]="filteredNFTs.length === 0">
+            <mat-option value="all">All</mat-option>
+            <mat-option *ngFor="let walletAddress of linkedWalletAddresses" [value]="{walletAddress}">{{ walletAddress }}</mat-option>
+          </mat-select>
+        </div>
+        <div class="collection grid" *ngIf="filteredNFTs.length > 0">
+          <div *ngFor="let nft of filteredNFTs">
+            <app-nft-card-bkcn [nft]="nft.nft" [walletAddress]="walletAddress"> </app-nft-card-bkcn>
+          </div>
+        </div>
+        <div class="no-results">
+          <span class="no-nft-label" *ngIf="!isFetching && filteredNFTs.length === 0">No NFT found</span>
+          <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
+            <span class="loading-label">Fetching NFTs</span>
+            <div class="spinner-grow spinner-wrapper text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="row mt-7" *ngIf="selectedTab === 1">
+    <section class="profile-main">
+      <div class="site-wrapper">
+        <div *ngIf="filteredNFTs.length > 0">
+          <div class="row" *ngFor="let nft of collectionsNFTKeys">
+            <div class="row" style="cursor: pointer" (click)="openPanel(nft)">
+              <div class="col-md-3"></div>
+              <h2 class="feat-drops2 col-md-6">{{ collectionsNFTs.get(nft)[0].nft.contract.name }}</h2>
+              <div class="col-md-3">
+                <button *ngIf="activePanel !== nft" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+                <button *ngIf="activePanel === nft" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+              </div>
+            </div>
+            <div *ngIf="activePanel === nft" class="pt-4 row mx-auto">
+              <div class="col-md-2"></div>
+              <div class="col-md-8">
+                <div *ngFor="let nf of collectionsNFTs.get(nft)">
+                  <p style="color: #202020" class="text-center">
+                    {{ nf.nft.name }}
+                  </p>
+                  <div class="d-flex flex-row">
+                    <img class="reward-image mr-4 rounded" src="{{ nf.nft.image }}" />
+                    <p style="color: #202020">{{ nf.nft.description.length > 200 ? (nf.nft.description | slice: 0:200) + '...' : nf.nft.description }}</p>
+                  </div>
+                  <div class="text-center">
+                    <a [routerLink]="['collections/sale', nft?.nft?.id]" class="btn btn-outline-primary mcl-button-outline_auction mx-auto">Go Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="no-results">
+          <span class="no-nft-label" *ngIf="!isFetching && filteredNFTs.length === 0">No Reward found</span>
+          <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
+            <span class="loading-label">Fetching NFTs</span>
+            <div class="spinner-grow spinner-wrapper text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

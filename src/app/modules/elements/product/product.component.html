@@ -1,0 +1,16 @@
+<div class="product-img-wrapper" *ngIf="product">
+  <span class="img" style="background-image: url('{{ product.img.src }}');"></span>
+</div>
+<div class="product-details-wrapper" *ngIf="product">
+  ng build
+
+  <span class="title">{{ product.title }}</span>
+  <span class="price">
+    <span class="wax">{{ product.price.wax }} WAX </span>
+    <span class="dollars">({{ product.price.dollars }})</span>
+  </span>
+  <div class="actions">
+    <button class="btn mcl-secondary">Details</button>
+    <button class="btn mcl-primary">Buy</button>
+  </div>
+</div>

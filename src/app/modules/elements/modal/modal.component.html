@@ -1,0 +1,41 @@
+<div class="modal-style content-style mcl-card">
+  <div class="modal-body modal-style">
+    <div class="card mcl-card px-5 py-5">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <img src="{{ saleNFT.nft?.imageUrl }}" class="modal-image" />
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <h4 class="heading-color">Name</h4>
+            </div>
+            <div class="row mt-1">
+              <h5 class="label-color text-style">{{ saleNFT.nft?.name }}</h5>
+            </div>
+            <div class="row mt-4">
+              <h4 class="heading-color">ID</h4>
+            </div>
+            <div class="row mt-1">
+              <h5 class="label-color text-style">{{ saleNFT?.id }}</h5>
+            </div>
+            <div class="row mt-4">
+              <h4 class="heading-color">SELLER ID</h4>
+            </div>
+            <div class="row mt-1">
+              <h5 class="label-color text-style">{{ saleNFT?.sellerId }}</h5>
+            </div>
+          </div>
+        </div>
+        <div style="height: 50px"></div>
+        <div class="d-flex justify-content-around">
+          <h1 class="text-style mt-2">
+            <span class="label-color">Price:</span>
+            <span class="text-color ml-2">${{ saleNFT?.price }}</span>
+          </h1>
+          <button (click)="addToCart(saleNFT)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-secondary mcl-button">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-4 mb-sm-0">
+      <div class="card mcl-card">
+        <div class="card-body">
+          <img src="{{ offer?.nft?.imageUrl }}" class="mcl-collection-image" />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card mcl-card px-5 py-5">
+        <div class="card-body">
+          <div class="d-flex justify-content-around">
+            <h1 class="text-style mt-2">
+              <span class="label-color">Price:</span>
+              <span class="text-color ml-2">${{ offer?.price }}</span>
+            </h1>
+            <button (click)="addToCart(offer)" class="btn btn-primary mcl-button">Add to Cart<i class="fas fa-shopping-cart"></i></button>
+          </div>
+          <div style="height: 50px"></div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <h4 class="heading-color">Name</h4>
+              </div>
+              <div class="row mt-1">
+                <h6 class="label-color text-style">{{ offer?.nft?.name }}</h6>
+              </div>
+              <div class="row mt-4">
+                <h4 class="heading-color">Description</h4>
+              </div>
+              <div class="row mt-1">
+                <h6 class="label-color text-style">{{ offer?.nft?.description }}</h6>
+              </div>
+              <div class="row mt-4">
+                <h4 class="heading-color">Collection</h4>
+              </div>
+              <div class="row mt-1">
+                <h6 class="label-color text-style">{{ offer?.nft.contract.name }}</h6>
+                <a href="https://polygonscan.com/address/{{ offer?.nft?.contract?.address }}"
+                  ><h6 class="label-color text-style">{{ offer?.nft?.contract?.address | slice: -8 }}</h6></a
+                >
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <h4 class="heading-color">Offer ID</h4>
+              </div>
+              <div class="row mt-1">
+                <h6 class="label-color text-style">{{ offer?.id }}</h6>
+              </div>
+              <div class="row mt-4">
+                <h4 class="heading-color">Seller</h4>
+              </div>
+              <div class="row mt-1">
+                <h6 class="label-color text-style">{{ offer?.sellerNickname }}</h6>
+                <a href="https://polygonscan.com/address/{{ offer?.sellerAddress }}"
+                  ><h6 class="label-color text-style">{{ (offer?.sellerAddress | slice: 0:5) + ' ... ' + (offer?.sellerAddress | slice: -4) }}</h6></a
+                >
+              </div>
+              <div class="row mt-4">
+                <h4 class="heading-color">Blockchain</h4>
+              </div>
+              <div class="row mt-1">
+                <h6 class="label-color text-style">{{ offer?.nft?.chain }}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="row"></div>
+          <div style="height: 50px"></div>
+          <div class="row">
+            <div class="row mt-4 col-sm-12">
+              <h4 class="heading-color">Attributes</h4>
+            </div>
+            <div class="col-sm-12 mt-4 label-color">
+              <div class="row label-color" *ngFor="let attribute of offer?.nft.attributes">{{ attribute.name }}: {{ attribute.value }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

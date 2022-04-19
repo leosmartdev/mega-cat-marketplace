@@ -1,0 +1,299 @@
+$primary: #f99b1d;
+$accent: #e04206;
+.header_background {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+strong {
+  font-weight: bolder !important;
+}
+.mcl-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+
+  .label.role {
+    color: rgb(40, 132, 238);
+  }
+}
+
+.notification-icon {
+  color: $primary;
+  border-radius: 100px;
+  width: 44px;
+  height: 44px;
+  display: block;
+  padding: 13px;
+  &:hover {
+    background-color: $accent;
+    color: #fff;
+  }
+}
+.mat-badge-medium .mat-badge-content {
+  width: 22px;
+  height: 22px;
+  line-height: 30px;
+}
+
+.navbar-shrink {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  background-color: #fff;
+  .navbar-brand {
+    color: #212529;
+  }
+  .navbar-nav {
+    .nav-item {
+      .nav-link {
+        color: #212529;
+        padding: 0 1rem;
+      }
+    }
+  }
+}
+.search {
+  background-color: #202020;
+  border: 1px solid $primary;
+}
+.navbar-toggler {
+  width: 47px;
+  height: 34px;
+  background-color: $primary;
+  border: none;
+}
+.navbar-toggler .line {
+  width: 100%;
+  float: left;
+  height: 2px;
+  background-color: #fff;
+  margin-bottom: 5px;
+}
+
+.notification-wrapper {
+  font-family: Poppins, sans-serif;
+
+  transition: all 1s ease;
+  .notification-container {
+    display: none;
+  }
+
+  .notification-container-collapse {
+    display: block;
+  }
+
+  .fas.fa-bell.notification-icon {
+    transition: all 0.2s ease forwards;
+
+    &:hover {
+      animation: bellRing 0.2s;
+    }
+
+    @keyframes bellRing {
+      25% {
+        transform: rotate(-20deg);
+      }
+      50% {
+        transform: rotate(20deg);
+      }
+      75% {
+        transform: rotate(-20deg);
+      }
+      100% {
+        transform: rotate(20deg);
+      }
+    }
+  }
+
+  .arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid #151515;
+    position: absolute;
+    top: 40px;
+    left: -30px;
+  }
+
+  .notification-option {
+    margin: 0 0 1rem 0;
+    padding: 0;
+    display: flex;
+    .notification-btn-1 {
+      border-radius: 5px 0 0 5px;
+    }
+    .notification-btn-2 {
+      border-radius: 0 5px 5px 0;
+    }
+    .notification-btn-1,
+    .notification-btn-2 {
+      width: 50%;
+      display: inline-block;
+      position: relative;
+      padding: 10px 10px;
+      text-align: center;
+      color: white;
+      background-color: #f99b1d;
+    }
+  }
+
+  .notification-dropdown {
+    height: 600px;
+    width: 370px;
+    background-color: rgb(10, 10, 10, 0.98);
+    position: absolute;
+    left: -160px;
+    top: 65px;
+    padding: 20px;
+    border-radius: 15px;
+    .close-icon-modal {
+      display: none;
+    }
+  }
+
+  .card-notification {
+    position: relative;
+    padding: 10px;
+    background-color: #f99b1d;
+    border-radius: 5px;
+    .close-icon {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
+    .card-title {
+      color: #fff;
+      font-weight: 600;
+      text-align: center;
+    }
+    .card-body {
+      color: #fff;
+      text-align: center;
+      font-size: 0.9rem;
+      .icon-left {
+        align-self: center;
+      }
+    }
+  }
+
+  .empty-notification {
+    padding: 10rem 0 10rem 0;
+    h5 {
+      text-align: center;
+    }
+  }
+
+  .notification-btn-1.selected-btn,
+  .notification-btn-2.selected-btn {
+    background-color: #ffb965 !important;
+  }
+}
+
+.mresponsive-btn,
+.mresponsive-cart,
+.mresponsive-notif {
+  display: none !important;
+}
+
+@media (max-width: 991px) {
+  body {
+    overflow: hidden !important;
+  }
+
+  .w-notif,
+  .w-cart,
+  .w-btn {
+    display: none !important;
+  }
+
+  .notification-wrapper {
+    z-index: 900;
+
+    // .mcl.notification {
+    //   display: none;
+    // }
+    .notification-dropdown {
+      background-color: rgba(10, 10, 10);
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 5rem 1rem 5rem 1rem;
+      width: 100%;
+      height: 100%;
+      .close-icon-modal {
+        display: inherit;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+        color: #fff;
+      }
+
+      .notification-option {
+        display: flex;
+        padding: 0;
+
+        .notification-btn-1,
+        .notification-btn-2 {
+          width: 50%;
+          display: inline-block;
+          position: relative;
+          padding: 10px 10px;
+          text-align: center;
+          color: white;
+          background-color: #f99b1d;
+
+          &:focus {
+            background-color: #ffb965;
+          }
+        }
+      }
+      .card-title {
+        text-align: left;
+      }
+      .card-body {
+        h5 {
+          padding: 250px 0 250px 0;
+          font-weight: 600;
+          font-size: 2rem;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  .cart-items {
+    position: absolute;
+    top: 0.8rem;
+    right: 12rem;
+  }
+
+  .mresponsive-btn {
+    display: inherit !important;
+    position: absolute;
+    top: 0.8rem;
+    right: 6rem;
+  }
+
+  .mresponsive-cart {
+    display: inherit !important;
+    position: absolute;
+    top: 0.8rem;
+    right: 12rem;
+  }
+
+  .mresponsive-notif {
+    display: inherit !important;
+    position: absolute !important;
+    top: 0.8rem;
+    right: 14.5rem;
+  }
+
+  .action {
+    height: 0;
+  }
+
+  .empty-notification {
+    padding: 15rem 0 15rem 0;
+  }
+}

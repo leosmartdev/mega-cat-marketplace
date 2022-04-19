@@ -1,0 +1,125 @@
+<!-- <h1>TODO: Make homepage become the standard landing page where various collections, banners, etc will be displayed.</h1>
+<div style="height: 500px; background-color: #202020;">
+
+</div> -->
+<section class="banner">
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <app-card [type]="'banner'" [properties]="banners" [label]="banners.text.data" style="background-image: url('{{ banners.bg.src }}');"></app-card>
+    </div>
+    <div class="col-md-6 mb-3">
+      <app-card [type]="'banner'" [properties]="banners" [label]="'The MCL Trading Area'" style="background-image: url('{{ banners.bg.src }}');"></app-card>
+    </div>
+  </div>
+</section>
+<section class="statistics">
+  <div class="site-wrapper">
+    <app-card [type]="'image-box'" [properties]="stats"></app-card>
+  </div>
+</section>
+<section>
+  <!-- <button (click)="testWizard()">Show Wizard!</button> -->
+</section>
+<section class="listings">
+  <div class="site-wrapper">
+    <h2 class="title">Listings</h2>
+    <carousel [height]="620" [cellsToShow]="4" [cellWidth]="300">
+      <div class="carousel-cell" *ngFor="let nft of saleNFTs">
+        <!-- <div class="card mcl-card">
+                    <div class="card-body">
+                        <img
+                            [src]="saleNFT.nft.imageUrl"
+                            class="mcl-collection-image"
+                        />
+                        <div class="mt-5">
+                            <div class="px-1 mb-2">
+                                <p class="card-title">{{ saleNFT.nft.name }}</p>
+                            </div>
+                            <div
+                                class="
+                                    d-flex
+                                    justify-content-between
+                                    flex-row
+                                    px-1
+                                "
+                            >
+                                <p class="card-text" style="color: black">
+                                    ${{ saleNFT.price }}
+                                </p>
+                                <p class="card-text" style="color: black">
+                                    {{ saleNFT.nft.chain }}
+                                </p>
+                            </div>
+                            <div class="d-flex justify-content-around">
+                                <a
+                                    [routerLink]="['/market/sale', saleNFT.id]"
+                                    class="
+                                        btn btn-outline-primary
+                                        mcl-button-outline
+                                    "
+                                    >Details</a
+                                >
+                                <button
+                                    (click)="addToCart(saleNFT)"
+                                    class="btn btn-secondary mcl-button"
+                                >
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+        <!-- Call nft-card component -->
+        <app-nft-card [nft]="nft" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card>
+      </div>
+    </carousel>
+  </div>
+</section>
+
+<!-- Category -->
+<section class="category mb-5">
+  <div class="site-wrapper">
+    <h2 class="title" style="color: #fff">Category</h2>
+    <div class="row">
+      <div class="d-flex justify-content-center bd-highlight mb-3">
+        <div class="p-2 bd-highlight category-item-wrapper" [routerLink]="'/category/category'">
+          <div class="upper-wrapper">
+            <img src="assets/images/mcl/mcl-mascot-bg.png" />
+          </div>
+          <div class="lower-wrapper">Alien Cat</div>
+        </div>
+
+        <div class="p-2 bd-highlight category-item-wrapper" [routerLink]="'/category/category'">
+          <div class="upper-wrapper">
+            <img src="assets/images/mcl/mcl-mascot-bg.png" />
+          </div>
+          <div class="lower-wrapper">Ghost Cat</div>
+        </div>
+
+        <div class="p-2 bd-highlight category-item-wrapper" [routerLink]="'/category/category'">
+          <div class="upper-wrapper">
+            <img src="assets/images/mcl/mcl-mascot-bg.png" />
+          </div>
+          <div class="lower-wrapper">Fire Cat</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="offset">
+    <div class="site-wrapper flex row">
+        <div class="col-md-4">
+            <img src="https://cdn.shopify.com/s/files/1/0444/0919/2598/files/discord-btn_700x.png?v=1600898377" alt="">
+
+        </div>
+        <div class="col-md-4">
+            <img src="https://cdn.shopify.com/s/files/1/0444/0919/2598/files/subscribe-btn_700x.png?v=1600898853" alt="">
+        </div>
+        <div class="col-md-4">
+            <img src="https://cdn.shopify.com/s/files/1/0444/0919/2598/files/hire-btn_700x.png?v=1600898579" alt="">
+
+        </div>
+         </div>
+</section> -->

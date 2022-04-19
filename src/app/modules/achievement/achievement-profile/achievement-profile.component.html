@@ -1,0 +1,151 @@
+<section class="sectionDesign">
+  <div class="container">
+    <h1 class="mainHeading">Profile</h1>
+    <h2 class="subHeading">Rarest Achievements</h2>
+    <div class="row">
+      <div class="col-12 col-md-7">
+        <div class="row">
+          <div class="col-12 col-md-3" *ngFor="let achievement of achievementList | slice: 0:4">
+            <div class="productCard">
+              <div class="productImg">
+                <a>
+                  <img [src]="achievement.image || 'assets/images/images.jfif'" [alt]="achievement.nftname" />
+                </a>
+              </div>
+              <div class="productFooter">
+                <div class="productInfo">
+                  <h3 class="productTitle" [title]="achievement.title || achievement.nftname || achievement.state">
+                    {{ achievement.title || achievement.nftname || achievement.state | slice: 0:20 }}-{{ achievement.point }}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 ml-auto">
+        <div class="user">
+          <div class="UserImg">
+            <img [src]="user?.avatar || 'assets/images/user.png'" onerror="this.onerror=null;this.src='assets/images/user.png'" [alt]="user?.name" />
+          </div>
+          <h2>@ {{ user?.name }}</h2>
+          <span class="wallet-address" *ngIf="this.walletAddress">
+            {{ walletAddress.slice(0, 4) + '...' + walletAddress.slice(walletAddress.length - 4) }}
+          </span>
+          <h3>{{ user?.email ? user?.email : '' }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="subHeading">Lastest Achievements</h2>
+    <div class="row">
+      <div class="col-12 col-md-7">
+        <div class="row">
+          <div class="col-12 col-md-3" *ngFor="let achievement of achievementList.reverse() | slice: 0:4">
+            <div class="productCard">
+              <div class="productImg">
+                <a>
+                  <img [src]="achievement.image || 'assets/images/images.jfif'" [alt]="achievement.nftname" />
+                </a>
+              </div>
+              <div class="productFooter">
+                <div class="productInfo">
+                  <h3 class="productTitle" [title]="achievement.title || achievement.nftname || achievement.state">
+                    {{ achievement.title || achievement.nftname || achievement.state | slice: 0:20 }} - {{ achievement.point }}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="myBtn primary small mt-4" [routerLink]="['/achievement']">View all Achievements</a>
+      </div>
+    </div>
+
+    <!-- form section starts here -->
+    <div class="formSection">
+      <h2 class="subHeading">Collectibles</h2>
+      <div class="row">
+        <div class="col-12 col-md-7">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <div class="search">
+                  <input type="text" placeholder="Search for anything" />
+                  <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18ZM10,4a6,6,0,1,0,6,6A6.007,6.007,0,0,0,10,4Z"></path>
+                      <path d="M21,22a1,1,0,0,1-.707-0.293l-4-4a1,1,0,0,1,1.414-1.414l4,4A1,1,0,0,1,21,22Z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <input type="checkbox" class="customCheck" id="filter1" />
+                    <label for="filter1">Filter 1</label>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <input type="checkbox" class="customCheck" id="filter2" />
+                    <label for="filter2">Filter 2</label>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <input type="checkbox" class="customCheck" id="filter3" />
+                    <label for="filter3">Filter 3</label>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <input type="checkbox" class="customCheck" id="filter4" />
+                    <label for="filter4">Filter 4</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="dropWrapper merge">
+                <a class="toggleDropdown" href="javascript:void(0)">Newest <i class="fa fa-caret-down"></i></a>
+                <div class="dropDown">
+                  <div class="dropDownBody">
+                    <a class="dropdownItem" href="#"> Newest</a>
+                    <a class="dropdownItem" href="#"> Newest</a>
+                    <a class="dropdownItem" href="#"> Newest</a>
+                    <a class="dropdownItem" href="#"> Newest</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- all products  -->
+    <div class="allProducts">
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-4 col-lg-3" *ngFor="let achievement of achievementList">
+          <div class="productCard">
+            <div class="productImg">
+              <a>
+                <img [src]="achievement.image || 'assets/images/images.jfif'" [alt]="achievement.nftname" />
+              </a>
+            </div>
+            <div class="productFooter">
+              <div class="productInfo">
+                <span></span>
+                <h3 class="productTitle">{{ achievement.title || achievement.nftname || achievement.state | slice: 0:15 }}</h3>
+                <p class="productConent">{{ achievement.title || achievement.nftname || achievement.state }}-{{ achievement.point }}</p>
+                <div class="buttonGroup">
+                  <a class="myBtn">List</a>
+                  <a class="myBtn">Transfer</a>
+                </div>
+                <a class="myBtn primary">Read</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

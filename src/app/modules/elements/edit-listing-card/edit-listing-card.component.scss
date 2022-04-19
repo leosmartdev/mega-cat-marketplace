@@ -1,0 +1,103 @@
+.mcl-card {
+  border: 1px solid #e9ecef;
+  box-sizing: border-box;
+  border-radius: 8px;
+  position: relative;
+}
+.mcl-collection-image_auction {
+  height: 220px;
+  object-fit: cover !important;
+}
+.mcl-button-outline_auction {
+  width: 100%;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 5px;
+  padding: 8px 13px;
+  color: #ffffff;
+  background-color: #aca9a9;
+  border: none;
+}
+.timer {
+  width: 100%;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+}
+.card-title {
+  color: black !important;
+}
+.card-body {
+  padding: 10px !important;
+}
+.custom-select {
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 20px;
+}
+.hidePrice {
+  opacity: 0%;
+  height: 0px;
+  pointer-events: none;
+}
+input {
+  width: 60%;
+  box-sizing: border-box;
+  height: 40px;
+  border: 2px solid #202020;
+  color: #202020;
+  font-size: 15px;
+}
+.currency {
+  width: 25%;
+  height: 40px;
+  background: #090909;
+  color: #aca9a9;
+  font-size: 15px;
+  border-radius: 5px;
+}
+.label {
+  text-align: center;
+}
+.cancel {
+  width: 30%;
+  height: 40px;
+  border: 1px solid #000;
+  background-color: #000;
+  color: #fff;
+}
+.sell {
+  width: 70%;
+  height: 40px;
+  border: 1px solid #aca9a9;
+  background-color: #aca9a9;
+  color: #fff;
+}
+.details {
+  padding: 20px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  .label {
+    display: block;
+    font-size: 10px;
+    font-weight: 300;
+    color: #aca9a9;
+    span {
+      font-size: 10px;
+    }
+  }
+  p {
+    font-size: 9px;
+    font-weight: 300;
+    line-height: 12px;
+    margin: 0;
+    overflow: hidden;
+    opacity: 1;
+    height: 25px;
+  }
+}

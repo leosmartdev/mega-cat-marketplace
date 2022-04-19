@@ -1,0 +1,35 @@
+.heading-color {
+  color: white;
+  font-family: GT Sectra Display;
+  padding-bottom: 10px;
+}
+.text-color {
+  color: #ffffff;
+  font-family: GT Sectra Display;
+}
+.input-style {
+  background-color: #2d3035;
+  color: #fff;
+  border: 0px;
+  height: 50px;
+  width: 100%;
+  &focus {
+    outline: none !important;
+  }
+}
+.button-style {
+  color: #c19a5b;
+  background-color: white;
+  border: 0px;
+  width: 70%;
+  height: 50px;
+  &focus {
+    outline: none !important;
+  }
+}
+.bkcn-footer {
+  color: #fff;
+  font-family: Neue World;
+  font-weight: bold;
+  padding-bottom: 8px;
+}

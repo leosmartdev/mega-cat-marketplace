@@ -1,0 +1,36 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6 sm:p-10">
+    <div class="prose prose-sm max-w-3xl">
+      <h2>Admins</h2>
+    </div>
+    <div *ngIf="!isSuperAdmin()" class="prose prose-sm max-w-3xl">
+      <h2>Unauthorized</h2>
+    </div>
+    <div>
+      <div class="flex flex-col mt-2 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden" *ngIf="isSuperAdmin()">
+        <table mat-table [dataSource]="users | paginate: { itemsPerPage: 5, currentPage: page }">
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.username }}
+            </td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Remove Admin</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              <button (click)="makeUser(element.username)"><i class="fas fa-trash-alt"></i></button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <div class="text-center pt-4">
+          <pagination-controls (pageChange)="page = $event" (pageBoundsCorrection)="page = $event"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

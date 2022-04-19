@@ -1,0 +1,26 @@
+<div class="card" (click)="openNft(nft)">
+  <div class="preview" style="background: url({{ nft.nftImage }})"></div>
+  <div class="details">
+    <div class="info">
+      <span class="label">
+        {{ nft.collection ? nft.collection : 'Mega Cat Labs' }}
+        <span class="material-icons icon-font"> verified </span>
+      </span>
+      <span class="title">
+        {{ nft.nftName }}
+      </span>
+      <span class="label">0x{{ nft.nftId }}</span>
+      <span class="label">Price: {{ nft.nftPrice }}</span>
+      <span class="label">Fee: {{ nft.platformFee }}%</span>
+    </div>
+    <div class="price">
+      <span class="label">Payout</span>
+      <p class="price-text"><i>$</i>{{ nft.payoutAmount }}</p>
+    </div>
+  </div>
+  <div class="action" [class.no-padding]="nft.type === 'buy-now'">
+    <button class="btn btn-secondary mcl-button" (click)="activeNft = nft.tokenId">
+      {{ nft.status }}
+    </button>
+  </div>
+</div>

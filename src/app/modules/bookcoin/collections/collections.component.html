@@ -1,0 +1,46 @@
+<div class="container">
+  <img src="assets/bookcoin/collection-page-main.png" style="height: 400px" />
+  <div class="row mt-7">
+    <div class="container py-5">
+      <div class="d-flex mb-3">
+        <h2 class="gold-line black-neue h2 strong">EXPLORE</h2>
+        <div class="mt-2 ml-5 z-ind">
+          <mat-select class="ml-5" [(value)]="Collection" (selectionChange)="PriceFilter($event.value, 'collection')">
+            <mat-option value="all">All</mat-option>
+            <mat-option *ngFor="let collection of ExistCollections" [value]="{collection}">{{ collection }}</mat-option>
+          </mat-select>
+          <mat-select class="ml-5" (selectionChange)="PriceFilter($event.value, 'type')" [(value)]="SaleType">
+            <mat-option value="buy">Buy</mat-option>
+            <mat-option value="auction">Auction</mat-option>
+          </mat-select>
+          <mat-select class="ml-5" [(value)]="pricefilterValue" (selectionChange)="PriceFilter($event.value, 'price')">
+            <mat-option value="All">All Prices</mat-option>
+            <mat-option value="Less Than 50">Less Than 50</mat-option>
+            <mat-option value="50-100">50-100</mat-option>
+            <mat-option value="Greater Than 100">Greater Than 100</mat-option>
+          </mat-select>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="SaleType === 'buy' && filteredNFt.length > 0">
+        <div class="col-md-3 py-2" *ngFor="let nft of filteredNFt">
+          <app-nft-card-bkcn [nft]="nft.nft" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card-bkcn>
+        </div>
+      </div>
+      <div class="row" *ngIf="SaleType === 'auction' && filteredNFt.length > 0">
+        <div class="col-md-3 py-2" *ngFor="let nft of filteredNFt">
+          <app-nft-card-bkcn [nft]="nft.nft" [auction-id]="nft.auction?.id" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card-bkcn>
+        </div>
+      </div>
+      <div class="no-results" *ngIf="filteredNFt.length === 0">
+        <span class="no-nft-label" *ngIf="!isFetching">No NFT found</span>
+        <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
+          <span class="loading-label">Fetching NFTs</span>
+          <div class="spinner-grow spinner-wrapper text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

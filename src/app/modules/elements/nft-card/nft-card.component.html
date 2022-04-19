@@ -1,0 +1,119 @@
+<div class="card" [ngStyle]="nft.marketplace.type === 'listing-pending' && { opacity: '50%' }">
+  <div class="preview" style="background: url({{ nft.image }})" (click)="openNft()"></div>
+  <img src="{{ nft.image }}" (error)="this.imageError()" style="display: none" />
+  <div class="details" (click)="openNft()">
+    <div class="info">
+      <span class="label">
+        <a href="{{ contractAddressUrl }}">{{ nft.contract.name ? nft.contract.name : 'Mega Cat Labs' }}</a>
+        <span class="material-icons icon-font"> verified </span>
+      </span>
+      <span class="title">
+        {{ nft.name }}
+      </span>
+      <span class="label">#{{ nft.tokenId }} ({{ this.walletService.truncateAddress(this.nft.contract.address) }}) </span>
+      <p>{{ nft.description }}</p>
+    </div>
+    <div class="price" *ngIf="nft.listing && nft.marketplace.type.includes('listing-')">
+      <span class="label">PRICE</span>
+      <p class="price-text"><i>$</i>{{ nft.listing.price }}</p>
+      <p class="blockchain">{{ nft.contract.address }}</p>
+    </div>
+  </div>
+  <div class="details no-padding" *ngIf="nft.marketplace.type === 'owned-pending'">
+    <div>
+      <span class="label">Status</span>
+      <p class="title">Transferring ({{ nft.listing.status }})</p>
+      <p class="">This NFT is currently being transferred to your wallet.</p>
+    </div>
+  </div>
+  <div class="details no-padding" *ngIf="nft.marketplace.type === 'listing-pending'">
+    <div>
+      <span class="label">Status</span>
+      <p class="title">Listing In Progress</p>
+      <p class="">The marketplace is taking custody of this NFT.</p>
+    </div>
+  </div>
+  <div class="action" *ngIf="nft.marketplace.type.includes('listing-') || nft.marketplace.type === 'owned'" [class.no-padding]="nft.type === 'buy-now'">
+    <button class="btn btn-secondary mcl-button" (click)="toggleSaleDrawer()" *ngIf="nft.marketplace.type === 'owned'">List For Sale</button>
+    <button class="btn btn-secondary mcl-button" (click)="toggleAuctionDrawer()" *ngIf="nft.marketplace.type === 'owned'">List For Auction</button>
+    <button class="favorite" *ngIf="nft.marketplace.type.includes('listing-')">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+        />
+      </svg>
+    </button>
+    <div class="bid" *ngIf="nft.marketplace.type === 'listing-auction'">
+      <div *ngIf="nft.auction.status === AuctionStates.ON_GOING" class="timer">
+        <countdown [config]="countDownConfig"></countdown>
+        <span class="label">
+          <span class="hours">HRS</span>
+          <span class="hours">MIN</span>
+          <span class="hours">SEC</span>
+        </span>
+        <button *ngIf="nft.auction?.ownerId?.username !== user.email" class="btn buy-now" (click)="openNft()">
+          <span class="text">BID NOW</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#f99b1d">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </button>
+      </div>
+      <div *ngIf="nft.auction.status === AuctionStates.AWAITING">
+        <p>Processing Auction</p>
+      </div>
+      <div *ngIf="nft.auction.status === AuctionStates.EXPIRED">
+        <p class="title text-center">Expired!</p>
+        <p *ngIf="nft.auction.winnerId">Winner: {{ nft.auction.winnerId?.name }}</p>
+        <button *ngIf="nft.auction.winnerId?.username === user.username" class="btn buy-now" (click)="addToCart(nft)">
+          <span class="text">Claim Now</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#f99b1d">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </button>
+        <div *ngIf="!nft.auction.winnerId">
+          <p>This Auction has no Winner.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bid" *ngIf="nft.marketplace.type === 'listing-buynow'">
+      <button class="btn buy-now" (click)="addToCart(nft)">
+        <span class="text">BUY NOW</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#f99b1d">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="sale-form" *ngIf="listingAction !== ListingActionType.NONE">
+    <div class="field-wrapper" *ngIf="listingAction === ListingActionType.SALE">
+      <div class="mcl-select currency">
+        <div class="selected">
+          <span class="label">USD</span>
+        </div>
+      </div>
+      <input type="text" placeholder="Amount" [(ngModel)]="listingPrice" />
+    </div>
+    <div class="field-wrapper" *ngIf="listingAction === ListingActionType.AUCTION">
+      <div class="mcl-select">
+        <span class="label">Starting Bid (USD)</span>
+      </div>
+      <input type="text" placeholder="Amount" [(ngModel)]="startingBid" />
+      <label class="alert alert-danger" *ngIf="startingBidValidation">Price must be in between $10 and $10000</label>
+    </div>
+    <div class="field-wrapper" *ngIf="listingAction === ListingActionType.AUCTION">
+      <div class="mcl-select">
+        <span class="label">End Time</span>
+      </div>
+      <input type="datetime-local" [value]="expirationDateTime" (change)="expirationDateTime = $event.target.value" />
+      <label class="alert alert-danger" *ngIf="expirationTimeValidation">Invalid expiration time. Time should be in between 1 hour and 30 days</label>
+      <br />
+    </div>
+    <div class="actions">
+      <button class="btn cancel" (click)="listingAction = ListingActionType.NONE">Cancel</button>
+      <button class="btn sell" (click)="listForSale(listingAction === ListingActionType.AUCTION)">Complete Listing</button>
+    </div>
+  </div>
+</div>

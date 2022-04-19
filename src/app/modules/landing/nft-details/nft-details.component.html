@@ -1,0 +1,184 @@
+<div class="nft-container d-flex flex-column align-items-center">
+  <div class="nft-wrapper" *ngIf="!isLoading">
+    <div class="d-flex flex-row flex-block-nft">
+      <div class="nft-block">
+        <div class="card-image-wrapper">
+          <div class="img-box m-auto">
+            <img [src]="nft.metadata.image" class="nft-image" (error)="this.imageError()" />
+          </div>
+        </div>
+
+        <div class="description-wrapper mt-20">
+          <div class="accordion" id="accordionDescription">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseO" aria-expanded="true" aria-controls="collapseO">
+                  <span class="material-icons mr-3"> subject </span>
+                  Description
+                </button>
+              </h2>
+              <div id="collapseO" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionDescription">
+                <div class="accordion-body text-white">
+                  {{ nft.metadata.description }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="description-wrapper">
+          <div class="accordion" id="accordionProperties">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <span class="material-icons mr-3"> label </span>
+                  Properties
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionProperties">
+                <div class="accordion-body text-white">
+                  <div class="d-flex flex-row flex-wrap">
+                    <div class="btn-properties p-2 mr-3 mt-3" *ngFor="let attribute of nft.metadata.attributes">
+                      <button>
+                        <div class="btn-property-header">{{ attribute.value }} {{ attribute.max_value ? '/' + attribute.max_value : '' }}</div>
+                        <div class="btn-property-name">{{ attribute.trait_type }} {{ attribute.display_type }}</div>
+                        <div class="btn-property-sub">X% have this trait</div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="description-wrapper">
+          <div class="accordion" id="accordionProperties">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <span class="material-icons mr-3"> details </span>
+                  Details
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionProperties">
+                <div class="accordion-body text-white">
+                  <div class="d-flex justify-content-between f-details">
+                    <label>Contract Address</label>
+                    <a href="{{ etherscanUri + 'address/' + nft.contract.address }}">
+                      <p class="f-details-hl">
+                        {{ nft.contract.name ? nft.contract.name : nft.metadata.collection ? nft.metadata.collection : nft.contract.address }}
+                      </p>
+                    </a>
+                  </div>
+                  <div class="d-flex justify-content-between f-details">
+                    <label>Token ID</label>
+                    <p>{{ nftId }}</p>
+                  </div>
+                  <div class="d-flex justify-content-between f-details">
+                    <label>Token Standard</label>
+                    <p>{{ nft.contract.contractType }}</p>
+                  </div>
+                  <div class="d-flex justify-content-between f-details">
+                    <label>Chain</label>
+                    <p>{{ nft.contract.symbol }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details-container ml-3">
+        <div class="details-wrapper d-flex position-relative align-items-center flex-column">
+          <div class="img-owner bg-light position-absolute">
+            <img [src]="nft.metadata.image" />
+          </div>
+          <div class="details-block row mt-3">
+            <h2 class="text-left">
+              <span class="owner-name">{{ nft.metadata.name }} </span>
+            </h2>
+            <h5 class="text-left owned-by">
+              Owned by: <span class="owner-name">{{ truncateSeller() }}</span>
+            </h5>
+            <div class="text-left">
+              {{ nft.metadata.description }}
+            </div>
+          </div>
+          <div *ngIf="!auctionId" class="details-action d-flex flex-column justify-content-end align-items-end h-100">
+            <div class="d-flex flex-column w-100">
+              <span class="opacity-50">Current price</span>
+              <!-- Check if nft is sold -->
+              <span class="price-sp fw-bold" *ngIf="status !== 'SOLD'">
+                <img src="assets/images/logo/eth.svg" class="d-inline-flex img-nft" />
+                {{ listing ? '$' + listing.price : 'Not For Sale' }}
+              </span>
+              <span class="status-sp fw-bold" *ngIf="status === 'SOLD'">
+                <span class="material-icons d-inline-flex"> paid </span>
+                SOLD
+              </span>
+            </div>
+            <div class="d-flex flex-row">
+              <button
+                class="buy-btn p-auto text-dark w-50 mr-2 d-inline-flex align-items-center justify-content-center fw-bold fs-5"
+                [disabled]="status === 'SOLD'"
+                (click)="preProcessAddToCart()"
+              >
+                <div class="d-flex">
+                  <span class="material-icons"> shopping_bag </span>
+                </div>
+                Buy
+              </button>
+              <button class="mat-buttonoffer-btn p-auto text-dark w-50 mr-2 d-inline-flex align-items-center justify-content-center fw-bold" [disabled]="status === 'SOLD'">
+                <span class="material-icons"> local_offer </span>
+                Make Offer
+              </button>
+            </div>
+          </div>
+          <div *ngIf="auctionId" class="details-action d-flex flex-column justify-content-center align-items-center">
+            <app-bidding-details [auctionId]="auctionId" (addToCart)="preProcessAddToCart($event)"></app-bidding-details>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collection -->
+      <!-- TODO Use get collection endpoint -->
+      <div class="d-flex flex-row flex-block-nft" *ngIf="!isCollectionLoading">
+        <div class="more-collection-wrapper mt-10">
+          <div class="row">
+            <div class="accordion" id="accordionMore">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button
+                    class="accordion-button text-white"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree"
+                    aria-expanded="true"
+                    aria-controls="collapseThree"
+                  >
+                    <span class="material-icons mr-3"> list </span>
+                    More from this collection
+                  </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionMore">
+                  <div class="accordion-body text-white">
+                    <div class="card-list">
+                      <div class="d-inline-flex">
+                        <div class="card-wrapper mr-3" *ngFor="let nft of nftList">
+                          <app-nft-card [nft]="nft" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="more-collection-action">
+                    <button class="text-white">View Collection</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

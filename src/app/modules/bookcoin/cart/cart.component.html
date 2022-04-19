@@ -1,0 +1,124 @@
+<div class="container-fluid row wallet_cont">
+  <div class="col-md-2"></div>
+  <div class="col-md-9 py-7">
+    <div class="row">
+      <div class="col-md-4">
+        <h1 class="mcl_head" style="font-family: GT Sectra Display; font-weight: bold">
+          Create Your<br />
+          BookCoin<br />
+          Wallet<br />
+        </h1>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-6">
+        <p>
+          To purchase a BookCoin Collectible, you must FIRST have a wallet to transfer it too! This wallet hosts the cryptographic token that gives you 100% verified ownership of
+          the collectible. If you haven’t set-up a Ethereum-based wallet, before, we can help you do that now pre-purchase.
+        </p>
+
+        <a class="btn mcl_btn" [routerLink]="['/bookcoin/wallet-connect']"> Set Up Your Wallet</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-1"></div>
+</div>
+<div class="row promo_cont">
+  <div class="col-md-2"></div>
+  <div class="col-md-9 py-7">
+    <div>
+      <h3 style="font-family: GT Sectra Display; font-weight: bold">Promo Code</h3>
+    </div>
+
+    <div class="d-flex flex-row news-letter mt-5">
+      <input type="text" class="input-style form-control" placeholder="Code" [disabled]="true" />
+      <button class="btn btn-primary button-style ml-4" [disabled]="true">Apply</button>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+
+<div class="cart_detail row">
+  <div class="col-md-2"></div>
+  <div class="col-md-9 py-7">
+    <mat-tab-group>
+      <mat-tab label="USD" class="tab">
+        <section class="flex-nowrap overflow-auto">
+          <div class="d-flex flex_header">
+            <div class="item">Item</div>
+            <div class="col">Price</div>
+            <div class="col">Qty</div>
+            <div class="col">Subtotal</div>
+            <div class="col"></div>
+          </div>
+          <div class="d-flex mt-5" *ngFor="let product of products">
+            <div class="item">
+              <div class="flex flex:row">
+                <img src="{{ product.image }}" class="w-20 rounded-lg object-cover py-2 h-22" />
+                <p class="ml-3 mt-2">{{ product.name }}</p>
+              </div>
+            </div>
+            <div class="col">${{ product.price }}</div>
+            <div class="col">{{ product.count }}</div>
+            <div class="col">${{ product.subTotal }}</div>
+            <div class="col" style="text-align: end">
+              <button (click)="removeProductFromCart(product._id)">
+                Remove
+                <!-- <i class="fas fa-trash-alt"></i> -->
+              </button>
+            </div>
+          </div>
+          <div class="d-flex flex_bottom">
+            <div class="item"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">Total:</div>
+            <div class="col">${{ getProductsSum() }}</div>
+          </div>
+        </section>
+        <div class="text-center">
+          <button class="btn btn-lg" (click)="checkOut()" style="font-family: Editorial New; font-style: italic">Proceed to Checkout</button>
+        </div>
+      </mat-tab>
+      <mat-tab label="Ethereum" class="tab">
+        <section class="flex-nowrap overflow-auto">
+          <div class="d-flex flex_header">
+            <div class="item">Item</div>
+            <div class="col">Price</div>
+            <div class="col">Qty</div>
+            <div class="col">Subtotal</div>
+            <div class="col"></div>
+          </div>
+          <div class="d-flex mt-5" *ngFor="let product of products">
+            <div class="item">
+              <div class="flex flex:row">
+                <img src="{{ product.image }}" class="w-20 rounded-lg object-cover py-2 h-22" />
+                <p class="ml-3 mt-2">{{ product.name }}</p>
+              </div>
+            </div>
+            <div class="col">{{ product.price * 0.00026 }} ETH</div>
+            <div class="col">{{ product.count }}</div>
+            <div class="col">{{ product.subTotal * 0.00026 }} ETH</div>
+            <div class="col" style="text-align: end">
+              <button (click)="removeProductFromCart(product._id)">
+                Remove
+                <!-- <i class="fas fa-trash-alt"></i> -->
+              </button>
+            </div>
+          </div>
+          <div class="d-flex flex_bottom">
+            <div class="item"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">Total:</div>
+            <div class="col">{{ getProductsSum() * 0.00026 }} ETH</div>
+          </div>
+        </section>
+        <div class="text-center">
+          <button class="btn btn-lg" style="font-family: Editorial New; font-style: italic" (click)="checkOutEth()">Proceed to Checkout</button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="col-md-1"></div>
+</div>

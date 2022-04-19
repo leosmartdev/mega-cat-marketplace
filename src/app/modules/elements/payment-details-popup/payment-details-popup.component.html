@@ -1,0 +1,106 @@
+<div class="modal-style content-style mcl-card" role="dialog">
+  <div class="modal-body modal-style">
+    <div class="card mcl-card px-5 py-5">
+      <div>
+        <button style="margin-top: 50px" (click)="fillTestData()" mat-raised-button color="accent">Use Test Data</button>
+      </div>
+      <div class="card-body">
+        <h3 class="heading">Payment details</h3>
+        <form [formGroup]="paymentDetailsForm">
+          <div class="d-flex flex-col">
+            <div class="flex flex-row image mt-4 icon-card">
+              <img class="mr-1" src="/assets/icons/mastercard_payment_icon.svg" />
+              <img src="/assets/icons/visa_icon.svg" />
+            </div>
+            <div class="field-row">
+              <span class="label"> Saved Card <i class="required"></i> </span>
+              <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12">
+                <mat-select [formControlName]="'selectedCard'" ngDefaultControl (selectionChange)="selectSavedCard($event)" [(value)]="paymentDetailsForm.value.selectedCard">
+                  <mat-option>Select saved card</mat-option>
+                  <mat-option *ngFor="let card of cards" [value]="card" class="select-style">
+                    <span style="color: black !important">{{ card.cardNumber }}</span>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">
+                <span class="material-icons"> payments </span>
+              </span>
+              <input type="number" class="form-control" placeholder="Card Number" aria-label="Card Number" aria-describedby="basic-addon1" formControlName="cardNumber" required />
+            </div>
+            <div class="mb-3">
+              <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.cardNumber)">Card number is required</mat-error>
+            </div>
+
+            <div class="flex flex-row image">
+              <div class="form-floating mb-3 mr-3">
+                <input type="number" class="form-control" id="floatingInputInvalid" placeholder="MM" formControlName="expiryMonth" required />
+                <label for="floatingInput">Expiry Month</label>
+                <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.expiryMonth)">Required: Format MM</mat-error>
+              </div>
+
+              <div class="form-floating mb-3 mr-3">
+                <input type="number" class="form-control" id="floatingInput" placeholder="YYYY" formControlName="expiryYear" maxlength="4" required />
+                <label for="floatingInput">Expiry Year</label>
+                <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.expiryYear)">Required: Format YYYY</mat-error>
+              </div>
+
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="floatingInput" placeholder="XXX" formControlName="csv" required />
+                <label for="floatingInput">CSV Code</label>
+                <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.csv)">CSV is required</mat-error>
+              </div>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingInput" placeholder="Name" formControlName="name" required />
+              <label for="floatingInput">Cardholder Name</label>
+              <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.name)">Cardholder Name is required</mat-error>
+            </div>
+
+            <div class="flex flex-row image mt-4">
+              <div class="form-floating mb-3 mr-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="City" formControlName="city" required />
+                <label for="floatingInput">City</label>
+                <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.city)">City is required</mat-error>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Country" formControlName="country" required />
+                <label for="floatingInput">Country</label>
+                <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.country)">Country is required</mat-error>
+              </div>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingInput" placeholder="Address Line 1" formControlName="line1" required />
+              <label for="floatingInput">Address Line 1</label>
+              <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.line1)">Address Line is required</mat-error>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingInput" placeholder="Address Line 2" formControlName="line2" />
+              <label for="floatingInput">Address Line 2</label>
+            </div>
+
+            <div class="flex flex-row image mt-4">
+              <div class="form-floating mb-3 mr-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="District" formControlName="district" required />
+                <label for="floatingInput">District</label>
+                <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.district)">District is required</mat-error>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Postal" formControlName="postalCode" required />
+                <label for="floatingInput">Postal</label>
+                <mat-error class="ng-mat-error" *ngIf="isInvalid(paymentDetailsForm.controls.postalCode)">Postal is required</mat-error>
+              </div>
+            </div>
+            <div class="row mcl-submit">
+              <button data-dismiss="modal" type="submit" class="btn btn-primary" (click)="processPayment()" [disabled]="!paymentDetailsForm.valid">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="container-fluid row py-5">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <h3 style="font-family: GT Spectra Display; font-style: bold">Your order has been received</h3>
+    <div class="row">
+      <div class="col-md-3 mr-7 mt-5 detail_list">
+        <p>Date</p>
+
+        <h6>{{ myDate }}</h6>
+      </div>
+      <div class="col-md-3 mr-7 mt-5 detail_list">
+        <p>Promo Code</p>
+        <h6>Not Applied</h6>
+      </div>
+      <div class="col-md-3 mr-7 mt-5 detail_list">
+        <p>Payment Method</p>
+        <h6>USD</h6>
+      </div>
+      <div class="col-md-3 mr-7 mt-5 detail_list">
+        <p>Total</p>
+        <h6>{{ getProductsSum() }}</h6>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2"></div>
+</div>
+
+<div class="container-fluid row py-5">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <h3 style="font-family: GT Spectra Display; font-style: bold">Order Details</h3>
+    <section class="flex-nowrap overflow-auto">
+      <div class="d-flex flex_header">
+        <div class="item">Item</div>
+        <div class="col" style="text-align: end">Qty</div>
+        <div class="col" style="text-align: end">Subtotal</div>
+      </div>
+
+      <div class="d-flex mt-4" *ngFor="let product of products">
+        <div class="item">
+          <div class="flex flex:row">
+            <img src="{{ product.image }}" class="w-20 rounded-lg object-cover py-2 h-22" />
+            <p class="ml-3 mt-2">{{ product.name }}</p>
+          </div>
+        </div>
+        <div class="col mt-2" style="text-align: end">{{ product.count }}</div>
+        <div class="col mt-2" style="text-align: end">${{ product.subTotal }}</div>
+      </div>
+
+      <div class="d-flex flex_bottom">
+        <div class="item"></div>
+        <div class="col mt-4" style="text-align: end">Total</div>
+        <div class="col mt-4" style="text-align: end">${{ getProductsSum() }}</div>
+      </div>
+      <div class="text-center mt-4" *ngIf="orderType()">
+        <a class="btn btn-lg" (click)="processPayment()">Place Order</a>
+      </div>
+      <div class="text-center mt-4" *ngIf="!orderType()">
+        <a class="btn btn-lg" (click)="checkoutWithEthereum()">Place Order With Ethereum</a>
+      </div>
+    </section>
+  </div>
+  <div class="col-md-2"></div>
+</div>

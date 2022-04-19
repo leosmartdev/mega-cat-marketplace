@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row justify-content-start">
+    <div class="col-sm-12 text-center">
+      <p style="margin-top: 20px"></p>
+      <div>
+        <a [routerLink]="['create']" *ngIf="canCreateDrop()"><button>Create a Drop</button></a>
+      </div>
+      <p style="margin-top: 20px"></p>
+    </div>
+  </div>
+  <div class="row container">
+    <div *ngFor="let drop of drops" class="col-sm-3">
+      <div class="drop-card">
+        <div [routerLink]="['/drops', drop._id]" class="imageContainer" style="background-image: url({{ drop.image }})">
+          <a *ngIf="false"><img [src]="drop.image" /></a>
+        </div>
+        <div class="metadata row">
+          <div class="name col-sm-12">{{ drop.name }}</div>
+          <div class="user col-sm-6">{{ drop.user.username }}</div>
+          <div class="chain col-sm-6">{{ drop.chain }}</div>
+          <button [routerLink]="['/drops', drop._id]" class="btn btn-primary drop-link">View</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

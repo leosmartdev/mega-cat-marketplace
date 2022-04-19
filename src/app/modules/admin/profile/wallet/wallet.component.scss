@@ -1,0 +1,62 @@
+$primary: #f99b1d;
+.container {
+  font-family: Poppins, sans-serif !important;
+  padding: 50px 0 100px 0;
+  max-width: 600px;
+  min-height: 550px;
+  .wallet-wrapper {
+    .wallet-list {
+      > :nth-child(1) {
+        border-radius: 15px 15px 0 0;
+      }
+      li {
+        border: 1px solid rgb(21, 27, 34);
+        width: 100%;
+        list-style: none;
+        border-bottom: 1px solid rgb(21, 27, 34);
+        background-color: rgb(0, 0, 0, 0.3);
+
+        button {
+          width: 100%;
+          .wallet-icon {
+            width: 1.6rem;
+            height: 1.6rem;
+          }
+        }
+
+        &:hover {
+          .wallet-icon {
+            transform: scale(1.5);
+            transition: all 0.2s ease;
+          }
+          background-color: $primary;
+        }
+      }
+    }
+  }
+
+  .action-div {
+    max-width: 600px;
+    background-color: rgb(0, 0, 0, 0.3);
+    border: 1px solid rgb(21, 27, 34);
+    border-radius: 0 0 15px 15px;
+
+    h5 {
+      cursor: pointer;
+      margin: 0;
+    }
+  }
+}
+
+.prg-right {
+  font-size: 12px;
+}
+
+.more-collapse {
+  transition: display 500ms ease-out;
+  display: inline;
+}
+
+.more-uncollapse {
+  display: none;
+}

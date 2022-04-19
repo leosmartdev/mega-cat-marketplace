@@ -1,0 +1,29 @@
+<div class="mat-dialog-container">
+  <h2>{{ wizard.title }}</h2>
+  <div mat-dialog-content class="d-flex flex-row justify-content-center wizard-container">
+    <div class="wizard {{ stage.status }}" *ngFor="let stage of wizard.getStages()">
+      <div class="status-icon {{ stage.status }}" *ngIf="stage.status === 'dormant'">
+        <img src="assets/images/wizard/dormant.png" />
+      </div>
+      <div class="status-icon {{ stage.status }}" *ngIf="stage.status === 'active'">
+        <img src="assets/images/wizard/mcl-ellipses.gif" />
+      </div>
+      <div class="status-icon {{ stage.status }}" *ngIf="stage.status === 'finished'">
+        <img src="assets/images/wizard/mcl-check.png" />
+      </div>
+      <div class="status-icon {{ stage.status }}" *ngIf="stage.status === 'failed'">
+        <img src="assets/images/wizard/mcl-error.png" />
+      </div>
+      <h4 class="title">{{ stage.name }}</h4>
+      <div class="description">{{ stage.description }}</div>
+    </div>
+  </div>
+  <div *ngIf="wizard.hasError()">
+    <h4>There was an error. {{ wizard.getError() }}</h4>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="advanceStages()" *ngIf="wizard.testMode">Test</button>
+    <button mat-button (click)="makeError()" *ngIf="wizard.testMode">Error</button>
+    <button mat-button (click)="close()" [ngClass]="{ closing: wizard.isReadyToClose() }">{{ wizard.isReadyToClose() ? 'Closing' : 'Close' }}</button>
+  </div>
+</div>

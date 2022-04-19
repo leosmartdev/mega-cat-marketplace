@@ -1,0 +1,194 @@
+<div
+  style="
+    height: 500px;
+    width: 100%;
+    object-fit: contain;
+    margin-top: -120px;
+    z-index: -10;
+    background-color: #60656c9e;
+    text-align: center;
+    justify-content: center;
+    display: block;
+    border-bottom: 4px solid #ddba77;
+    margin-bottom: 10px;
+  "
+>
+  <div style="height: 120px">
+    <img style="height: 496px" src="{{ nft?.metadata?.contract?.imageUrl }}" />
+  </div>
+  <img
+    [src]="nft?.metadata?.image"
+    style="height: 300px; width: 200px; object-fit: contain; text-align: center; margin-left: auto; margin-right: auto"
+    class="mcl-collection-image"
+  />
+</div>
+
+<div class="container-fluid row main-layout">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <div class="container py-7">
+      <div class="row">
+        <div class="col-md-8">
+          <h3 style="font-family: Neue World Regular; font-size: 60px">{{ nft?.metadata?.name }}</h3>
+        </div>
+        <div class="col-md-4">
+          <div class="d-flex flex-row">
+            <span class="vl"></span>
+            <div class="d-flex flex-column ml-7 mb-4">
+              <div class="d-flex flex-row">
+                <img src="{{ avatar }}" style="height: 30px; width: 30px" />
+                <span class="mt-1 ml-2"> {{ this.username }}</span>
+              </div>
+              <h5 style="color: #ddba77; margin-left: 60px; cursor: pointer" [routerLink]="['/collection', nft?.contract?.address]">{{ nft?.contract?.name }}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container py-10 panels">
+      <div class="row">
+        <div *ngIf="story?.value" class="d-flex" style="border-bottom: 1px solid #ddba77; padding: 0%">
+          <div class="me-auto">
+            <h2 class="feat-drops">The Story</h2>
+          </div>
+        </div>
+        <div class="container py-5">
+          <p style="color: #202020">
+            {{ story?.value ? story?.value : defaultStory }}
+          </p>
+          <img src="assets/bookcoin/collection-signature.png" style="width: 30% !important" />
+        </div>
+        <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('about', 'activePanel')">
+          <div class="me-auto">
+            <h2 class="feat-drops2">About the Collection</h2>
+          </div>
+
+          <div>
+            <button *ngIf="activePanel !== 'about'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+            <button *ngIf="activePanel === 'about'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+          </div>
+        </div>
+
+        <div *ngIf="activePanel === 'about'" class="pt-4">
+          <div class="cntr">
+            <img style="height: 300px; width: 400px" src="{{ nft?.metadata.contract?.imageUrl }}" />
+          </div>
+          <div class="cntr">
+            <div>
+              <h4 style="font-family: GT Spectra Display">{{ nft?.contract?.name }}</h4>
+              <p style="color: black !important">{{ aboutCol?.value }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('perks', 'activePanel')">
+          <div class="me-auto">
+            <h2 class="feat-drops2">Perks</h2>
+          </div>
+          <div>
+            <button *ngIf="activePanel !== 'perks'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+            <button *ngIf="activePanel === 'perks'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+          </div>
+        </div>
+
+        <div *ngIf="activePanel === 'perks'" class="pt-4">
+          <p style="color: #202020">
+            {{ perks?.value ? perks?.value : defaultPerks }}
+          </p>
+        </div>
+        <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('tokenomics', 'activePanel')">
+          <div class="me-auto">
+            <h2 class="feat-drops2">Details</h2>
+          </div>
+          <div>
+            <button *ngIf="activePanel !== 'tokenomics'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+            <button *ngIf="activePanel === 'tokenomics'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+          </div>
+        </div>
+
+        <div *ngIf="activePanel === 'tokenomics'" class="pt-4">
+          <ul>
+            <li class="d-flex">
+              <span class="me-auto">Contract Address:</span>
+              <span style="color: #ddba77">{{ nft?.contract?.address | slice: 0:6 }}...{{ nft?.contract?.address | slice: -4 }}</span>
+            </li>
+            <li class="d-flex">
+              <span class="me-auto"> Token ID:</span>
+              <span>{{ tokenId }}</span>
+            </li>
+            <li class="d-flex">
+              <span class="me-auto"> Token Standard:</span>
+              <span>Level 1155</span>
+            </li>
+          </ul>
+        </div>
+        <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('properties', 'activePanel')">
+          <div class="me-auto">
+            <h2 class="feat-drops2">Properties</h2>
+          </div>
+          <div>
+            <button *ngIf="activePanel !== 'properties'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+            <button *ngIf="activePanel === 'properties'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+          </div>
+        </div>
+
+        <div *ngIf="activePanel === 'properties'" class="pt-4 row">
+          <ol *ngFor="let list of attributes" class="col-4">
+            <li class="" style="border: 2px solid #ddba77; width: 150px; background-color: #e9dac1">
+              <div>
+                <p style="color: #ddba77; text-align: center">{{ list?.name }}</p>
+                <p style="text-align: center; font-weight: bolder; color: #202020">{{ list?.value }}</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('term', 'activePanel')">
+          <div class="me-auto">
+            <h2 class="feat-drops2">Terms of Use</h2>
+          </div>
+          <div>
+            <button *ngIf="activePanel !== 'term'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+            <button *ngIf="activePanel === 'term'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+          </div>
+        </div>
+
+        <div *ngIf="activePanel === 'term'" class="pt-4 row">
+          <p style="color: #202020">
+            {{ tos?.value ? tos?.value : defaultTos }}
+          </p>
+        </div>
+        <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('about-author', 'activePanel')">
+          <div class="me-auto">
+            <h2 class="feat-drops2">About the Author</h2>
+          </div>
+          <div>
+            <button *ngIf="activePanel !== 'about-author'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+            <button *ngIf="activePanel === 'about-author'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+          </div>
+        </div>
+
+        <div *ngIf="activePanel === 'about-author'" class="pt-4">
+          <p style="color: #202020">{{ bio ? bio : defaultBio }}</p>
+        </div>
+        <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('faqs', 'activePanel')">
+          <div class="me-auto">
+            <h2 class="feat-drops2">FAQs</h2>
+          </div>
+          <div>
+            <button *ngIf="activePanel !== 'faqs'" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
+            <button *ngIf="activePanel === 'faqs'" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
+          </div>
+        </div>
+
+        <div *ngIf="activePanel === 'faqs'" class="pt-4">
+          <p style="color: #202020">{{ faqs?.value ? faqs?.value : defaultFaqs }}</p>
+        </div>
+        <div class="d-flex col-btn">
+          <a [routerLink]="['/profile']" class="btn btn-outline-primary mcl-button-outline_auction">Back to Profile</a>
+        </div>
+      </div>
+    </div>
+
+    <div></div>
+  </div>
+  <div class="col-md-1"></div>
+</div>

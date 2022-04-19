@@ -1,0 +1,12 @@
+.profile-main {
+  .no-results {
+    // text-align: center;
+    color: #000 !important;
+    font-size: 15px;
+    padding: 50px;
+  }
+}
+
+::ng-deep .ngx-pagination .current {
+  background: #818386 !important;
+}

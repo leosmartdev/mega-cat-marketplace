@@ -1,0 +1,19 @@
+<div class="container collection-created">
+  <div class="row">
+    <div class="col-sm-6">
+      <img src="{{ collection.image }}" />
+    </div>
+    <div class="col-sm-6">
+      <h1>{{ collection.name }}</h1>
+      <p>ID: {{ collection.id }}</p>
+      <p>Symbol: {{ collection.symbol }}</p>
+      <p>{{ collection.description.length > 50 ? (collection.description | slice: 0:50) + '...' : collection.description }}</p>
+      <p>Confirmed: {{ collection.confirmed }}</p>
+      <p>
+        <a href="https://polygonscan.com/tx/{{ collection.transactionHash }}">Tx Hash: {{ collection.transactionHash | slice: -8 }}</a>
+      </p>
+      <p>Secret Type: {{ collection.secretType }}</p>
+      <a (click)="goBackToProfile()">Back to Profile</a>
+    </div>
+  </div>
+</div>

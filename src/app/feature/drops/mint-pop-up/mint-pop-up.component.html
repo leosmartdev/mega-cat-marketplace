@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-sm-12">
+    <table>
+      <tr *ngFor="let token of state.tokenIds; let i = index">
+        <td>View {{ tokenId }} on <a href="{{ openSeaLinks[i] }}" target="_blank" rel="noopener noreferrer">OpenSea</a> to see what Book you received.</td>
+      </tr>
+    </table>
+    <p></p>
+  </div>
+  <div class="col-sm-12">
+    <button mat-button class="btn btn-primary" style="margin-top: 10px" (click)="hideModal()">Close</button>
+  </div>
+</div>

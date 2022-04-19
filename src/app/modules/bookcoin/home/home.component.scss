@@ -1,0 +1,386 @@
+.card-img {
+  height: 330px !important;
+  width: 100% !important;
+  object-fit: contain !important;
+  border-radius: 25px;
+}
+.no-results {
+  font-family: Poppins, sans-serif !important;
+  opacity: 50;
+  text-align: center;
+  margin: 80px 0;
+  color: #fff;
+  font-size: 25px;
+  .no-nft-label {
+    font-size: 20px;
+    color: #000;
+  }
+  .nr-wrapper {
+    .loading-label {
+      font-size: 20px;
+      margin-right: 5px;
+      color: #000;
+    }
+    .spinner-wrapper {
+      height: 10px;
+      width: 10px;
+    }
+  }
+}
+
+.card p {
+  text-align: center !important;
+  font-size: smaller;
+  margin-bottom: 0.5rem;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.card-feat {
+  min-height: 500px;
+  box-shadow: none;
+  width: 100%;
+}
+.card {
+  border-radius: 25px;
+
+  &:hover {
+    box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.3);
+  }
+}
+.drop-date {
+  position: fixed;
+  left: 0%;
+  right: 0%;
+  bottom: 0;
+  padding-left: 0.1px;
+}
+.drop-btn {
+  position: fixed;
+  left: 0%;
+  right: 0%;
+  bottom: 0;
+}
+.drop-date.container {
+  justify-content: center;
+  padding-bottom: 10px;
+}
+.drop-btn.container {
+  justify-content: center;
+  padding-bottom: 10px;
+}
+.center-vertically {
+  padding-top: 120px;
+}
+.intro {
+  background-image: url('../../../../assets/images/bookcoin/HomePage/main3.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+  padding-top: 120px !important;
+  height: 400px !important;
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+.roadmap-intro {
+  height: 500px;
+  background-image: url('../../../../assets/images/bookcoin/HomePage/main3.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+}
+.main1 {
+  background-color: #e9ecef;
+  padding: 50px 0px;
+}
+.main2 {
+  padding: 30px;
+}
+.author-cell {
+  background-color: #e9ecef;
+}
+.mcl-card {
+  border: 1px solid #e9ecef;
+  box-sizing: border-box;
+  border-radius: 8px;
+  position: relative;
+}
+.mcl-collection-image {
+  height: 220px;
+  object-fit: cover !important;
+}
+.mcl-button {
+  width: 100%;
+  display: inline-block;
+  font-size: 9px;
+  font-weight: bold;
+  margin: 2px;
+  padding: 8px 13px;
+  background-color: #3a3a3b;
+  border-color: white;
+  // border-radius: 30px;
+}
+.mcl-button-outline {
+  width: 100%;
+  display: inline-block;
+  font-size: 9px;
+  font-weight: bold;
+  margin: 2px;
+  padding: 8px 13px;
+  color: #3a3a3b;
+  background-color: transparent;
+  border-color: #3a3a3b;
+  // border-radius: 20px;
+}
+.card-title {
+  color: black !important;
+}
+.vl {
+  border-left: 1px solid black;
+  height: 50px;
+}
+.card-body {
+  padding: 10px !important;
+}
+
+mat-select {
+  border: 1px solid #d6c4c4;
+  border-radius: 30px;
+  padding: 4px 20px;
+  height: 40px;
+  width: fit-content;
+}
+mat-option {
+  background-color: #aca9a9 !important;
+  &:hover {
+    background-color: #c19a5b !important;
+  }
+}
+.feat-drops {
+  margin-top: 30px;
+  padding-bottom: 5px;
+  font-family: Neue World Regular;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.gold-line {
+  margin-top: 10px;
+  padding-bottom: 5px;
+  text-decoration: underline;
+  text-decoration-color: #c19a5b;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 5px;
+}
+
+.underline-quote {
+  font-family: Neue World;
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: #c19a5b !important;
+  text-underline-offset: 7px;
+  text-decoration-thickness: 4px !important;
+}
+
+.white-neue {
+  font-family: Neue World !important;
+  color: white !important;
+}
+
+// .h2.strong {
+//   font-size: 36px;
+//   line-height: 120%;
+//   font-weight: 400;
+// }
+.black-neue {
+  font-family: Neue World !important;
+  color: black !important;
+}
+.neue-reg {
+  font-family: Neue World Regular !important;
+  font-size: 22px;
+  letter-spacing: 1px !important;
+  line-height: 150%;
+}
+.tr-bg {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.gold-neue {
+  font-family: Neue World Regular !important;
+  color: #c19a5b !important;
+}
+
+.opp-card {
+  color: #ddba77;
+  font-family: GT Sectra Display;
+  font-weight: bold;
+  transform: scale(0.75, 1);
+}
+
+.bkcn-team {
+  margin-top: 10px;
+  // text-align: center;
+  text-decoration: underline;
+  text-decoration-color: #c19a5b;
+  text-underline-offset: 5px;
+  font-family: GT Sectra Display;
+  font-weight: bold;
+}
+
+.bkcn-opp-head {
+  margin-bottom: 30px;
+  font-family: GT Sectra Display;
+}
+
+.mcl-collection-image_auction {
+  height: 220px;
+  object-fit: cover !important;
+}
+.mcl-button-outline_auction {
+  width: 100%;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 5px;
+  padding: 8px 13px;
+  color: #ffffff;
+  background-color: #c19a5b;
+  border: none;
+  -webkit-transition: background-color 300ms ease-out;
+  -moz-transition: background-color 300ms ease-out;
+  -o-transition: background-color 300ms ease-out;
+  transition: background-color 300ms ease-out;
+  &:hover {
+    background-color: #ddba77 !important;
+  }
+}
+
+.timer {
+  width: 100%;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+}
+.drop-field {
+  // border: 1.5px solid gray;
+  // padding: 5px;
+  width: 80%;
+  box-sizing: border-box;
+  border: 2px solid #000;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 8px 20px 8px 20px;
+}
+
+::placeholder {
+  color: gray;
+  opacity: 0.8;
+}
+
+h5 {
+  text-align: right;
+}
+
+mrgn {
+  padding-right: 30px;
+}
+
+.white-rect {
+  border-radius: 10px;
+  background-color: white;
+  height: 150px;
+  width: 300px;
+}
+.carousel-padding {
+  padding-top: 80px !important;
+}
+.pad {
+  z-index: 0 !important;
+}
+.drops-corousel {
+  ::ng-deep .carousel-arrow-prev {
+    top: 0%;
+    margin-top: 28px !important;
+    margin-left: 200px;
+    background-image: url('../../../../assets/images/bookcoin/HomePage/right-arrow.png') !important;
+    box-shadow: none !important;
+    transform: rotate(180deg);
+  }
+  ::ng-deep .carousel-arrow-next {
+    top: 0%;
+    margin-top: -41px !important;
+    margin-left: 245px;
+    background-image: url('../../../../assets/images/bookcoin/HomePage/right-arrow.png') !important;
+    box-shadow: none !important;
+  }
+  ::ng-deep .carousel-arrow {
+    position: unset !important;
+    top: 0 !important;
+  }
+}
+::ng-deep .carousel-arrow-next {
+  background-image: url('../../../../assets/images/bookcoin/HomePage/tri-arrow-right.png') !important;
+  box-shadow: none !important;
+}
+::ng-deep .carousel-arrow-prev {
+  background-image: url('../../../../assets/images/bookcoin/HomePage/tri-arrow-right.png') !important;
+  box-shadow: none !important;
+  transform: rotate(180deg);
+}
+.locked-banner {
+  height: 300px !important;
+  margin-top: 100px !important;
+  margin-bottom: 50px !important;
+  color: white;
+  align-items: center;
+}
+z-ind {
+  z-index: 999999 !important;
+}
+.drop-shadow {
+  border-radius: 25px;
+
+  &:hover {
+    box-shadow: 5px 10px 18px rgba(0, 0, 0, 0.3);
+  }
+}
+// .carousel-arrow-prev,
+// .carousel-arrow-next,
+// .carousel-arrow,
+// .carousel-arrow-disabled,
+// .carousel-arrows,
+// .carousel-arrows-outside,
+// .ng-star-inserted {
+//   margin-top: 100px !important;
+// }
+
+// ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+//   color: red;
+//   background-color: green;
+// }
+// /* Styles for tab labels */
+// .mat-tab-label {
+//   min-width: 25px !important;
+//   padding: 5px;
+//   background-color: transparent;
+//   color: red;
+//   font-weight: 700;
+// }
+
+// /* Styles for the active tab label */
+// .mat-tab-label.mat-tab-label-active {
+//   min-width: 25px !important;
+//   padding: 5px;
+//   background-color: transparent;
+//   color: red;
+//   font-weight: 700;
+// }
+
+// /* Styles for the ink bar */
+// .mat-ink-bar {
+//   background-color: green;
+// }
