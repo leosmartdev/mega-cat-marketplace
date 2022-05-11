@@ -2,6 +2,43 @@
 <section class="profile-main create-item">
   <div class="site-wrapper">
     <div class="form-wrapper">
+      <div class="justify-content-center text-center">
+        <button mat-btn btn class="import-btn btn btn-primary" (click)="showImportSection = !showImportSection">
+          Import Collection
+          <span *ngIf="!showImportSection">\/</span>
+          <span *ngIf="showImportSection">/\</span>
+        </button>
+        <form *ngIf="showImportSection" class="overflow-hidden dark-theme" [formGroup]="importCollectionForm">
+          <div class="group-fields">
+            <div class="field-row row">
+              <div class="col-3">
+                <span class="label">
+                  <strong>Blockchain</strong>
+                </span>
+                <mat-select id="chain" [formControlName]="'chain'" placeholder="Select Blockchain">
+                  <mat-option [value]="importChain" *ngFor="let importChain of importChains">{{ importChain }}</mat-option>
+                </mat-select>
+              </div>
+              <div class="col-9">
+                <span class="label">
+                  <strong>Collection Address</strong>
+                </span>
+                <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+                  <input id="import" matInput [formControlName]="'import'" />
+                  <mat-error *ngIf="importCollectionForm.get('import').hasError('required')"> Address is required </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <button class="btn primary" [disabled]="importCollectionForm.invalid" (click)="importCollection()">
+              <span>Submit</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
       <form class="overflow-hidden dark-theme" [formGroup]="createCollectionForm">
         <div class="group-fields">
           <div class="field-row">
@@ -33,6 +70,41 @@
             </mat-form-field>
           </div>
           <div class="field-row">
+            <span class="label">
+              Description <i class="required">*</i>
+              <span>The description will be included on the item's detail page underneath its image.</span>
+            </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <textarea id="desc" matInput [formControlName]="'description'" [rows]="3" matTextareaAutosize></textarea>
+              <mat-error *ngIf="createCollectionForm.get('description').hasError('required')"> Description is required </mat-error>
+            </mat-form-field>
+          </div>
+          <h4>Collection Preview Properties</h4>
+          <div id="preview-formatting-container">
+            <div class="field-row">
+              <span class="label"> Background Color <i class="required">*</i> </span>
+              <input [value]="bgColor" [(colorPicker)]="bgColor" [style.background]="bgColor" />
+            </div>
+            <div class="field-row">
+              <span class="label"> Accent Color <i class="required">*</i> </span>
+              <input [value]="accentColor" [(colorPicker)]="accentColor" [style.background]="accentColor" />
+            </div>
+            <div class="field-row">
+              <span class="label"> Preview Button URL <i class="required">*</i> </span>
+              <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+                <input id="previewButtonUrl" matInput [formControlName]="'previewButtonUrl'" />
+                <mat-error *ngIf="createCollectionForm.get('previewButtonUrl').hasError('required')"> Preview Button URL is required </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="field-row">
+              <span class="label"> Preview Button Text <i class="required">*</i> </span>
+              <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+                <input id="previewButtonText" matInput [formControlName]="'previewButtonText'" />
+                <mat-error *ngIf="createCollectionForm.get('previewButtonText').hasError('required')"> Preview Button Text is required </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="field-row">
             <span class="label"> Subheading <i class="required">*</i> </span>
             <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
               <input id="subheading" matInput [formControlName]="'subheading'" />
@@ -54,10 +126,10 @@
             </mat-form-field>
           </div>
           <div class="field-row">
-            <span class="label"> Royality Fee<i class="required">*</i> </span>
+            <span class="label"> Royalty Fee<i class="required">*</i> </span>
             <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
-              <input type="number" id="royality" matInput [formControlName]="'royality'" />
-              <mat-error *ngIf="createCollectionForm.get('royality').hasError('required')"> Royality Fee is required </mat-error>
+              <input type="number" id="royalty" matInput [formControlName]="'royalty'" />
+              <mat-error *ngIf="createCollectionForm.get('royalty').hasError('required')"> Royalty Fee is required </mat-error>
             </mat-form-field>
           </div>
 
@@ -78,13 +150,13 @@
           </div>
 
           <div class="field-row">
-            <span class="label">
-              Description <i class="required">*</i>
-              <span>The description will be included on the item's detail page underneath its image.</span>
-            </span>
-            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
-              <textarea id="desc" matInput [formControlName]="'description'" [rows]="3" matTextareaAutosize></textarea>
-              <mat-error *ngIf="createCollectionForm.get('description').hasError('required')"> Description is required </mat-error>
+            <span class="label"> Reward </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full" appearance="fill">
+              <mat-select [formControlName]="'selectedReward'">
+                <mat-option *ngFor="let reward of rewards" [value]="reward.title">
+                  {{ reward.title }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
 

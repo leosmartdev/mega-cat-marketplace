@@ -1,0 +1,115 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6 sm:p-10">
+    <div>
+      <div
+        style="box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.25); background-color: rgba(50, 49, 49) !important; color: rgb(219, 218, 218) !important"
+        class="flex flex-col bg-card mt-2 p-8 pb-4 rounded-2xl shadow overflow-hidden"
+      >
+        <div class="flex" style="justify-content: flex-end">
+          <mat-form-field class="purchase-history example-full-width" appearance="fill">
+            <mat-label>Search here</mat-label>
+            <input type="text" matInput placeholder="your text here" (input)="searchFilter($event)" />
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto gt-xs:pr-3" style="max-width: 170px; margin-top: 23px; margin-left: 10px">
+            <mat-select [(value)]="selectedCollection" placeholder="select category">
+              <mat-option style="color: white; background-color: grey" *ngFor="let name of names" [value]="name.value">
+                {{ name.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <table class="purchase-history" mat-table [dataSource]="orders">
+          <!-- Name Column -->
+          <ng-container matColumnDef="venlyId">
+            <th mat-header-cell *matHeaderCellDef>Venly Id</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.venlyId ? (element.venlyId.length > 14 ? element.venlyId.slice(0, 14) + '...' : element.venlyId) : element.venlyId }}
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef>Image</th>
+            <td mat-cell *matCellDef="let element">
+              <img class="mr-2" [src]="element.nftImage" style="height: 30px; width: 30px" />
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.nftName.length > 14 ? element.nftName.slice(0, 14) + '...' : element.nftName }}
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="collection">
+            <th mat-header-cell *matHeaderCellDef>Collection</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.collectionName ? (element.collectionName.length > 14 ? element.collectionName.slice(0, 14) + '...' : element.collectionName) : element.collectionName }}
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="sellerWallet">
+            <th mat-header-cell *matHeaderCellDef>Seller Wallet</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.sellerAddress.length > 14 ? element.sellerAddress.slice(0, 14) + '...' : element.sellerAddress }}
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="buyerWallet">
+            <th mat-header-cell *matHeaderCellDef>Buyer Wallet</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.buyerAddress.length > 14 ? element.buyerAddress.slice(0, 14) + '...' : element.buyerAddress }}
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.nftPrice }}
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="chain">
+            <th mat-header-cell *matHeaderCellDef>Chain</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.chain }}
+            </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="datetime">
+            <th mat-header-cell *matHeaderCellDef>Dated</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.createdAt | date: 'M/d/yy, h:mm a' }}
+            </td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <div class="flex" style="justify-content: flex-end">
+          <div class="text-center pt-4">
+            <mat-paginator
+              class="purchase-history"
+              [length]="totalData"
+              [pageSize]="itemperpage"
+              [pageSizeOptions]="pageSizeOption"
+              (page)="onChangedPage($event)"
+              *ngIf="orders.length > 0"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

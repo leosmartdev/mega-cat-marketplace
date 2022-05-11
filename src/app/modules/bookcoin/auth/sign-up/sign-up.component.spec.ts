@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'app/core/auth/auth.service';
 import { ErrorsService } from 'app/core/errors/errors.service';
 import { WalletService } from 'app/core/wallet/wallet.service';
@@ -18,6 +18,14 @@ describe('SignUpComponent', () => {
   const authServiceMock = jasmine.createSpyObj('AuthService', ['firebaseSignUp', 'signUp']);
   const errorsServiceMock = jasmine.createSpyObj('ErrorsService', ['openSnackBar']);
   const routerMock = jasmine.createSpyObj('Router', ['navigate']);
+  const activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['snapshot']);
+
+  activatedRouteMock.snapshot = {
+    queryParamMap: {
+      get: (redirectUrl) => ''
+    }
+  };
+
   const fakeForm = {
     value: {
       name: 'Test',
@@ -35,7 +43,8 @@ describe('SignUpComponent', () => {
         { provide: FormBuilder },
         { provide: Router, useValue: routerMock },
         { provide: ErrorsService, useValue: errorsServiceMock },
-        { provide: WalletService, useValue: walletServiceMock }
+        { provide: WalletService, useValue: walletServiceMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ],
       declarations: [SignUpComponent]
     }).compileComponents();

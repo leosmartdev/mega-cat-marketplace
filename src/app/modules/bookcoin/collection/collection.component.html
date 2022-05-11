@@ -1,10 +1,10 @@
 <div class="container py-10">
   <div class="row">
-    <div class="col-md-9 center-vertically">
+    <div class="col-md-7 center-vertically">
       <em
-        ><h1 class="h6 script bm20">{{ subheadCol?.value }}</h1></em
+        ><h1 class="h6 script bm20">{{ collection.subheading }}</h1></em
       >
-      <h1 class="h1 gradient hero-head pr-5" style="font-size: 64px !important">{{ offer?.nft.contract.name }}</h1>
+      <h1 class="h1 gradient hero-head pr-5" style="font-size: 64px !important">{{ collection.name }}</h1>
       <div style="width: 150px; border-bottom: 1px solid #ddba77; height: 1px; margin-bottom: 10px; margin-top: 10px"></div>
       <div class="d-flex flex-row">
         <img [src]="avatar" style="height: 30px; width: 30px" />
@@ -12,26 +12,11 @@
       </div>
 
       <h6 class="pr-20">
-        <p style="color: black !important" class="ml-2">{{ this.aboutCol?.value }}</p>
+        <p style="color: black !important" class="ml-2">{{ collection.about }}</p>
       </h6>
     </div>
-    <div class="col-md-3">
-      <carousel class="drops-corousel" [arrows]="false" [height]="400" [cellsToShow]="1" [cellWidth]="190">
-        <div class="carousel-cell" *ngFor="let saleNFT of cards">
-          <div class="card card-feat" style="background-color: #000; max-width: 300px">
-            <img class="card-img" [src]="saleNFT.image" style="object-fit: contain !important" />
-            <div class="mt-5 text-center">
-              <h4 class="h4 strong center bm4">{{ saleNFT.name.slice(0, 16) }}</h4>
-
-              <p>{{ saleNFT.description.slice(0, 70) }}</p>
-
-              <p class="drop-date container">
-                {{ saleNFT.createdAt | date: 'EEEE, MMMM d, y, h:mm:s' }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </carousel>
+    <div class="col-md-5">
+      <img class="card-img" src="{{ collection.imageUrl }}" style="object-fit: contain !important" />
     </div>
     <div style="display: block">
       <div style="width: 60%; border-bottom: 2px solid #ddba77; height: 2px; margin-bottom: 10px; margin-top: 60px; margin-left: auto; margin-right: auto"></div>
@@ -54,11 +39,11 @@
       <div *ngIf="activePanel === 'about-collection'" class="pt-4">
         <div class="row mt-7">
           <div class="d-flex flex-row">
-            <img style="height: 100px; width: 100px" src="{{ offer?.nft.contract.imageUrl }}" />
+            <img style="height: 100px; width: 100px" src="{{ collection.imageUrl }}" />
 
             <div>
-              <h4 style="font-family: GT Spectra Display" class="ml-2">{{ offer?.nft.contract.name }}</h4>
-              <p style="color: black !important" class="ml-2">{{ offer?.nft.contract.description }}</p>
+              <h4 style="font-family: GT Spectra Display" class="ml-2">{{ collection.name }}</h4>
+              <p style="color: black !important" class="ml-2">{{ collection.description }}</p>
             </div>
           </div>
         </div>
@@ -75,7 +60,7 @@
 
       <div *ngIf="activePanel === 'story'" class="pt-4">
         <p style="color: #202020">
-          {{ story?.value ? story?.value : defaultStory }}
+          {{ collection.story ? collection.story : defaultStory }}
         </p>
       </div>
       <div class="d-flex" style="cursor: pointer; border-bottom: 1px solid #ddba77; padding: 0%" (click)="openPanel('perks')">
@@ -90,7 +75,7 @@
 
       <div *ngIf="activePanel === 'perks'" class="pt-4">
         <p style="color: #202020">
-          {{ perks?.value ? perks?.value : defaultPerks }}
+          {{ collection.perks ? collection.perks : defaultPerks }}
         </p>
         <img src="assets/bookcoin/collection-signature.png" style="width: 30% !important" />
       </div>
@@ -176,11 +161,10 @@
     <div class="row">
       <div class="col-md-3 py-2" *ngFor="let nft of filteredNFtsToDisplay">
         <app-nft-card-bkcn [nft]="nft.nft" [walletAddress]="walletAddress" (loading)="loader($event)"> </app-nft-card-bkcn>
-
-        <div *ngIf="this.filteredNFtsToDisplay.length < this.filteredNFts.length" class="container">
-          <div class="justify-content-center" style="text-align: center">
-            <a class="btn btn-outline-primary mcl-button-outline_auction btn-border" style="width: 20%; background-color: #ddba77" (click)="loadMore()">Load More</a>
-          </div>
+      </div>
+      <div *ngIf="this.filteredNFtsToDisplay.length < this.filteredNFts.length" class="container">
+        <div class="justify-content-center" style="text-align: center">
+          <a class="btn btn-outline-primary mcl-button-outline_auction btn-border" style="width: 20%; background-color: #ddba77" (click)="loadMore()">Load More</a>
         </div>
       </div>
     </div>

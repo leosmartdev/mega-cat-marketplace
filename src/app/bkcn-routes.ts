@@ -13,6 +13,59 @@ import { SingleDropComponent } from './feature/drops/single-drop/single-drop.com
 
 const defaultBKCNRedirectLandingPage: string = '/home';
 
+const limitedRedirect: string = '/drops/6214bcecee34040bc8e1de63';
+export const limitedLaunchBkcnRoutes: Route[] = [
+  {
+    path: '',
+    component: BookCoinLandingLayoutComponent,
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: limitedRedirect },
+      {
+        path: 'drops',
+        component: DropsComponent,
+        children: [
+          { path: '', component: LandingDropComponent },
+          { path: 'create', canActivate: [AuthGuard, WalletGuard], data: { roles: [Role.Admin, Role.SuperUser] }, component: SingleDropComponent },
+          { path: ':id', component: SingleDropComponent }
+        ]
+      }
+    ]
+  },
+
+  {
+    path: '',
+    canActivate: [NoAuthGuard],
+    canActivateChild: [NoAuthGuard],
+    component: LayoutComponent,
+    data: {
+      entry: 'guests, no-auth-guard',
+      layout: 'empty'
+    },
+    children: [
+      {
+        path: 'sign-in',
+        loadChildren: () => import('app/modules/bookcoin/auth/sign-in/sign-in.module').then((m) => m.SignInModule)
+      },
+      {
+        path: 'sign-up',
+        loadChildren: () => import('app/modules/bookcoin/auth/sign-up/sign-up.module').then((m) => m.SignUpModule)
+      }
+    ]
+  },
+
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    component: LayoutComponent,
+    data: {
+      layout: 'empty',
+      roles: [Role.User, Role.Admin, Role.SuperUser]
+    },
+    children: [{ path: 'sign-out', loadChildren: () => import('app/modules/bookcoin/auth/sign-out/sign-out.module').then((m) => m.SignOutModule) }]
+  }
+];
+
 export const bkcnRoutes: Route[] = [
   /*
    * BookCoin Routes
@@ -24,6 +77,7 @@ export const bkcnRoutes: Route[] = [
       { path: '', pathMatch: 'full', redirectTo: defaultBKCNRedirectLandingPage },
       { path: 'collections', loadChildren: () => import('app/modules/bookcoin/collections/collections.module').then((m) => m.CollectionsModule) },
       { path: 'collection/:id', loadChildren: () => import('app/modules/bookcoin/collection/collection.module').then((m) => m.CollectionModule) },
+      { path: 'collection/p/:id', loadChildren: () => import('app/modules/bookcoin/collection/collection.module').then((m) => m.CollectionModule) },
       { path: 'home', loadChildren: () => import('app/modules/bookcoin/home/home.module').then((m) => m.HomeModule) },
       { path: 'order-completed/:paymentType', loadChildren: () => import('app/modules/bookcoin/order-complete/order-complete.module').then((m) => m.OrderCompleteModule) },
       { path: 'wallet-connect', loadChildren: () => import('app/modules/bookcoin/wallet-connect/wallet-connect.module').then((m) => m.WalletConnectModule) },
@@ -151,7 +205,11 @@ export const bkcnRoutes: Route[] = [
       { path: 'dashboard', loadChildren: () => import('app/modules/admin/dashboard/dashboard.module').then((m) => m.DashboardModule) },
       { path: 'create-product', loadChildren: () => import('app/modules/admin/product/create-product/create-product.module').then((m) => m.CreateProductModule) },
       { path: 'list-product', loadChildren: () => import('app/modules/admin/product/list-product/list-product.module').then((m) => m.ListProductModule) },
-      { path: 'edit-product/:id', loadChildren: () => import('app/modules/admin/product/edit-product/edit-product.module').then((m) => m.EditProductModule) }
+      { path: 'edit-product/:id', loadChildren: () => import('app/modules/admin/product/edit-product/edit-product.module').then((m) => m.EditProductModule) },
+      {
+        path: 'admin-purchase-history',
+        loadChildren: () => import('app/modules/admin/admin-purchase-history/admin-purchase-history.module').then((m) => m.AdminPurchaseHistoryModule)
+      }
     ]
   },
 

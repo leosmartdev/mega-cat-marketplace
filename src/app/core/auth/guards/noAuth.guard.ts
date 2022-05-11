@@ -24,7 +24,7 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad {
    * @param state
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this._check();
+    return this._check(route);
   }
 
   /**
@@ -56,15 +56,22 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad {
    *
    * @private
    */
-  private _check(): Observable<boolean> {
+  private _check(route?: ActivatedRouteSnapshot): Observable<boolean> {
     // Check the authentication status
     return this._authService.check().pipe(
       switchMap((authenticated) => {
         // If the user is authenticated...
         if (authenticated) {
           // Redirect to the root
-          console.log('redirecting to home to prevent authorized access');
-          this._router.navigate(['']);
+          const eReaderRedirect = route.queryParamMap.get('ereader_redirect_uri') || null;
+
+          if (eReaderRedirect) {
+            const redirectUrl = eReaderRedirect + `?accessToken=${this._authService.accessToken}&refreshToken=${this._authService.refreshToken}`;
+            window.location.href = redirectUrl;
+          } else {
+            console.log('redirecting to home to prevent authorized access');
+            this._router.navigate(['']);
+          }
 
           // Prevent the access
           return of(false);

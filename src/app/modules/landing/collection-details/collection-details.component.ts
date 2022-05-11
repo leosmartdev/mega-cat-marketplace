@@ -36,8 +36,8 @@ export class CollectionDetailsComponent implements OnInit {
       price: saleNFT.price,
       count: 1,
       subTotal: saleNFT.price,
-      collection: saleNFT.collection,
-      sellerAddress: saleNFT.sellerAddress
+      sellerAddress: saleNFT.sellerAddress,
+      smartContractAddress: saleNFT.nft.contract.address
     };
 
     this.cartService.addItemToCart(item);

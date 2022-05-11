@@ -1,0 +1,18 @@
+table {
+  width: 100% !important;
+}
+.example-full-width {
+  max-height: 30px;
+  min-width: 150px;
+  max-width: 300px;
+  width: 100%;
+}
+::ng-deep .admin-history .mat-paginator-outer-container {
+  background-color: white !important;
+  .mat-paginator-page-size-label {
+    color: #64748b !important;
+  }
+  .mat-paginator-range-actions {
+    color: #64748b !important;
+  }
+}

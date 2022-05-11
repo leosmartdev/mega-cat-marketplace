@@ -368,10 +368,11 @@ export class AuthService {
    *
    * @param email - the email used to login with.
    */
-  signIn = (email: string) =>
+  signIn = (email: string, uid: string) =>
     this.httpClient
       .post(`${baseUrl}/auth/loginUserFirebase/`, {
-        email
+        email,
+        uid
       })
       .pipe(
         switchMap((response: any) => {
@@ -384,8 +385,8 @@ export class AuthService {
    * Sign out
    */
   signOut(): Observable<boolean> {
-    this.setAccessToken(null);
-    this.setRefreshToken(null);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     this._authenticated = false;
 
     if (this.user?.isFirebaseUser) {

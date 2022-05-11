@@ -180,67 +180,21 @@ describe('PaymentService', () => {
     });
   });
 
-  describe('Processs Ether Payment', () => {
-    it('should successfully process ethereum payment', fakeAsync(() => {
-      const mockedFunctions = {
-        OnSuccess: (txReceipt) => {},
-        OnError: (error) => {}
+  describe('Request Ether Payment', async () => {
+    it('should convert ether amount to wei before invoking sendEthereum', async () => {
+      const etherPayment = 1.5;
+      const mockTxResult = {
+        tx: '0x098234lk2j34l2j3'
       };
-      const mockedReceipt = {
-        id: '1234abcd',
-        from: 'testSender',
-        to: 'testReciever',
-        amount: 1.15
-      };
-      walletServiceMock.sendEthereum.and.resolveTo({});
-      walletServiceMock.waitTransaction.and.resolveTo(mockedReceipt);
-      spyOn(mockedFunctions, 'OnSuccess');
 
-      service.requestEtherPayment(1.15, 'testRciever', 0, mockedFunctions.OnSuccess, mockedFunctions.OnError);
-      flush();
+      walletServiceMock.sendEthereum.and.returnValue(Promise.resolve(mockTxResult));
 
-      expect(mockedFunctions.OnSuccess).toHaveBeenCalledWith(mockedReceipt);
-    }));
+      const destination = '0xdestination';
 
-    it('should throw an error if payment confirmation fails', fakeAsync(() => {
-      const mockedFunctions = {
-        OnSuccess: (txReceipt) => {},
-        OnError: (error) => {}
-      };
-      const mockedReceipt = {
-        id: '1234abcd',
-        from: 'testSender',
-        to: 'testReciever',
-        amount: 1.15
-      };
-      walletServiceMock.sendEthereum.and.resolveTo({});
-      walletServiceMock.waitTransaction.and.rejectWith('Confirmation failed!');
-      spyOn(mockedFunctions, 'OnError');
+      const promise = await service.requestEtherPayment(etherPayment, destination);
 
-      service.requestEtherPayment(1.15, 'testRciever', 0, mockedFunctions.OnSuccess, mockedFunctions.OnError);
-      flush();
-
-      expect(mockedFunctions.OnError).toHaveBeenCalledWith('Confirmation failed!');
-    }));
-
-    it('should throw an error if etherium transation fails', fakeAsync(() => {
-      const mockedFunctions = {
-        OnSuccess: (txReceipt) => {},
-        OnError: (error) => {}
-      };
-      const mockedReceipt = {
-        id: '1234abcd',
-        from: 'testSender',
-        to: 'testReciever',
-        amount: 1.15
-      };
-      walletServiceMock.sendEthereum.and.rejectWith('Failed to send Ethereum!');
-      spyOn(mockedFunctions, 'OnError');
-
-      service.requestEtherPayment(1.15, 'testRciever', 0, mockedFunctions.OnSuccess, mockedFunctions.OnError);
-      flush();
-
-      expect(mockedFunctions.OnError).toHaveBeenCalledWith('Failed to send Ethereum!');
-    }));
+      expect(walletServiceMock.sendEthereum).toHaveBeenCalledWith(destination, etherPayment.toFixed(18));
+      expect(promise).toEqual(mockTxResult);
+    });
   });
 });

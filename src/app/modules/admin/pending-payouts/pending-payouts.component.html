@@ -17,8 +17,24 @@
           </mat-select>
         </mat-form-field>
       </form>
+
       <div class="flex flex-col mt-2 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden" *ngIf="isSuperAdmin()">
-        <table mat-table [dataSource]="filteredPayouts | paginate: { itemsPerPage: 5, currentPage: page }">
+        <div class="flex" style="justify-content: flex-end">
+          <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Search here</mat-label>
+              <input type="text" matInput placeholder="your text here" (input)="searchFilter($event)" />
+            </mat-form-field>
+          </form>
+          <mat-form-field class="flex-auto gt-xs:pr-3" style="max-width: 170px; margin-top: 23px; margin-left: 10px">
+            <mat-select [(value)]="selectedCollection" placeholder="Name">
+              <mat-option *ngFor="let name of names" [value]="name.value">
+                {{ name.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <table mat-table [dataSource]="filteredPayouts">
           <!-- Selection Column -->
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
@@ -107,8 +123,9 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
         </table>
-        <div class="text-center pt-4">
-          <pagination-controls (pageChange)="page = $event" (pageBoundsCorrection)="page = $event"></pagination-controls>
+        <div class="pt-4">
+          <mat-paginator [length]="totalData" [pageSize]="itemperpage" [pageSizeOptions]="pageSizeOption" (page)="onChangedPage($event)" *ngIf="filteredPayouts.length > 0">
+          </mat-paginator>
         </div>
       </div>
     </div>

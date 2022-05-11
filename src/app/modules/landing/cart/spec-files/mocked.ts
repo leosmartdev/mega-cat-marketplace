@@ -5,7 +5,7 @@ export const mockedCartItem: CartItem = {
   tokenId: '1234',
   name: 'Test nft',
   image: 'test.png',
-  collection: 'test', // TODO: Make this required and fix tests.
+  smartContractAddress: 'test',
   price: 100,
   count: 5,
   subTotal: 100,
@@ -19,12 +19,12 @@ export const mockedSaleNFt = {
     name: mockedCartItem.name,
     tokenId: mockedCartItem.tokenId,
     imageUrl: mockedCartItem.image,
-    collectionIdentifier: {
-      value: 'testIdetifier'
+    contract: {
+      address: mockedCartItem.smartContractAddress
     }
   },
   price: mockedCartItem.price,
   subTotal: mockedCartItem.subTotal,
-  collection: mockedCartItem.collection,
+  smartContractAddress: mockedCartItem.smartContractAddress,
   sellerAddress: mockedCartItem.sellerAddress
 };

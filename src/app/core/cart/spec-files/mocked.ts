@@ -27,8 +27,7 @@ const nft: Nft = {
     categories: [],
     url: '',
     imageUrl: ''
-  },
-  collectionIdentifier: ''
+  }
 };
 const offer: Offer = {
   id: '123',

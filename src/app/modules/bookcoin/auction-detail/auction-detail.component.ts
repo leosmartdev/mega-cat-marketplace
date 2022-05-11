@@ -52,7 +52,6 @@ export class AuctionDetailComponent implements OnInit {
   username: any;
   bio: any;
   avatar: any = '../../../../assets/images/avatars/brian-hughes.jpg';
-  colId: any;
   displayedColumns: string[] = ['user', 'bid', 'date'];
   page: number = 1;
   story: any = '';
@@ -117,14 +116,12 @@ export class AuctionDetailComponent implements OnInit {
         }
       });
       this.attributes = attributes;
-      this.colId = this.specificOffer.nft.contract.media.find((x) => x.type === 'collectionId')?.value; //media[1]?.value;
-      this.productService.getUserOfCollection(this.colId).subscribe((res) => {
+      const smartContractAddress = this.specificOffer.nft.contract.address;
+      this.productService.getUserOfCollection(smartContractAddress).subscribe((res) => {
         this.username = res.data.username;
         this.bio = res.data.bio;
         this.avatar = res.avatar;
       });
-      // this.productService.getHistory(this.auctionId, this.specificOffer.nft.contract.media[1]?.value).subscribe((resp) => {
-      // });
     });
 
     if (this.auctionId) {
@@ -170,6 +167,10 @@ export class AuctionDetailComponent implements OnInit {
         this.auction.winnerId.username = res.winnerId?.username;
       });
     }
+  }
+
+  isPolygonChain(chain: string): boolean {
+    return chain && (chain.toUpperCase() === 'MUMBAI' || chain.toUpperCase() === 'POLYGON');
   }
 
   OnDestroy(): void {
@@ -268,18 +269,16 @@ export class AuctionDetailComponent implements OnInit {
   // copied from src/app/modules/bookcoin/collection-detail/collection-detail.component.ts
   addToCart() {
     const saleNFT = this.specificOffer;
-    const collection = saleNFT.nft.collectionIdentifier; // saleNFT.nft.contract.media.find((x) => x.type === 'collectionId');
-    // TODO: Make this a Product and fix tests and code.
     const item = {
       _id: saleNFT.id,
-      name: saleNFT.nft.name,
-      tokenId: saleNFT.nft.id,
-      image: saleNFT.nft.imageUrl,
-      price: saleNFT.price,
       count: 1,
+      image: saleNFT.nft.imageUrl,
+      name: saleNFT.nft.name,
+      price: saleNFT.price,
+      sellerAddress: saleNFT.sellerAddress,
+      smartContractAddress: saleNFT.nft.contract.address,
       subTotal: saleNFT.price,
-      collection: collection.value,
-      sellerAddress: saleNFT.sellerAddress
+      tokenId: saleNFT.nft.id
     };
 
     this.cartService.addItemToCart(item);

@@ -1,4 +1,5 @@
 $primary: #f99b1d;
+$primary2: #ddba77;
 $accent: #e04206;
 h2 {
   padding-top: 10px;
@@ -12,6 +13,30 @@ h2 {
   width: 100%;
   z-index: 1030;
 }
+
+.wallet-item > a {
+  color: $primary2;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid black;
+  border-radius: 0px;
+
+  &:hover {
+    color: $primary2;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0px;
+  }
+}
+
+.admin-item > a {
+  color: $accent;
+  background-color: blanchedalmond;
+
+  &:hover {
+    background-color: rgba(95, 91, 91, 0.15);
+    border-radius: 0px;
+  }
+}
+
 .notification-icon {
   color: #fff;
   background-color: #000;
@@ -26,7 +51,7 @@ h2 {
 }
 .badge {
   color: #000;
-  background-color: #ddba77;
+  background-color: $primary2;
   font-size: 12px;
   border-radius: 50px;
 }
@@ -109,19 +134,19 @@ h2 {
 
 .list-color {
   color: #000;
-  padding: 10px !important;
+  padding: 10px;
   &:hover {
-    color: #c19a5b !important;
-    border-radius: 5px !important;
+    color: #c19a5b;
+    border-radius: 5px;
 
-    background-color: rgba(95, 91, 91, 0.15) !important;
+    background-color: rgba(95, 91, 91, 0.15);
   }
 }
 .message-heading {
-  color: #c19a5b !important;
+  color: #c19a5b;
   font-family: Neue World;
 }
 .bkcn-icon {
   color: #000;
-  padding: 10px !important;
+  padding: 10px;
 }

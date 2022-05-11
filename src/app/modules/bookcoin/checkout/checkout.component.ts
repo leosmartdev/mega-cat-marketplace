@@ -76,7 +76,7 @@ export class CheckoutComponent implements OnInit {
     this.checkoutForm.controls.expiryMonth.setValue(1);
     this.checkoutForm.controls.cardNumber.setValue('4007400000000007');
     this.checkoutForm.controls.csv.setValue(123);
-    this.checkoutForm.controls.expiryYear.setValue(2022);
+    this.checkoutForm.controls.expiryYear.setValue(2023);
   }
 
   selectSavedCard(event) {

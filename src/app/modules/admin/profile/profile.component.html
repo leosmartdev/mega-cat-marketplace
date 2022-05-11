@@ -55,6 +55,12 @@
           <div class="option tool" routerLinkActive="selected" data-tip="Payout Status" [routerLink]="['/profile/payouts']">
             <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
           </div>
+          <div class="option tool" routerLinkActive="selected" data-tip="Purchase History" [routerLink]="['/profile/purchase-history']">
+            <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
+          </div>
+          <div class="option tool" routerLinkActive="selected" data-tip="Sales History" [routerLink]="['/profile/sales-history']">
+            <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
+          </div>
         </div>
         <!-- <button class="mcl btn-primary">
                      Create NFT</button> -->
@@ -62,7 +68,7 @@
     </div>
   </div>
 </section>
-<router-outlet></router-outlet>
+<router-outlet (activate)="subscribeToEmiter($event)" deactivate="unsubscribe()"></router-outlet>
 <div class="loader-wrapper" *ngIf="loading">
   <svg
     version="1.1"

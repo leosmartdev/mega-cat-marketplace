@@ -23,7 +23,8 @@
     "test": "ng test --code-coverage",
     "lint": "npx eslint \"./src/app/**/*.ts\" && npx prettier --check \"src/app/**/*.{ts,html,css,scss}\"",
     "lint:fix": "npx eslint \"./src/app/**/*.ts\" --fix && npx prettier --write \"src/app/**/*.{ts,html,css,scss}\"",
-    "postinstall": "node patch-for-webpack.js"
+    "postinstall": "node patch-for-webpack.js",
+    "heroku-postbuild": "ng build --aot -prod"
   },
   "dependencies": {
     "@angular/animations": "12.1.4",
@@ -75,7 +76,9 @@
     "ng-image-slider": "^2.8.0",
     "ngx-bootstrap": "^7.0.0",
     "ngx-build-plus": "^12.2.0",
+    "ngx-color-picker": "^12.0.1",
     "ngx-countdown": "^12.0.1",
+    "ngx-filesize": "^2.0.16",
     "ngx-markdown": "^12.0.1",
     "ngx-pagination": "^5.1.1",
     "ngx-quill": "14.1.2",

@@ -22,20 +22,19 @@ export interface NftProduct {
 }
 
 export interface Metadata {
-  id: string;
   address: string;
+  animationUrls: any[];
+  attributes: Attribute[];
   chain: string;
-  name: string;
+  contract: Contract;
   description: string;
-  imageUrl: string;
+  fungible: boolean;
+  id: string;
+  image: string;
   imagePreviewUrl: string;
   imageThumbnailUrl: string;
-  animationUrls: any[];
-  fungible: boolean;
-  attributes: Attribute[];
-  contract: Contract;
-  collectionIdentifier: string;
-  image: string;
+  imageUrl: string;
+  name: string;
 }
 
 export interface Attribute {

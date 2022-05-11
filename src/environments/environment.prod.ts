@@ -13,5 +13,7 @@ export const environment = {
     measurementId: 'G-TWNZKYK227'
   },
   apiUrl: 'https://playground.megacatlabs.com',
-  app: 'BKCN'
+  app: 'BKCN',
+  polygonChain: 'MATIC',
+  ethereumChain: 'ETHEREUM'
 };

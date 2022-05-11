@@ -23,6 +23,7 @@ export class MintPopUpComponent implements OnInit {
   };
 
   openSeaLinks: string[];
+  txLinkBase: string;
 
   constructor(public bsModalRef: BsModalRef, public options: ModalOptions) {
     this.state = options.initialState;
@@ -43,6 +44,10 @@ export class MintPopUpComponent implements OnInit {
 
     const testnet = this.state.chain === 'ethereum' ? '' : 'testnets.';
     const openSeaLinks = tokenIds.map((tokenId) => `https://${testnet}opensea.io/assets/${this.state.contractAddress}/${tokenId}`);
+
+    const testnetRinkeby = this.state.chain === 'ethereum' ? '' : 'rinkeby.';
+    const txLinkBase = `https://${testnetRinkeby}etherscan.io/tx/`;
+    this.txLinkBase = txLinkBase;
 
     return openSeaLinks;
   }

@@ -62,6 +62,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MintPopUpComponent } from './feature/drops/mint-pop-up/mint-pop-up.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { RewardCreatedPopupComponent } from './modules/elements/reward-created-popup/reward-created-popup.component';
+
+import { ColorPickerModule } from 'ngx-color-picker';
 
 const routerConfig: ExtraOptions = {
   preloadingStrategy: PreloadAllModules,
@@ -81,7 +84,8 @@ const routerConfig: ExtraOptions = {
     DropsComponent,
     SingleDropComponent,
     LandingDropComponent,
-    MintPopUpComponent
+    MintPopUpComponent,
+    RewardCreatedPopupComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -129,7 +133,8 @@ const routerConfig: ExtraOptions = {
     MatInputModule,
     NftCardModule,
     CustomPipesModule.forRoot(),
-    CdkAccordionModule
+    CdkAccordionModule,
+    ColorPickerModule
   ],
   providers: [
     {

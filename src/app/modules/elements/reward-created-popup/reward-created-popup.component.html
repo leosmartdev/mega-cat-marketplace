@@ -1,0 +1,13 @@
+<div class="container reward-created">
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>{{ reward.title }}</h1>
+      <p>ID: {{ reward.id }}</p>
+      <p>Markdown: {{ reward.markdown }}</p>
+      <p>Active Status: {{ reward.isActive || false }}</p>
+
+      <a (click)="goBackToProfile()" style="color: chocolate">Back to Profile</a>
+    </div>
+    <div class="col-sm-12">Your reward has been created for selected collection.</div>
+  </div>
+</div>

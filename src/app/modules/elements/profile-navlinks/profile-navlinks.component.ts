@@ -72,7 +72,7 @@ export class ProfileNavlinksComponent implements OnInit {
     if (this.user && this.user.banner) {
       this.banner = this.user.banner;
     } else {
-      this.banner = '';
+      this.banner = 'assets/bookcoin/black-granite-bg-dark.png';
     }
   }
   onAvatarChange(event) {

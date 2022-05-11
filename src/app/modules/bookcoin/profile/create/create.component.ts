@@ -174,10 +174,7 @@ export class CreateComponent implements OnInit {
     }
 
     const selectedOptionIndex = this.collections.findIndex((coll) => coll.name === this.createProductForm.value.selectedCollection);
-
-    const collectionId = this.collections[selectedOptionIndex].collectionId;
-    if (collectionId) {
-      formData.append('collectionId', this.collections[selectedOptionIndex].collectionId);
+    if (selectedOptionIndex !== -1) {
       formData.append('mongoCollectionId', this.collections[selectedOptionIndex]._id);
     }
 

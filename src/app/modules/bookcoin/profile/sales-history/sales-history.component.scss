@@ -1,0 +1,29 @@
+th {
+  font-size: 16px !important;
+}
+.example-full-width {
+  max-height: 30px;
+  min-width: 150px;
+  max-width: 300px;
+  width: 100%;
+}
+::ng-deep .purchase-history .mat-cell {
+  color: rgba(50, 49, 49) !important;
+  background-color: whitesmoke !important;
+}
+::ng-deep .purchase-history .mat-header-cell {
+  color: rgba(50, 49, 49) !important;
+  background-color: whitesmoke !important;
+}
+::ng-deep .purchase-history .mat-paginator-outer-container {
+  background-color: whitesmoke !important;
+  .mat-paginator-page-size-label {
+    color: rgba(50, 49, 49) !important;
+  }
+  .mat-paginator-range-actions {
+    color: rgba(50, 49, 49) !important;
+  }
+}
+::ng-deep .purchase-history .mat-form-field-label-wrapper {
+  color: rgba(50, 49, 49);
+}

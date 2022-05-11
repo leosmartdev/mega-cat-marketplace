@@ -39,6 +39,17 @@ export class RolesService {
       headers: this.authService.getAuthHeader()
     });
   }
+  getFilterPayout(status: string, currentPage: number, pageSize: number): Observable<any> {
+    return this.httpClient.get(`${baseUrl}/payouts/pending/filterData/${status}/${currentPage}/${pageSize}`, {
+      headers: this.authService.getAuthHeader()
+    });
+  }
+
+  getSearchFilterPayout(keyName: string, valueName: string, currentPage: number, pageSize: number): Observable<any> {
+    return this.httpClient.get(`${baseUrl}/payouts/pending/filterSearchData/${keyName}/${valueName}/${currentPage}/${pageSize}`, {
+      headers: this.authService.getAuthHeader()
+    });
+  }
 
   approveAllPayouts(data): Observable<any> {
     return this.httpClient.post(`${baseUrl}/payouts/approveAllPayouts`, data, {

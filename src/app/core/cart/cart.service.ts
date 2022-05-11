@@ -104,6 +104,41 @@ export class CartService {
     return this._httpClient.post(`${baseUrl}/order/create/`, data, { headers: this.authService.getAuthHeader() });
   }
 
+  getPurchaseHistory(currentPage: string, pageSize: string): Observable<any> {
+    return this._httpClient.get(`${baseUrl}/order/purchasehistory/${this.walletService.currentAccount}/${currentPage}/${pageSize}`, {
+      headers: this.authService.getAuthHeader()
+    });
+  }
+
+  getFilterPurchaseHistory(currentPage: string, pageSize: string, keyName: string, valueName: string): Observable<any> {
+    return this._httpClient.get(`${baseUrl}/order/purchasehistory/filter/${keyName}/${valueName}/${this.walletService.currentAccount}/${currentPage}/${pageSize}`, {
+      headers: this.authService.getAuthHeader()
+    });
+  }
+
+  getAdminPurchaseHistory(currentPage: string, pageSize: string): Observable<any> {
+    return this._httpClient.get(`${baseUrl}/order/purchasehistory/${currentPage}/${pageSize}`, {
+      headers: this.authService.getAuthHeader()
+    });
+  }
+  getFilterAdminPurchaseHistory(currentPage: string, pageSize: string, keyName: string, valueName: string): Observable<any> {
+    return this._httpClient.get(`${baseUrl}/order/purchasehistory/filter/${keyName}/${valueName}/${currentPage}/${pageSize}`, {
+      headers: this.authService.getAuthHeader()
+    });
+  }
+
+  getSalesHistory(currentPage: string, pageSize: string): Observable<any> {
+    return this._httpClient.get(`${baseUrl}/order/saleshistory/${this.walletService.currentAccount}/${currentPage}/${pageSize}`, {
+      headers: this.authService.getAuthHeader()
+    });
+  }
+
+  getFilterSalesHistory(currentPage: string, pageSize: string, keyName: string, valueName: string): Observable<any> {
+    return this._httpClient.get(`${baseUrl}/order/saleshistory/filter/${keyName}/${valueName}/${this.walletService.currentAccount}/${currentPage}/${pageSize}`, {
+      headers: this.authService.getAuthHeader()
+    });
+  }
+
   getEthPriceInUsd(): Observable<any> {
     const url = 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH,Matic&tsyms=USD&api_key=73d2826f96e11b3b5b7c1825c3de6b59e396eb726d5d434cfdc2f880cd4b373e';
     return this._httpClient.get(url);

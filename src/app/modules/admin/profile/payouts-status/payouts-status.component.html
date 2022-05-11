@@ -5,15 +5,15 @@
       <br />
       <span style="color: white">{{ balance }} USD</span>
       <br />
-      <button (click)="transferUserBalanceToWallet()" class="btn btn-secondary mcl-button">Withdraw</button>
+      <button (click)="transferUserBalanceToWallet()" class="btn btn-secondary mcl-button" style="max-width: fit-content">Withdraw</button>
     </div>
     <!-- <div class="collection grid" *ngFor="let nft of nfts">
       <app-nft-status-card [nft]="nft" [walletAddress]="walletAddress">
       </app-nft-status-card>
     </div> -->
 
-    <div class="flex flex-col mt-2 p-8 pb-4 rounded-2xl shadow overflow-hidden">
-      <table style="background-color: #202020; color: white" mat-table [dataSource]="nfts | paginate: { itemsPerPage: 5, currentPage: page }">
+    <div class="flex flex-col mt-2 p-8 pb-4 rounded-2xl shadow overflow-hidden" style="background-color: rgba(50, 49, 49) !important">
+      <table class="pay-stat" style="color: white" mat-table [dataSource]="nfts | paginate: { itemsPerPage: 5, currentPage: page }">
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Name</th>

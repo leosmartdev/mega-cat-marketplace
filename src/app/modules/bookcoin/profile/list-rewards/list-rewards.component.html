@@ -1,0 +1,30 @@
+<app-profile-navlinks></app-profile-navlinks>
+<section class="profile-main">
+  <div class="site-wrapper">
+    <div *ngIf="rewards.length > 0">
+      <div class="row" *ngFor="let reward of rewards">
+        <div class="pt-4 row mx-auto">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <p style="color: #202020; font-size: 23px" class="text-center underline-quote">
+              {{ reward.title }}
+            </p>
+            <div class="d-flex flex-row">
+              <markdown [data]="reward.markdown"> </markdown>
+            </div>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="no-results">
+      <span class="no-nft-label" *ngIf="!isFetchingRewards && rewards.length === 0">No Reward found</span>
+      <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetchingRewards">
+        <span class="loading-label">Fetching Rewards</span>
+        <div class="spinner-grow spinner-wrapper text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -77,7 +77,7 @@ export class NftDetailsComponent implements OnInit {
     // TODO: Make this a Product and fix tests and code.
     const item: CartItem = {
       _id: offerId,
-      collection: this.nft.contract.address,
+      smartContractAddress: this.nft.contract.address,
       count: 1,
       image: this.nft.metadata.image,
       name: this.nft.metadata.name,

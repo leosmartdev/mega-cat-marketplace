@@ -1,0 +1,25 @@
+.profile-main {
+  .no-results {
+    font-family: Poppins, sans-serif !important;
+    opacity: 50;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    margin: 10px 0;
+    .no-nft-label {
+      font-size: 20px;
+      color: #000;
+    }
+    .nr-wrapper {
+      .loading-label {
+        font-size: 20px;
+        margin-right: 5px;
+        color: #000;
+      }
+      .spinner-wrapper {
+        height: 10px;
+        width: 10px;
+      }
+    }
+  }
+}

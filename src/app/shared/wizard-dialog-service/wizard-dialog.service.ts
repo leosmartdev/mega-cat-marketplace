@@ -13,15 +13,25 @@ export class WizardDialogService {
   stages: WizardStage[];
   error: string;
   isClosing: boolean = false;
+  hideClose = false;
 
   constructor(private dialog: MatDialog) {}
 
-  showWizard(title: string, stages: WizardStage[], startInitialStage = false, testMode = false) {
+  showWizard(title: string, stages: WizardStage[], startInitialStage = false, hideClose = false, testMode = false) {
     this.title = title;
     this.stages = stages;
     this.testMode = testMode;
+
     const data = {};
-    this.wizard = this.dialog.open(WizardDialogComponent, { data });
+
+    const options = {
+      data,
+      disableClose: true
+    };
+
+    this.hideClose = hideClose;
+    this.wizard = this.dialog.open(WizardDialogComponent, options);
+
     this.wizard.afterClosed().subscribe((result) => {
       this.defaultAfterClose(result);
     });
@@ -29,6 +39,11 @@ export class WizardDialogService {
     if (startInitialStage) {
       this.advanceStages();
     }
+  }
+
+  updateStageMessage(stageName: string, message: string) {
+    const target = this.stages.find((stage) => stage.name === stageName);
+    target.description = message;
   }
 
   getStages() {
@@ -48,6 +63,7 @@ export class WizardDialogService {
 
   setError(errorMessage: string) {
     this.error = errorMessage;
+    this.hideClose = false;
   }
 
   isReadyToClose() {

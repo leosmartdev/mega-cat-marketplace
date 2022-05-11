@@ -44,23 +44,9 @@ export class PaymentService {
     return JSON.parse(localStorage.getItem('card'));
   }
 
-  requestEtherPayment(ether: number, destination: string, confirmations: number, onSuccess: (transferTxReceipt: any) => void, onError: (error) => void): void {
+  async requestEtherPayment(ether: number, destination: string): Promise<any> {
     const etherInWei = ether.toFixed(18);
-    this.walletService
-      .sendEthereum(destination, etherInWei)
-      .then((txHash) => {
-        this.walletService
-          .waitTransaction(txHash, confirmations)
-          .then((transactionReceipt) => {
-            onSuccess(transactionReceipt);
-          })
-          .catch((error) => {
-            onError(error);
-          });
-      })
-      .catch((error) => {
-        onError(error);
-      });
+    return this.walletService.sendEthereum(destination, etherInWei);
   }
 
   public getPCIPublicKey(): Observable<RSAPublicKey> {

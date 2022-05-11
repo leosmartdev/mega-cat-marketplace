@@ -26,6 +26,7 @@ export class SignInComponent implements OnInit {
   };
   signInForm: FormGroup;
   showAlert: boolean = false;
+  eReaderRedirectUri: string;
 
   /**
    * Constructor
@@ -44,6 +45,7 @@ export class SignInComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    this.eReaderRedirectUri = this.activatedRoute.snapshot.queryParamMap.get('ereader_redirect_uri') || null;
     this.signInForm = this.formBuilder.group({
       usernameOrEmail: ['', Validators.required],
       password: ['', Validators.required],
@@ -83,7 +85,11 @@ export class SignInComponent implements OnInit {
     this.authService.firebaseSignInWithGoogle().subscribe(
       (user: firebase.auth.UserCredential) => {
         this.authService.saveUserUsingJWTGoogle(this.authService.accessToken).subscribe(() => {
-          this.router.navigateByUrl(this.routeMonitorService.getPreviousUrl());
+          if (this.eReaderRedirectUri) {
+            this.navigateToEreader();
+          } else {
+            this.router.navigateByUrl(this.routeMonitorService.getPreviousUrl());
+          }
         });
       },
       (error) => this.handleError(error)
@@ -97,12 +103,14 @@ export class SignInComponent implements OnInit {
   private logInWithEmail(email: string, password: string) {
     this.authService.firebaseSignIn({ email, password }).subscribe(
       (user: firebase.auth.UserCredential) => {
-        this.authService.signIn(email).subscribe(
+        this.authService.signIn(email, user.user.uid).subscribe(
           (response) => {
             //successful login
 
             const oldRoute = this.routeMonitorService.getPreviousUrl();
-            if (!this._walletService.currentAccount) {
+            if (this.eReaderRedirectUri) {
+              this.navigateToEreader();
+            } else if (!this._walletService.currentAccount) {
               this.router.navigate(['bookcoin/wallet-connect']);
             } else {
               this.router.navigate([oldRoute]);
@@ -129,4 +137,9 @@ export class SignInComponent implements OnInit {
   }
 
   private lookupEmailFromUsername = (username: any) => this.authService.lookupEmail(username);
+
+  private navigateToEreader = () => {
+    const redirectUrl = this.eReaderRedirectUri + `?accessToken=${this.authService.accessToken}&refreshToken=${this.authService.refreshToken}`;
+    window.location.href = redirectUrl;
+  };
 }

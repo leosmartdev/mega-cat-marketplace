@@ -359,7 +359,7 @@
                 <img src="{{ avatar }}" style="height: 30px; width: 30px" />
                 <span class="mt-1 ml-2"> {{ this.username }}</span>
               </div>
-              <h5 style="color: #ddba77; margin-left: 60px; cursor: pointer" [routerLink]="['/collection', nft?.contract.address]">{{ nft?.contract.name }}</h5>
+              <h5 style="color: #ddba77; margin-left: 60px; cursor: pointer" [routerLink]="['/collection/p', nft?.contract.address]">{{ nft?.contract.name }}</h5>
             </div>
           </div>
         </div>
@@ -601,7 +601,7 @@
           <p style="color: #202020">{{ faqs?.value ? faqs?.value : defaultFaqs }}</p>
         </div>
         <div class="d-flex col-btn">
-          <a [routerLink]="['/collection', nft?.contract.address]" class="btn btn-outline-primary mcl-button-outline_auction">Back to Collection</a>
+          <a [routerLink]="['/collection/p', nft?.contract.address]" class="btn btn-outline-primary mcl-button-outline_auction">Back to Collection</a>
         </div>
       </div>
     </div>

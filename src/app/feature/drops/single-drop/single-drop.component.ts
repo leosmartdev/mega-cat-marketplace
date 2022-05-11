@@ -8,7 +8,7 @@ import { WalletService } from './../../../core/wallet/wallet.service';
 import { NftUtilsService } from './../../../shared/nft-utils.service';
 import { DropService } from './../drop.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation, NgZone } from '@angular/core';
 import { NftDrop } from 'app/core/models/nft-drop.model';
 import { Role } from 'app/core/models/role';
 import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -69,6 +69,7 @@ const dynamicStyleUrl = environment.app === 'BKCN' ? './single-drop.component.bk
   styleUrls: [dynamicStyleUrl]
 })
 export class SingleDropComponent implements OnInit, OnDestroy {
+  WHITELIST_POLL_INTERVAL: number = 20_000;
   ready: boolean = false;
   drop: NftDrop = {
     name: '',
@@ -165,7 +166,7 @@ export class SingleDropComponent implements OnInit, OnDestroy {
     private jQueryService: JQueryService,
     private utilsService: NftUtilsService,
     private formBuilder: FormBuilder,
-    private walletService: WalletService,
+    public walletService: WalletService,
     private authService: AuthService,
     private nftUtilsService: NftUtilsService,
     private wizardService: WizardDialogService,
@@ -480,8 +481,8 @@ export class SingleDropComponent implements OnInit, OnDestroy {
     const publicDate = new Date(this.drop.publicDateTime);
     const publicDateUtc = launchDate.toISOString();
 
-    formData.append('launchDateTime', launchDateUtc);
-    formData.append('publicDateTime', publicDateUtc);
+    formData.append('launchDateTime', launchDate.getTime().toString());
+    formData.append('publicDateTime', publicDate.getTime().toString());
 
     const fileExtensionRegEx = /(?:\.([^.]+))?$/;
     const fileName = this.bannerImageFile.name;
@@ -520,9 +521,9 @@ export class SingleDropComponent implements OnInit, OnDestroy {
 
   async mintNftDrop(): Promise<any> {
     const chain = this.walletService.getChainName();
-    const confirmations = 2;
-    if (chain !== 'rinkeby' && chain !== 'ethereum') {
-      this.snackBarService.openSnackBarTop('Please select Rinkeby for testing or Ethereum for mainnet', 'Wrong Chain', 2500, false);
+    const confirmations = 1;
+    if (chain !== this.drop.chain) {
+      this.snackBarService.openSnackBarTop(`Please select the correct chain for this drop. ${this.drop.chain}`, 'Wrong Chain', 2500, false);
       return;
     }
 
@@ -542,7 +543,6 @@ export class SingleDropComponent implements OnInit, OnDestroy {
     const paymentDestination = this.drop.paymentOwner;
 
     const onSuccess = async (transactionReceipt) => {
-      console.log('Transaction receipt for ether send:', transactionReceipt);
       this.wizardService.advanceStages();
 
       // Simulate stage 2: Preparing NFTs
@@ -552,7 +552,7 @@ export class SingleDropComponent implements OnInit, OnDestroy {
       // Proceed to Stage 3: minting.
       console.log(`Minting ${quantity} for contract ${this.drop.smartContractAddress}@${this.drop.chain}`);
 
-      const paymentTxHash = transactionReceipt.tx;
+      const paymentTxHash = transactionReceipt.transactionHash;
       try {
         const result = await this.dropService.mintDrop(paymentTxHash, quantity, to, this.drop._id, this.drop.smartContractAddress, this.drop.chain).toPromise();
         this.wizardService.advanceStages();
@@ -560,19 +560,55 @@ export class SingleDropComponent implements OnInit, OnDestroy {
       } catch (response) {
         const error = response.error;
         console.error('Error trying to mint', error.message);
-        this.wizardService.failStage(error.message);
+        // eslint-disable-next-line max-len
+        const customerServiceMintError =
+          'In the rare case that your transaction/transfer goes through (steps 1 & 2) and the third step (Minting) fails, no need to worry, ' +
+          'you’re NFT is reserved for you. We simply need to manually send it. If you don’t receive in within 10 minutes, simply open a support ' +
+          'ticket (https://discord.gg/RTD4g25z7w), provide us your wallet address and we’ll get your NFT sent to you asap!';
+        this.wizardService.failStage(customerServiceMintError);
       }
 
       this.mint.disabled = false;
     };
 
     const onError = (error) => {
-      this.wizardService.failStage(error.message);
-      console.log('There was an error during the send ether payment.', error);
+      const customerServiceTransfer =
+        'There was an error with MetaMask and sending your payment. Please verify with MetaMask that your transaction failed. If your transaction was successful please ' +
+        'submit a ticket (https://discord.gg/RTD4g25z7w), provide us your wallet address and we’ll get your NFT sent to you asap!';
+      this.wizardService.failStage(customerServiceTransfer);
       this.mint.disabled = false;
     };
 
-    this.dropService.requestEtherPayment(totalEtherCost, paymentDestination, confirmations, onSuccess, onError);
+    this.dropService
+      .requestEtherPayment(totalEtherCost, paymentDestination)
+      .then((txHash) => {
+        const link = this.nftUtilsService.getEtherscanTxLink(chain, txHash);
+        const humanTxHash = txHash.slice(0, 5) + '...' + txHash.slice(-4);
+        const message = `Confirmations: 0/${confirmations}. <a href="${link}" target="_blank" rel="noopener noreferrer">${humanTxHash}</a>. Do not refresh.`;
+        this.wizardService.updateStageMessage('Payment', message);
+        const onBlockChange = (confirms: number) => {
+          if (confirms < 0) {
+            confirms = 0;
+          }
+
+          const messageHtml = `Confirmations: ${confirms}/${confirmations}. <a href="${link}" target="_blank" rel="noopener noreferrer">${humanTxHash}</a>. Do not refresh.`;
+          this.wizardService.updateStageMessage('Payment', messageHtml);
+        };
+
+        const options = null;
+        this.walletService
+          .waitTransaction(txHash, confirmations, options, onBlockChange)
+          .then((transactionReceipt) => {
+            onSuccess(transactionReceipt);
+          })
+          .catch((error) => {
+            console.error('Failed to confirm transaction.', error);
+            onError(error);
+          });
+      })
+      .catch((error) => {
+        onError(error);
+      });
   }
 
   /** This method requires that gasOracle exists. To be used as a helper during response from EtherScan API's Gas Oracle */
@@ -660,17 +696,20 @@ export class SingleDropComponent implements OnInit, OnDestroy {
   }
 
   async checkAddressInWhitelist(): Promise<boolean> {
-    const googleSheetId = this.drop.whitelist;
+    const dropId = this.drop._id;
     const minter = this.walletService.getConnectedWallet();
-    let whitelisted = false;
+    let whitelisted = this.isWhitelisted;
+
     try {
-      const whitelistResult = await this.dropService.fetchWhitelist(googleSheetId).toPromise();
+      const whitelistResult = await this.dropService.fetchWhitelistByDrop(dropId).toPromise();
       const whitelist = whitelistResult.whitelist;
-      whitelisted = Boolean(whitelist.findIndex((address: string) => address.toUpperCase() === minter.toUpperCase()) >= 0);
+      // eslint-disable-next-line arrow-body-style
+      const index = whitelist.findIndex((address: string) => {
+        return address && address.toUpperCase() === minter.toUpperCase();
+      });
+      whitelisted = index >= 0;
     } catch (response) {
-      const error = response.error;
-      console.error('Error attempting to fetch whitelist for drop!', error);
-      whitelisted = false;
+      // Do nothing. Dont log. Spooking clients.
     }
 
     return whitelisted;
@@ -735,11 +774,6 @@ export class SingleDropComponent implements OnInit, OnDestroy {
     const nowDate = new Date();
     const nowTime = nowDate.getTime();
 
-    const deadlineUtcTime = deadlineDate.toISOString();
-    const nowUtcTime = nowDate.toISOString();
-
-    // console.log(`Now: ${nowDate.toString()} | Deadline: ${deadlineDate.toString()} | DeadlineInUTC: ${deadlineUtcTime.toString()} | NowUTC: ${nowUtcTime.toString()}`);
-
     if (nowTime >= deadlineTime) {
       return true;
     }
@@ -777,7 +811,7 @@ export class SingleDropComponent implements OnInit, OnDestroy {
       }
     ];
 
-    this.wizardService.showWizard('Printing your Book to the Blockchain', stages, true);
+    this.wizardService.showWizard('Printing your Book to the Blockchain', stages, true, true);
   }
 
   private async setupCreateMode(): Promise<void> {
@@ -876,6 +910,6 @@ export class SingleDropComponent implements OnInit, OnDestroy {
         return;
       }
       this.setupWhitelistPoller();
-    }, 10000);
+    }, this.WHITELIST_POLL_INTERVAL);
   }
 }

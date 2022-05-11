@@ -1,0 +1,30 @@
+th {
+  font-size: 16px !important;
+}
+.example-full-width {
+  max-height: 30px;
+  min-width: 150px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+::ng-deep .sales-history .mat-cell {
+  color: white !important;
+  background-color: rgba(50, 49, 49) !important;
+}
+::ng-deep .sales-history .mat-header-cell {
+  color: white !important;
+  background-color: rgba(50, 49, 49) !important;
+}
+::ng-deep .sales-history .mat-paginator-outer-container {
+  background-color: rgba(50, 49, 49) !important;
+  .mat-paginator-page-size-label {
+    color: white !important;
+  }
+  .mat-paginator-range-actions {
+    color: white !important;
+  }
+}

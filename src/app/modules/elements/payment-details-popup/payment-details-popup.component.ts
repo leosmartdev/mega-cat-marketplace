@@ -180,13 +180,13 @@ export class PaymentDetailsPopupComponent implements OnInit, OnDestroy {
     this.paymentDetailsForm.controls.city.setValue('Beaver Falls');
     this.paymentDetailsForm.controls.country.setValue('US');
     this.paymentDetailsForm.controls.line1.setValue('500 Baum Blvd');
-    this.paymentDetailsForm.controls.line2.setValue('');
+    this.paymentDetailsForm.controls.line2.setValue('500 Baum Blvd');
     this.paymentDetailsForm.controls.district.setValue('US');
     this.paymentDetailsForm.controls.postalCode.setValue('15222');
     this.paymentDetailsForm.controls.expiryMonth.setValue(1);
     this.paymentDetailsForm.controls.cardNumber.setValue('4007400000000007');
     this.paymentDetailsForm.controls.csv.setValue(123);
-    this.paymentDetailsForm.controls.expiryYear.setValue(2022);
+    this.paymentDetailsForm.controls.expiryYear.setValue(2023);
   }
 
   selectSavedCard(event) {

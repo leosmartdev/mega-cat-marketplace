@@ -1,3 +1,13 @@
+.import-btn {
+  margin-bottom: 15px;
+}
+
+#preview-formatting-container {
+  padding: 30px;
+  border: 1px dashed;
+  margin-bottom: 20px;
+}
+
 section {
   &.create-item {
     padding: 15px 0;
@@ -52,5 +62,19 @@ section {
         }
       }
     }
+  }
+}
+
+mat-select {
+  border: 1px solid #d6c4c4;
+  border-radius: 30px;
+  padding: 4px 20px;
+  height: 40px;
+  width: fit-content;
+}
+mat-option {
+  background-color: #aca9a9 !important;
+  &:hover {
+    background-color: #c19a5b !important;
   }
 }

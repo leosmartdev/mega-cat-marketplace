@@ -66,10 +66,10 @@
       <div class="col-sm-8">
         <div *ngIf="!creationMode">
           <h1>MINT NOW</h1>
-          <div class="quantity text-center" *ngIf="!creationMode">
+          <div class="quantity text-center" *ngIf="!creationMode && calculateRemainingMints() > 0">
             <div>
               <p class="price">
-                PRICE: {{ drop.price }} ETH + <span class="mint-gas-fee">{{ proposedGasFeeForSingleMint }} ETH</span> mint cost
+                PRICE: {{ drop.price }} ETH + <span class="mint-gas-fee">{{ proposedGasFeeForSingleMint }} ETH</span> mint gas
               </p>
               <mat-form-field appearance="'standard'">
                 <mat-label>Choose quantity (1)</mat-label>
@@ -77,42 +77,56 @@
               </mat-form-field>
             </div>
             <div>
-              <p>
+              <p class="transient">
                 <input type="checkbox" [(ngModel)]="agreeToTermsOfService" [ngModelOptions]="{ standalone: true }" /> I agree to the
                 <a href="https://help.bookcoin.com/Legal/uAwesWqn2qCz1wgk9UEGTu/Terms-of-Service/oraomuxzD5A3nyoNjxmCSE" target="_blank" rel="noopener noreferrer"
                   >Terms of Service</a
                 >
               </p>
-              <p>
+              <p class="transient">
                 <input type="checkbox" [(ngModel)]="agreeToPayMintFees" [ngModelOptions]="{ standalone: true }" />
                 I understand mint and gas fees are combined.
                 <a href="https://help.bookcoin.com/general-faqs/sWzuSP9ddvD7aoAAmYwQ8G/how-we-handle-gas-fees/7k3eqYm3fFAQDjJqoGxS9N" target="_blank" rel="noopener noreferrer"
                   >(?)</a
                 >
               </p>
-              <button class="connect-wallet btn btn-primary" *ngIf="isWalletActive()" (click)="mintNftDrop()" [disabled]="isMintDisabled() ? 'disabled' : null">Mint</button>
-              <button class="connect-wallet btn btn-primary" *ngIf="!isWalletActive()" [routerLink]="['connect-wallet']">Connect Wallet</button>
+              <button
+                class="connect-wallet btn btn-primary"
+                *ngIf="isWalletActive() && calculateRemainingMints() > 0"
+                (click)="mintNftDrop()"
+                [disabled]="isMintDisabled() ? 'disabled' : null"
+              >
+                Mint
+              </button>
+              <button class="connect-wallet btn btn-primary" *ngIf="!isWalletActive()" (click)="this.walletService.connectToMetaMask()">Connect Wallet</button>
             </div>
+          </div>
+          <div class="quantity text-center" *ngIf="!creationMode && calculateRemainingMints() <= 0">
+            <button class="connect-wallet btn btn-primary sold-out" [disabled]="'disabled'">SOLD OUT</button>
           </div>
           <div class="text-center">
             <span class="remaining-mint-quantity">{{ calculateRemainingMints() }}/{{ drop.standardTokens + drop.premiumTokens }}</span>
-            <p>*Number of Books left.</p>
+            <p class="remaining-disclaimer">*Number of Books left.</p>
           </div>
         </div>
         <table class="contract-verification-table text-center" *ngIf="!creationMode">
-          <tr class="text-left">
+          <tr class="text-left" *ngIf="calculateRemainingMints() > 0">
             <td>Eligible to Mint Now?</td>
             <td>
               <img *ngIf="isEligibleToMint()" src="assets/images/wizard/mcl-check.png" />
               <img *ngIf="!isEligibleToMint()" src="assets/images/wizard/mcl-error.png" />
             </td>
           </tr>
-          <tr *ngIf="!isWhitelisted">
+          <tr *ngIf="!isWhitelisted && calculateRemainingMints() > 0">
             <td colspan="2">
               <p>See the whitelist schedule below for more information.</p>
             </td>
           </tr>
+          <tr *ngIf="calculateRemainingMints() <= 0">
+            <td>Shelves are empty. Thank you for taking part in the genesis launch of BookCoin.</td>
+          </tr>
         </table>
+
         <div *ngIf="!creationMode && mint.alreadyMinted" class="already-minted">You've already minted a Book.</div>
         <div *ngIf="false && !creationMode && !isWhitelisted">
           <button class="btn btn-primary" (click)="navigateToWhitelist()">Get Whitelisted</button>
@@ -245,13 +259,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-2">
-        <div class="row" *ngIf="isAdmin()">
-          <h1>ADMIN ONLY</h1>
-          <h3>EtherScan Gas Oracle</h3>
-          <pre>{{ gasOracle | json }}</pre>
-        </div>
-      </div>
+      <div class="col-sm-2"></div>
     </div>
     <div class="col-sm-12 row justify-content-center sections" *ngIf="!creationMode" id="schedule">
       <div class="col-sm-2"></div>
@@ -335,7 +343,6 @@
     <div class="row justify-content-start text-center nfts-title" *ngIf="isAdmin()">
       <div class="col-sm-12 row">
         <h1>ADMIN ONLY</h1>
-        Mint disabled: {{ isMintDisabled() }}
         <h2>All Mints</h2>
         <table class="text-left minted-nfts-admin">
           <tr>
@@ -351,14 +358,6 @@
             </td>
           </tr>
         </table>
-        <h2>NFTs You've Minted</h2>
-        <p>These are NFTs you've already minted from this drop.</p>
-      </div>
-      <div class="col-sm-12 row justify-content-start text-center nfts collection grid">
-        <div class="col-sm-4" *ngFor="let nft of contractNftsForUser">
-          <!-- {{ nft.name }} {{ nft.token }} @ {{ nft.contract.name }} {{ nft.contract.address }} -->
-          <app-nft-card [nft]="nft" [walletAddress]="walletAddress"></app-nft-card>
-        </div>
       </div>
     </div>
   </form>

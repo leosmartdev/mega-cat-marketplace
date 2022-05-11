@@ -28,7 +28,6 @@ export class CollectionDetailComponent implements OnInit {
   avatar: any = '../../../../assets/images/avatars/brian-hughes.jpg';
   id: string;
   attributes: any[];
-  colId: any;
   defaultStory: any = 'no story available';
   defaultPerks: any = 'no perks available';
   defaultFaqs: any = 'no faqs available';
@@ -68,7 +67,6 @@ export class CollectionDetailComponent implements OnInit {
       }
     });
     this.attributes = attributes;
-    this.colId = this.nft.contract.media?.find((x) => x.type === 'collectionId')?.value; //media[1]?.value;
     const nftStory = this.nft.attributes?.find((x) => x.name === 'story');
     if (nftStory !== undefined && nftStory !== '' && nftStory !== null) {
       this.faqs = this.nft.attributes?.find((x) => x.name === 'faqs');
@@ -81,17 +79,16 @@ export class CollectionDetailComponent implements OnInit {
     this.perks = this.nft.attributes?.find((x) => x.name === 'perks');
     this.faqs = this.nft.attributes?.find((x) => x.name === 'faqs');
     this.tos = this.nft.attributes?.find((x) => x.name === 'tos');
-    if (this.colId) {
-      try {
-        this.productService.getUserOfCollection(this.colId).subscribe((res) => {
-          console.log(res);
-          this.username = res.data.username;
-          this.bio = res.data.bio;
-          this.avatar = res.avatar;
-        });
-      } catch (err) {
-        console.log('err');
-      }
+    const smartContractAddress = this.nft.contract.address;
+    try {
+      this.productService.getUserOfCollection(smartContractAddress).subscribe((res) => {
+        console.log(res);
+        this.username = res.data.username;
+        this.bio = res.data.bio;
+        this.avatar = res.avatar;
+      });
+    } catch (err) {
+      console.log('err');
     }
   }
 
@@ -124,18 +121,17 @@ export class CollectionDetailComponent implements OnInit {
   }
 
   addToCart() {
-    const collection = this.nft.collectionIdentifier; // saleNFT.nft.contract.media.find((x) => x.type === 'collectionId');
     // TODO: Make this a Product and fix tests and code.
     const item = {
       _id: this.offerId,
-      name: this.nft.name,
-      tokenId: this.nft.id,
-      image: this.nft.imageUrl,
-      price: this.offerPrice,
       count: 1,
+      image: this.nft.imageUrl,
+      name: this.nft.name,
+      price: this.offerPrice,
+      sellerAddress: this.offerSellerAddress,
+      smartContractAddress: this.nft.contract.address,
       subTotal: this.offerPrice,
-      collection: collection.value,
-      sellerAddress: this.offerSellerAddress
+      tokenId: this.nft.id
     };
 
     this._cartService.addItemToCart(item);

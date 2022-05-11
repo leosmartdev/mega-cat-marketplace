@@ -447,3 +447,13 @@ mat-select {
   width: -moz-fit-content;
   width: fit-content;
 }
+
+.underline-quote {
+  font-weight: bold;
+  text-decoration: underline;
+  -webkit-text-decoration-color: #c19a5b !important;
+  text-decoration-color: #c19a5b !important;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 4px !important;
+  font-size: 22px;
+}

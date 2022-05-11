@@ -27,7 +27,6 @@ export class NftDetailComponent implements OnInit {
   tokenId: any;
   contractAddress: any;
   attributes: any[];
-  colId: any;
   username: any = 'no username available';
   defaultBio: any = 'no bio available';
   bio: any;
@@ -46,14 +45,14 @@ export class NftDetailComponent implements OnInit {
     this.venlyService.fetchNftMetadata(contractAddress, tokenId).subscribe((response: { message: string; data: VenlyNftMetadataByContractAndTokenId }) => {
       this.nft = response.data;
 
-      this.colId = this.nft.metadata.contract?.media?.find((x) => x.type === 'collectionId')?.value; //media[1]?.value;
       this.aboutCol = this.nft.metadata.contract?.media?.find((x) => x.type === 'about');
       this.story = this.nft.metadata.attributes?.find((x) => x.name === 'story');
       this.perks = this.nft.metadata.attributes?.find((x) => x.name === 'perks');
       this.faqs = this.nft.metadata.attributes?.find((x) => x.name === 'faqs');
       this.tos = this.nft.metadata.attributes?.find((x) => x.name === 'tos');
 
-      this.productService.getUserOfCollection(this.colId).subscribe((res) => {
+      const smartContractAddress = this.nft.contract.address;
+      this.productService.getUserOfCollection(smartContractAddress).subscribe((res) => {
         this.username = res.data.username;
         this.bio = res.data.bio;
         this.avatar = res.avatar;

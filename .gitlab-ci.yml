@@ -5,11 +5,14 @@ before_script:
 
 variables:
   CLI_VERSION: 12.2.0
+  HEROKU_APP: mega-cat
+  HEROKU_API_KEY: 1aac7cb9-5ec6-429d-86e1-eb0f8bf01ea3
 
 stages:
   - lint
   - test
   - build
+  - deploy
 
 build:
   stage: build
@@ -58,3 +61,11 @@ todo:e2e:
   allow_failure: false
   script:
     - echo "Implement"
+
+heroku-deploy:
+  stage: deploy
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
+  only:
+    - Achievement

@@ -82,6 +82,10 @@ export const mclRoutes: Route[] = [
       {
         path: 'sign-up',
         loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then((m) => m.AuthSignUpModule)
+      },
+      {
+        path: 'sign-up-mcl',
+        loadChildren: () => import('app/modules/auth/sign-up-mcl/sign-up-mcl.module').then((m) => m.SignUpMCLModule)
       }
     ]
   },
@@ -137,7 +141,11 @@ export const mclRoutes: Route[] = [
       { path: 'create-product', loadChildren: () => import('app/modules/admin/product/create-product/create-product.module').then((m) => m.CreateProductModule) },
       { path: 'list-product', loadChildren: () => import('app/modules/admin/product/list-product/list-product.module').then((m) => m.ListProductModule) },
       { path: 'edit-product/:id', loadChildren: () => import('app/modules/admin/product/edit-product/edit-product.module').then((m) => m.EditProductModule) },
-      { path: 'blockchain/deploy', loadChildren: () => import('app/modules/admin/blockchain/deploy/deploy.module').then((m) => m.DeployModule) }
+      { path: 'blockchain/deploy', loadChildren: () => import('app/modules/admin/blockchain/deploy/deploy.module').then((m) => m.DeployModule) },
+      {
+        path: 'admin-purchase-history',
+        loadChildren: () => import('app/modules/admin/admin-purchase-history/admin-purchase-history.module').then((m) => m.AdminPurchaseHistoryModule)
+      }
     ]
   },
 

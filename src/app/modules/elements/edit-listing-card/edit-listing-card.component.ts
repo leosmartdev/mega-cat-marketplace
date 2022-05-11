@@ -38,12 +38,14 @@ export class EditListingCardComponent implements OnInit {
   }
 
   listForSale(nft) {
+    const chain = this.nft.chain ?? 'mumbai';
     const formdata = new FormData();
     const self = this;
     formdata.append('tokenId', nft.tokenId);
     formdata.append('address', nft.metadata.contract.address);
     formdata.append('sellerAddress', this.walletAddress);
     formdata.append('price', nft.price);
+    formdata.append('chain', chain);
 
     this.showWizardDialog();
 
@@ -124,14 +126,14 @@ export class EditListingCardComponent implements OnInit {
     // TODO: Make this a Product and fix tests and code.
     const item = {
       _id: saleNFT.id,
-      name: saleNFT.nft.name,
-      tokenId: saleNFT.nft.tokenId,
-      image: saleNFT.nft.imageUrl,
-      price: saleNFT.price,
       count: 1,
+      image: saleNFT.nft.imageUrl,
+      name: saleNFT.nft.name,
+      price: saleNFT.price,
+      sellerAddress: saleNFT.sellerAddress,
+      smartContractAddress: saleNFT.nft.contract.address,
       subTotal: saleNFT.price,
-      collection: saleNFT.collection,
-      sellerAddress: saleNFT.sellerAddress
+      tokenId: saleNFT.nft.tokenId
     };
 
     this.cartService.addItemToCart(item);

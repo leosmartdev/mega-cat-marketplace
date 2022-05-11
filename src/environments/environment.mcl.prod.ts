@@ -14,5 +14,7 @@ export const environment = {
   },
   apiUrl: 'https://playground.megacatlabs.com',
   bloxApiUrl: 'https://blox-nft-metadata-api.herokuapp.com',
-  app: 'MCL'
+  app: 'MCL',
+  polygonChain: 'MATIC',
+  ethereumChain: 'ETHEREUM'
 };

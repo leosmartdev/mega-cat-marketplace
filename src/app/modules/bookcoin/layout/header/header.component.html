@@ -4,7 +4,7 @@
       <div class="container">
         <div class="site-identity">
           <h2>
-            <a style="font-family: Neue World" [routerLink]="['/home']" class="bkcn-icon">BookCoin</a>
+            <a style="font-family: Neue World" [routerLink]="['/']" class="bkcn-icon">BookCoin</a>
           </h2>
         </div>
         <button
@@ -23,44 +23,43 @@
         <div class="collapse navbar-collapse" [attr.aria-expanded]="!isCollapsed" [ngClass]="{ collapse: isCollapsed }">
           <div class="me-auto mb-2 mb-lg-0"></div>
           <ul class="navbar-nav nav-allcaps">
-            <!-- <li class="menu-item" (click)="isCollapsed = !isCollapsed">
+            <li *ngIf="!this.bookcoinLauncherService.may18thLaunchFeatureOn" class="menu-item" (click)="isCollapsed = !isCollapsed">
               <a [routerLink]="['/collections']" class="list-color"><strong>Collections</strong></a>
-            </li> -->
-            <li class="menu-item" (click)="isCollapsed = !isCollapsed">
-              <a *ngIf="!isLoggedIn()" [routerLink]="['/sign-in']" class="list-color"><strong>Login</strong> </a>
-              <a *ngIf="isLoggedIn() && this.walletService.currentAccount" [routerLink]="['/profile']" class="list-color"
-                ><strong>{{ getUser().name ? getUser().name : getUser().email }}</strong></a
-              >
-              <a *ngIf="isLoggedIn() && !this.walletService.currentAccount" [routerLink]="['/wallet-connect']" class="list-color"
-                ><strong>{{ getUser().name ? getUser().name : getUser().email }}</strong></a
-              >
             </li>
             <li class="menu-item" (click)="isCollapsed = !isCollapsed">
-              <a *ngIf="!isLoggedIn()" [routerLink]="['/sign-up']" class="list-color"><strong>Sign Up</strong></a>
+              <a *ngIf="!isLoggedIn()" [routerLink]="['/sign-in']" class="list-color"><strong>Sign In</strong> </a>
+              <a *ngIf="isLoggedIn() && this.walletService.currentAccount" [routerLink]="['/profile']" class="list-color"><strong>Library</strong></a>
+              <a *ngIf="isLoggedIn() && !this.walletService.currentAccount" [routerLink]="['/wallet-connect']" class="list-color"><strong>Library</strong></a>
             </li>
             <li class="menu-item" (click)="isCollapsed = !isCollapsed">
-              <a *ngIf="!this.walletService.isMetaMaskInstalled()" [routerLink]="" (click)="this.walletService.beginMetaMaskOnboarding()" class="list-color">
-                <strong>Install</strong></a
-              >
-              <a *ngIf="this.walletService.isMetaMaskInstalled() && !this.walletService.currentAccount" [routerLink]="['/wallet-connect']" class="list-color">
-                <strong>Connect</strong></a
-              >
-              <a *ngIf="this.walletService.currentAccount" [routerLink]="" class="list-color">
-                <strong>{{ walletAddress | slice: 0:15 }}</strong>
-              </a>
+              <a *ngIf="isLoggedIn()" [routerLink]="['/sign-out']" class="list-color"><strong>Sign Out</strong></a>
             </li>
-
-            <li class="menu-item" (click)="isCollapsed = !isCollapsed">
-              <a *ngIf="isLoggedIn()" [routerLink]="['/sign-out']" class="list-color"><strong>Log Out</strong></a>
-            </li>
-            <li class="menu-item" (click)="isCollapsed = !isCollapsed">
-              <a *ngIf="isLoggedIn() && isAdminOrSuperUser()" [routerLink]="['/dashboard']" class="list-color"><strong>Dashboard</strong></a>
+            <li class="menu-item admin-item" (click)="isCollapsed = !isCollapsed">
+              <a *ngIf="isLoggedIn() && isAdminOrSuperUser()" [routerLink]="['/dashboard']" class="list-color"><strong>Admin</strong></a>
             </li>
             <li *ngIf="this.getProductsCount() !== 0" class="menu-item" (click)="isCollapsed = !isCollapsed">
               <a [routerLink]="['/cart']" class="list-color">
                 <strong>CART</strong>
               </a>
             </li>
+            <li class="menu-item wallet-item" (click)="isCollapsed = !isCollapsed">
+              <a *ngIf="!this.walletService.isMetaMaskInstalled()" [routerLink]="" (click)="this.walletService.beginMetaMaskOnboarding()" class="list-color" color="primary">
+                Install
+              </a>
+              <a *ngIf="this.walletService.isMetaMaskInstalled() && !this.walletService.currentAccount" [routerLink]="['/wallet-connect']" class="list-color" color="primary">
+                Connect
+              </a>
+              <a *ngIf="this.walletService.currentAccount && !this.bookcoinLauncherService.may18thLaunchFeatureOn" [routerLink]="" class="list-color" color="primary">
+                {{ walletAddress | slice: 0:5 }}...{{ walletAddress | slice: -4 }}
+              </a>
+            </li>
+          </ul>
+          <!-- Artifact from Subtle Art launch; BKCN client may still want this?-->
+          <ul *ngIf="false">
+            <a *ngIf="this.walletService.currentAccount" [routerLink]="" class="list-color">
+              <strong>{{ walletAddress | slice: 0:5 }}...{{ walletAddress | slice: -4 }}</strong>
+            </a>
+            <button *ngIf="!this.walletService.currentAccount" class="connect-wallet btn btn-primary" (click)="this.walletService.connectToMetaMask()">Connect Wallet</button>
           </ul>
         </div>
       </div>

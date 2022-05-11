@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'app/core/auth/auth.service';
 import { WalletService } from '../../../../core/wallet/wallet.service';
@@ -6,6 +6,7 @@ import { User } from '../../../../core/user/user.types';
 import { FuseValidators } from '@fuse/validators';
 import { WizardStage } from 'app/shared/wizard-dialog-service/wizard-stage.model';
 import { WizardDialogService } from 'app/shared/wizard-dialog-service/wizard-dialog.service';
+import { ErrorsService } from 'app/core/errors/errors.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,6 +14,7 @@ import { WizardDialogService } from 'app/shared/wizard-dialog-service/wizard-dia
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  clickEvent = new EventEmitter();
   walletAddress: string;
   user: User;
   avatar: string = null;
@@ -27,7 +29,8 @@ export class SettingsComponent implements OnInit {
     private wizardService: WizardDialogService,
     public walletService: WalletService,
     private ngZone: NgZone,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private errorsService: ErrorsService
   ) {}
 
   ngOnInit(): void {
@@ -95,12 +98,33 @@ export class SettingsComponent implements OnInit {
     this.updateAvatarForm.controls['image'].setValue(event.target.files[0]);
     this.setProfileImage(event);
     this.updateAvatar();
+    this.clickEvent.emit(event);
   }
 
   onChangeBanner(event) {
-    this.updateBannerForm.controls['banner'].setValue(event.target.files[0]);
-    this.setProfileBanner(event);
-    this.updateBanner();
+    const reader = new FileReader();
+    const file = event.target.files[0];
+
+    const img = new Image();
+
+    img.src = window.URL.createObjectURL(file);
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setTimeout(() => {
+        const width = img.naturalWidth;
+        const height = img.naturalHeight;
+
+        window.URL.revokeObjectURL(img.src);
+
+        if (width < 1600 || height < 400) {
+          this.errorsService.openSnackBar('Banner should be 1600 x 400 size!', 'Error');
+        } else {
+          this.updateBannerForm.controls['banner'].setValue(event.target.files[0]);
+          this.setProfileBanner(event);
+          this.updateBanner();
+        }
+      }, 2000);
+    };
   }
   updateAvatar(): void {
     if (this.updateAvatarForm.value.image) {
@@ -118,7 +142,9 @@ export class SettingsComponent implements OnInit {
 
       const formData = new FormData();
       formData.append('banner', this.updateBannerForm.value.banner);
-      this.authService.updateBanner(formData).subscribe();
+      this.authService.updateBanner(formData).subscribe(() => {
+        this.clickEvent.emit(this.banner);
+      });
       this.wizardService.advanceStages();
     }
   }

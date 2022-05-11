@@ -37,6 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           if (authRoutes(req.url)) {
             this.authService.signOut();
+            console.log('redirecting to sign-in');
             this.router.navigate(['/sign-in']);
             return throwError(error);
           }
@@ -51,21 +52,24 @@ export class AuthInterceptor implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
-      return this.authService.refreshTokens().pipe(
-        switchMap((res: any) => {
-          this.isRefreshing = false;
-          this.refreshTokenSubject.next(res.accessToken);
+      if (this.authService.refreshToken) {
+        return this.authService.refreshTokens().pipe(
+          switchMap((res: any) => {
+            this.isRefreshing = false;
+            this.refreshTokenSubject.next(res.accessToken);
 
-          return next.handle(this.addTokenHeader(request));
-        }),
-        catchError((err) => {
-          this.isRefreshing = false;
+            return next.handle(this.addTokenHeader(request));
+          }),
+          catchError((err) => {
+            this.isRefreshing = false;
 
-          this.authService.signOut();
-          this.router.navigate(['/sign-in']);
-          return throwError(err);
-        })
-      );
+            this.authService.signOut();
+            console.log('redirecting to sign-in', this.authService.refreshToken);
+            this.router.navigate(['/sign-in']);
+            return throwError(err);
+          })
+        );
+      }
     }
     return this.refreshTokenSubject.pipe(
       filter((token) => token !== null),

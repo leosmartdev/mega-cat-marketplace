@@ -154,6 +154,7 @@ export class NftCardComponent implements OnInit {
     formdata.append('address', this.nft.contract.address);
     formdata.append('sellerAddress', this.walletService.getConnectedWallet());
     formdata.append('price', this.listingPrice);
+    formdata.append('chain', chain);
 
     this.showWizardDialog();
 
@@ -231,7 +232,7 @@ export class NftCardComponent implements OnInit {
   addToCart() {
     const item: CartItem = {
       _id: this.nft.listing.id,
-      collection: this.nft.contract.address,
+      smartContractAddress: this.nft.contract.address,
       count: 1,
       image: this.nft.image,
       name: this.nft.name,

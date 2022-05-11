@@ -94,7 +94,7 @@ export class AuthSignInComponent implements OnInit {
   private logInWithEmail(email: string, password: string) {
     this.authService.firebaseSignIn({ email, password }).subscribe(
       (user: firebase.auth.UserCredential) => {
-        this.authService.signIn(email).subscribe(
+        this.authService.signIn(email, user.user.uid).subscribe(
           (response) => {
             //successful login
 
@@ -104,7 +104,7 @@ export class AuthSignInComponent implements OnInit {
           },
           (error) => {
             //redirect to new sign up page
-            this.handleError('Firebase sign in successful but MCL sign in failed');
+            this.router.navigate(['sign-up-mcl', { email: email, password: password }]);
           }
         );
       },

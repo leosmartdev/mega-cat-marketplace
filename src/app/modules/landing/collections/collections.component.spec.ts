@@ -15,6 +15,12 @@ import { NftUtilsService } from 'app/shared/nft-utils.service';
 import { mockedNftAuctionResponse, mockedNftCard, mockedOfferResponse } from 'app/core/auction/spec-files/mocked';
 import { mockedCartItem, mockedSaleNFt } from '../cart/spec-files/mocked';
 import { NftCardModel } from 'app/core/models/nft-card.model';
+import { AuctionResponse } from 'app/core/auction/auction';
+
+interface NftAuctionModel {
+  nft: NftCardModel;
+  auction?: AuctionResponse;
+}
 
 describe('CollectionsComponent', () => {
   let component: LandingCollectionsComponent;
@@ -112,9 +118,9 @@ describe('CollectionsComponent', () => {
   it('should filter the nfts on price', () => {
     component.minValue = '50';
     component.maxValue = '150';
-    const mocked: NftCardModel = JSON.parse(JSON.stringify(mockedNftCard));
-    mocked.listing.price = 70;
-    component.saleNFTs = [mocked];
+    const mocked: NftAuctionModel = JSON.parse(JSON.stringify(mockedAuctionModel));
+    mocked.nft.listing.price = 70;
+    component.products = [mocked];
 
     component.priceFilter();
 

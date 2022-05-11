@@ -14,5 +14,7 @@ export const environment = {
   },
   apiUrl: 'https://api.bookcoin.com',
   bloxApiUrl: 'https://blox.bookcoin.com',
-  app: 'BKCN'
+  app: 'BKCN',
+  polygonChain: 'MATIC',
+  ethereumChain: 'ETHEREUM'
 };

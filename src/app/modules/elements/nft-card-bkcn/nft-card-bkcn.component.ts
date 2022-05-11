@@ -59,7 +59,6 @@ export class NftCardBkcnComponent implements OnInit {
   expirationTimeValidation: boolean = false;
   leftTimeOnAuction: number;
   user: User;
-  colId: string;
   username: string;
   avatar: string;
   imageSrc: string = '../../../../assets/images/avatars/brian-hughes.jpg';
@@ -102,13 +101,11 @@ export class NftCardBkcnComponent implements OnInit {
   ngOnInit(): void {
     this.contractAddressUrl = `${this.getChainUrl()}/${this.nft.contract.address}`;
     this.user = this.authService.user ?? this.placeholderUser();
-    this.colId = this.nft.contract.media?.find((x) => x.type === 'collectionId')?.value; //media[1]?.value;
-    if (this.colId) {
-      this.productService.getUserOfCollection(this.colId).subscribe((res) => {
-        this.username = res.data.username;
-        this.imageSrc = res.avatar;
-      });
-    }
+    const smartContractAddress = this.nft.contract.address;
+    this.productService.getUserOfCollection(smartContractAddress).subscribe((res) => {
+      this.username = res.data.username;
+      this.imageSrc = res.avatar;
+    });
     this.nftName = this.nft.name;
     if (this.nftName.length > 30) {
       this.nftName = this.nftName.slice(0, 27);
@@ -272,15 +269,14 @@ export class NftCardBkcnComponent implements OnInit {
   }
 
   addToCart() {
-    const collection = this.nft.contract.media.find((x) => x.type === 'collectionId');
     const item: CartItem = {
       _id: this.nft.listing.id,
-      collection: collection.value,
       count: 1,
       image: this.nft.image,
       name: this.nft.name,
       price: this.nft.listing.price,
       sellerAddress: this.nft.listing.sellerAddress,
+      smartContractAddress: this.nft.contract.address,
       subTotal: this.nft.listing.price,
       tokenId: this.nft.tokenId
     };

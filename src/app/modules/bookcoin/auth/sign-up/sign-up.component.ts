@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
@@ -25,6 +25,7 @@ export class SignUpComponent implements OnInit {
   showAlert: boolean = false;
   isAgree = false;
   ngZone: any;
+  eReaderRedirectUri: string;
   private _walletAddress: any;
 
   /**
@@ -34,6 +35,7 @@ export class SignUpComponent implements OnInit {
     private _authService: AuthService,
     private _formBuilder: FormBuilder,
     private _router: Router,
+    private activatedRoute: ActivatedRoute,
     private _errorsService: ErrorsService,
     public _walletService: WalletService
   ) {}
@@ -46,6 +48,7 @@ export class SignUpComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    this.eReaderRedirectUri = this.activatedRoute.snapshot.queryParamMap.get('ereader_redirect_uri') || null;
     // Create the form
     this.signUpForm = this._formBuilder.group({
       username: ['', Validators.required],
@@ -94,7 +97,9 @@ export class SignUpComponent implements OnInit {
         inputs.usernameOrEmail = inputs.email;
         this._authService.signUp(inputs).subscribe(
           (signedUpUserResponse) => {
-            if (!this._walletService.currentAccount) {
+            if (this.eReaderRedirectUri) {
+              this.navigateToEreader();
+            } else if (!this._walletService.currentAccount) {
               this._router.navigate(['bookcoin/wallet-connect']);
             } else {
               this._router.navigate(['signed-in-redirect']);
@@ -128,4 +133,9 @@ export class SignUpComponent implements OnInit {
   termsCheck() {
     this.isAgree = !this.isAgree;
   }
+
+  private navigateToEreader = () => {
+    const redirectUrl = this.eReaderRedirectUri + `?accessToken=${this._authService.accessToken}&refreshToken=${this._authService.refreshToken}`;
+    window.location.href = redirectUrl;
+  };
 }

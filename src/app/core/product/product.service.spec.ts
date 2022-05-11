@@ -200,14 +200,14 @@ describe('ProductService', () => {
         description: 'Some description about the Test Product',
         symbol: 'Test symbol',
         images: ['test1.png', 'test2.jpg'],
-        walletAdress: walletService.currentAccount
+        ownerAddress: walletService.currentAccount
       };
       const formData = new FormData();
       formData.append('name', data.name);
       formData.append('description', data.description);
       formData.append('symbol', JSON.stringify(data.symbol));
       formData.append('images', JSON.stringify(data.images));
-      formData.append('walletAddress', JSON.stringify(data.walletAdress));
+      formData.append('ownerAddress', JSON.stringify(data.ownerAddress));
 
       service.createCollection(formData).subscribe((res: any) => {
         expect(res).toEqual(expectedResponse);
@@ -225,13 +225,13 @@ describe('ProductService', () => {
         description: 'Some description about the Test Product',
         symbol: 'Test symbol',
         images: ['test1.png', 'test2.jpg'],
-        walletAdress: walletService.currentAccount
+        ownerAddress: walletService.currentAccount
       };
       const formData = new FormData();
       formData.append('description', data.description);
       formData.append('symbol', JSON.stringify(data.symbol));
       formData.append('images', JSON.stringify(data.images));
-      formData.append('walletAddress', JSON.stringify(data.walletAdress));
+      formData.append('ownerAddress', JSON.stringify(data.ownerAddress));
       expect(() => service.createCollection(formData).subscribe()).toThrowError('Collection name is not present');
     });
 
@@ -241,13 +241,13 @@ describe('ProductService', () => {
         description: 'Some description about the Test Product',
         symbol: 'Test symbol',
         images: ['test1.png', 'test2.jpg'],
-        walletAdress: walletService.currentAccount
+        ownerAddress: walletService.currentAccount
       };
       const formData = new FormData();
       formData.append('name', data.name);
       formData.append('symbol', JSON.stringify(data.symbol));
       formData.append('images', JSON.stringify(data.images));
-      formData.append('walletAddress', JSON.stringify(data.walletAdress));
+      formData.append('ownerAddress', JSON.stringify(data.ownerAddress));
       expect(() => service.createCollection(formData).subscribe()).toThrowError('Collection description is not present');
     });
 
@@ -257,17 +257,17 @@ describe('ProductService', () => {
         description: 'Some description about the Test Product',
         symbol: 'Test symbol',
         images: ['test1.png', 'test2.jpg'],
-        walletAdress: walletService.currentAccount
+        ownerAddress: walletService.currentAccount
       };
       const formData = new FormData();
       formData.append('name', JSON.stringify(data.name));
       formData.append('description', data.description);
       formData.append('images', JSON.stringify(data.images));
-      formData.append('walletAddress', JSON.stringify(data.walletAdress));
+      formData.append('ownerAddress', JSON.stringify(data.ownerAddress));
       expect(() => service.createCollection(formData).subscribe()).toThrowError('Collection symbol is not present');
     });
 
-    it('should throw an error if name is not present', () => {
+    it('should throw an error if Owner Address is not present', () => {
       const data = {
         name: 'Test Product collection',
         description: 'Some description about the Test Product',
@@ -280,7 +280,7 @@ describe('ProductService', () => {
       formData.append('description', data.description);
       formData.append('symbol', JSON.stringify(data.symbol));
       formData.append('images', JSON.stringify(data.images));
-      expect(() => service.createCollection(formData).subscribe()).toThrowError('Wallet Address is not present');
+      expect(() => service.createCollection(formData).subscribe()).toThrowError('Owner Address is not present');
     });
   });
 
@@ -713,7 +713,7 @@ describe('ProductService', () => {
     it('should throw an error if collection id is not present', () => {
       const id = null;
 
-      expect(() => service.getUserOfCollection(id)).toThrowError('Invalid Id');
+      expect(() => service.getUserOfCollection(id)).toThrowError('smartContractAddress is not present');
     });
 
     it('should get the user who owns the collection', () => {
@@ -750,7 +750,7 @@ describe('ProductService', () => {
 
   it('should get NFTs for all linked wallets of a specific user', () => {
     const expectedResponse = { data: [mockedvenlyWalletNft] };
-    const url = `${baseUrl}/product/getNFTsBasedOnUserWalletAddressesByUser/${mockUser.id}`;
+    const url = `${baseUrl}/product/getNFTsBasedOnUserWalletAddressesByUser`;
 
     service.listingNFTByLinkedWallets().subscribe((res) => {
       expect(res).toEqual(expectedResponse);

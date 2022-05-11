@@ -1,6 +1,6 @@
 <div
   class="profile"
-  style="background: url({{ banner }}); 
+  style="background: url({{ banner }});
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;"
@@ -41,13 +41,28 @@
     <div class="option" routerLinkActive="selected" data-tip="Edit Listing" [routerLink]="['/profile/edit-listing']">
       <img src="/assets/icons/profile-edit.svg" class="filters-icon" />
     </div>
-    <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="Create Collection" [routerLink]="['/profile/create-collection']">
+    <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="Manage Collections" [routerLink]="['/profile/create-collection']">
+      <img src="/assets/icons/profile-createcollect.svg" class="filters-icon" />
+    </div>
+    <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="List Collections" [routerLink]="['/profile/list-collections']">
       <img src="/assets/icons/profile-createcollect.svg" class="filters-icon" />
     </div>
     <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="Create NFT" [routerLink]="['/profile/create']">
       <img src="/assets/icons/profile-createnft.svg" class="filters-icon" />
     </div>
+    <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="Create Reward" [routerLink]="['/profile/create-reward']">
+      <img src="/assets/icons/profile-createnft.svg" class="filters-icon" />
+    </div>
     <div class="option tool" routerLinkActive="selected" data-tip="Payout Status" [routerLink]="['/profile/payouts-status']">
+      <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
+    </div>
+    <div *ngIf="isAdmin" routerLinkActive="selected" class="option tool" data-tip="List Rewards" [routerLink]="['/profile/list-rewards']">
+      <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
+    </div>
+    <div class="option tool" routerLinkActive="selected" data-tip="Purchase History" [routerLink]="['/profile/purchase-history']">
+      <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
+    </div>
+    <div class="option tool" routerLinkActive="selected" data-tip="Sales History" [routerLink]="['/profile/sales-history']">
       <img src="/assets/icons/profile-payout.svg" class="filters-icon" />
     </div>
   </div>

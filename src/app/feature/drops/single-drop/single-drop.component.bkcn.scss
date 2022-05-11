@@ -18,8 +18,20 @@ p {
   height: 350px;
   max-height: 350px;
 
+  h1 {
+    font-family: 'Gt sectra display', sans-serif;
+    font-size: 2em;
+  }
+
+  .view-on-opensea {
+    padding: 15px;
+    font-family: 'Gt sectra display', sans-serif;
+  }
+
   .modal-content {
-    width: 100%;
+    width: 500px;
+    margin: auto;
+    padding: 0px 20px 40px 20px;
   }
 }
 
@@ -64,6 +76,11 @@ mat-option {
     margin-top: 0px;
     margin-bottom: 25px;
     padding: 10px;
+
+    &.sold-out {
+      background-color: #010101;
+      color: white;
+    }
   }
 }
 
@@ -106,6 +123,7 @@ form {
     h1#drop-name {
       color: #d75f2a;
       font-size: 2.5rem;
+      font-family: Gt sectra display, sans-serif;
     }
 
     p#drop-chain {
@@ -267,8 +285,18 @@ form {
   }
 
   .mint {
+    background-image: url('../../../../assets/bookcoin/mint-bg.png');
+
     h1 {
       font-family: 'Gt sectra display', sans-serif;
+    }
+
+    .transient {
+      font-size: 0.7em;
+    }
+
+    .remaining-disclaimer {
+      font-size: 0.7em;
     }
 
     .scheduling {

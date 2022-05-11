@@ -52,8 +52,8 @@ export class ProductService {
       throw new Error('Collection description is not present');
     }
 
-    if (!formData.has('walletAddress')) {
-      throw new Error('Wallet Address is not present');
+    if (!formData.has('ownerAddress')) {
+      throw new Error('Owner Address is not present');
     }
 
     if (!formData.has('symbol')) {
@@ -63,6 +63,37 @@ export class ProductService {
     return this.httpClient.post(`${baseUrl}/product/createCollection/`, formData, { headers: this.authService.getAuthHeader() });
   }
 
+  editCollection(formData: FormData): Observable<any> {
+    if (!formData.has('collectionId')) {
+      throw new Error('Collection id is not present');
+    }
+
+    if (!formData.has('name')) {
+      throw new Error('Collection name is not present');
+    }
+
+    if (!formData.has('description')) {
+      throw new Error('Collection description is not present');
+    }
+
+    if (!formData.has('subheading')) {
+      throw new Error('Collection subheading is not present');
+    }
+
+    return this.httpClient.post(`${baseUrl}/product/editCollection`, formData, { headers: this.authService.getAuthHeader() });
+  }
+
+  fetchCollectionMetadata(formData: FormData): Observable<any> {
+    if (!formData.has('address')) {
+      throw new Error('Collection address is not present');
+    }
+    if (!formData.has('chain')) {
+      throw new Error('Collection blockchain is not present');
+    }
+
+    return this.httpClient.post(`${baseUrl}/product/fetchCollectionMetadata/`, formData, { headers: this.authService.getAuthHeader() });
+  }
+
   getCollections(data: WalletAddressPayload): Observable<any> {
     if (!data.walletAddress) {
       throw new Error('Wallet Address is not present');
@@ -70,20 +101,44 @@ export class ProductService {
 
     return this.httpClient.post(`${baseUrl}/product/getCollections/`, data, { headers: this.authService.getAuthHeader() });
   }
+
+  getCollectionDetail(address: string, chain: string): Observable<any> {
+    if (!address) {
+      throw new Error('Smart Address is not present');
+    }
+
+    if (!chain) {
+      throw new Error('Chain is not present');
+    }
+
+    const data = {
+      smartContractAddress: address,
+      chain: chain
+    };
+    return this.httpClient.post(`${baseUrl}/product/getCollectionDetail/`, data, { headers: this.authService.getAuthHeader() });
+  }
+
+  getCollectionsByLinkedWallets(): Observable<any> {
+    const user = this.authService.user;
+    return this.httpClient.get(`${baseUrl}/product/getCollectionsByUserLinkedWallets/${user.id}`, { headers: this.authService.getAuthHeader() });
+  }
+
+  getAllCollections(): Observable<any> {
+    return this.httpClient.get(`${baseUrl}/product/getAllCollections`, { headers: this.authService.getAuthHeader() });
+  }
+
   getHistory(tokenId: string, collectionId: string): Observable<any> {
     if (!tokenId || !collectionId) {
       throw new Error('Data is not present');
     }
     return this.httpClient.get(`${baseUrl}/order/getHistory/${tokenId}/${collectionId}`);
   }
-  getUserOfCollection(id: string): Observable<any> {
-    if (!id) {
-      throw new Error('Invalid Id');
+
+  getUserOfCollection(smartContractAddress: string): Observable<any> {
+    if (!smartContractAddress) {
+      throw new Error('smartContractAddress is not present');
     }
-    const data = {
-      collectionId: id
-    };
-    return this.httpClient.post(`${baseUrl}/product/getOneCollection/`, data);
+    return this.httpClient.post(`${baseUrl}/product/getOneCollection/`, { smartContractAddress });
   }
 
   getProduct(id: string): Observable<Product> {
@@ -129,8 +184,7 @@ export class ProductService {
   }
 
   listingNFTByLinkedWallets(): Observable<any> {
-    const user = this.authService.user;
-    return this.httpClient.get(`${baseUrl}/product/getNFTsBasedOnUserWalletAddressesByUser/${user.id}`, { headers: this.authService.getAuthHeader() });
+    return this.httpClient.get(`${baseUrl}/product/getNFTsBasedOnUserWalletAddressesByUser`, { headers: this.authService.getAuthHeader() });
   }
   /**
    * Creates an Offer (Listing) from an NFT.

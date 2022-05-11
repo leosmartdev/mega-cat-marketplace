@@ -22,7 +22,7 @@ const item: CartItem = {
   price: 20,
   count: 1,
   subTotal: 60,
-  collection: '092384089',
+  smartContractAddress: '0xSomeAddress',
   sellerAddress: '0x203498'
 };
 
@@ -137,6 +137,136 @@ describe('CartService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should get purchase history', (done) => {
+    const testUrl = `${baseUrl}/order/purchasehistory/0x52d58305510b962cc5298cb29f189E96/1/5`;
+    const expectedResponse = {
+      message: 'some message',
+      orders: [],
+      orderCount: 0
+    };
+    walletService.currentAccount = '0x52d58305510b962cc5298cb29f189E96';
+    const currentPage = 1;
+    const pageSize = 5;
+
+    service.getPurchaseHistory(currentPage.toString(), pageSize.toString()).subscribe((res) => {
+      expect(res).toEqual(expectedResponse);
+      done();
+    });
+
+    const requestWrapper = httpTestingController.expectOne({ url: testUrl });
+    expect(requestWrapper.request.method).toEqual('GET');
+    requestWrapper.flush(expectedResponse);
+    httpTestingController.verify();
+  });
+
+  it('should filter purchase history', (done) => {
+    const testUrl = `${baseUrl}/order/purchasehistory/filter/nftName/test/0x52d58305510b962cc5298cb29f189E96/1/5`;
+    const expectedResponse = {
+      message: 'some message',
+      orders: [],
+      orderCount: 0
+    };
+    walletService.currentAccount = '0x52d58305510b962cc5298cb29f189E96';
+    const currentPage = 1;
+    const pageSize = 5;
+
+    service.getFilterPurchaseHistory(currentPage.toString(), pageSize.toString(), 'nftName', 'test').subscribe((res) => {
+      expect(res).toEqual(expectedResponse);
+      done();
+    });
+
+    const requestWrapper = httpTestingController.expectOne({ url: testUrl });
+    expect(requestWrapper.request.method).toEqual('GET');
+    requestWrapper.flush(expectedResponse);
+    httpTestingController.verify();
+  });
+
+  it('should get admin purchase history', (done) => {
+    const testUrl = `${baseUrl}/order/purchasehistory/1/5`;
+    const expectedResponse = {
+      message: 'some message',
+      orders: [],
+      orderCount: 0
+    };
+    const currentPage = 1;
+    const pageSize = 5;
+
+    service.getAdminPurchaseHistory(currentPage.toString(), pageSize.toString()).subscribe((res) => {
+      expect(res).toEqual(expectedResponse);
+      done();
+    });
+
+    const requestWrapper = httpTestingController.expectOne({ url: testUrl });
+    expect(requestWrapper.request.method).toEqual('GET');
+    requestWrapper.flush(expectedResponse);
+    httpTestingController.verify();
+  });
+
+  it('should filter admin purchase history', (done) => {
+    const testUrl = `${baseUrl}/order/purchasehistory/filter/nftName/test/1/5`;
+    const expectedResponse = {
+      message: 'some message',
+      orders: [],
+      orderCount: 0
+    };
+    const currentPage = 1;
+    const pageSize = 5;
+
+    service.getFilterAdminPurchaseHistory(currentPage.toString(), pageSize.toString(), 'nftName', 'test').subscribe((res) => {
+      expect(res).toEqual(expectedResponse);
+      done();
+    });
+
+    const requestWrapper = httpTestingController.expectOne({ url: testUrl });
+    expect(requestWrapper.request.method).toEqual('GET');
+    requestWrapper.flush(expectedResponse);
+    httpTestingController.verify();
+  });
+
+  it('should get sales history', (done) => {
+    const testUrl = `${baseUrl}/order/saleshistory/0x52d58305510b962cc5298cb29f189E96/1/5`;
+    const expectedResponse = {
+      message: 'some message',
+      orders: [],
+      orderCount: 0
+    };
+    walletService.currentAccount = '0x52d58305510b962cc5298cb29f189E96';
+    const currentPage = 1;
+    const pageSize = 5;
+
+    service.getSalesHistory(currentPage.toString(), pageSize.toString()).subscribe((res) => {
+      expect(res).toEqual(expectedResponse);
+      done();
+    });
+
+    const requestWrapper = httpTestingController.expectOne({ url: testUrl });
+    expect(requestWrapper.request.method).toEqual('GET');
+    requestWrapper.flush(expectedResponse);
+    httpTestingController.verify();
+  });
+
+  it('should filter sales history', (done) => {
+    const testUrl = `${baseUrl}/order/saleshistory/filter/nftName/test/0x52d58305510b962cc5298cb29f189E96/1/5`;
+    const expectedResponse = {
+      message: 'some message',
+      orders: [],
+      orderCount: 0
+    };
+    walletService.currentAccount = '0x52d58305510b962cc5298cb29f189E96';
+    const currentPage = 1;
+    const pageSize = 5;
+
+    service.getFilterSalesHistory(currentPage.toString(), pageSize.toString(), 'nftName', 'test').subscribe((res) => {
+      expect(res).toEqual(expectedResponse);
+      done();
+    });
+
+    const requestWrapper = httpTestingController.expectOne({ url: testUrl });
+    expect(requestWrapper.request.method).toEqual('GET');
+    requestWrapper.flush(expectedResponse);
+    httpTestingController.verify();
   });
 
   it('should place an order correctly', (done) => {

@@ -11,6 +11,8 @@ import { NftUtilsService } from 'app/shared/nft-utils.service';
 import { NftCardModel } from 'app/core/models/nft-card.model';
 import { VenlyWalletNft } from 'app/core/models/venly/venly-wallet-nft.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Reward } from 'app/core/rewards/rewards';
+import { RewardsService } from 'app/core/rewards/rewards.service';
 
 interface NftAuctionModel {
   nft: NftCardModel;
@@ -33,6 +35,7 @@ export class ProfileComponent implements OnInit {
   numbers: number[];
   filteredNFTs: NftAuctionModel[] = [];
   isFetching: boolean = true;
+  isFetchingRewards: boolean = true;
   nfts: NftAuctionModel[] = [];
   selectedOption: string = 'Filter List';
   isSelecting: boolean = false;
@@ -47,6 +50,7 @@ export class ProfileComponent implements OnInit {
   collectionsNFTKeys: any = [];
   selectedTab: number = 0;
   activePanel: string = '';
+  collectionsWithRewards = [];
   public url: string = '';
 
   constructor(
@@ -58,7 +62,8 @@ export class ProfileComponent implements OnInit {
     private sharedService: SharedService,
     private router: Router,
     private nftUtilsService: NftUtilsService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private rewardsService: RewardsService
   ) {
     this.numbers = Array(10)
       .fill(0)
@@ -77,6 +82,21 @@ export class ProfileComponent implements OnInit {
     this.updateAvatarForm = this._formBuilder.group({
       image: ['', Validators.required]
     });
+    this.fetchRewards();
+  }
+
+  fetchRewards() {
+    this.isFetchingRewards = true;
+
+    this.rewardsService.listUserRewards().subscribe(
+      (rewards) => {
+        this.collectionsWithRewards = rewards;
+        this.isFetchingRewards = false;
+      },
+      (error) => {
+        this.errorsService.openSnackBar('Something went wrong!', 'Error: ' + error.message);
+      }
+    );
   }
 
   getPendingOffers() {
@@ -107,11 +127,6 @@ export class ProfileComponent implements OnInit {
     this.filteredNFTs = [];
     this.productService.getAllListings('INITIATING_OFFER', true).subscribe((list) => {
       pendingOffersForUser = list.data.filter((listing: Offer) => listing.sellerAddress === this.walletAddress);
-
-      // filtering-out offers against old NFTs, having not enough data in them
-      pendingOffersForUser = pendingOffersForUser.filter(
-        (listing: Offer) => listing.nft.contract.media !== null && listing.nft.contract.media.find((x) => x.type === 'collectionId') !== undefined
-      );
 
       let listingNFTObservable;
       const linkedWallets = this.linkedWalletAddresses;
@@ -178,7 +193,8 @@ export class ProfileComponent implements OnInit {
         } else {
           this.walletAddress = accounts[0];
           this.getNFTsForWallet();
-          this.getPendingOffers();
+          // no need to call now, as venly have no such states e.g. AWAITING_FINALIZING_OFFER,FINALIZING_OFFER
+          // this.getPendingOffers();
         }
       });
     });

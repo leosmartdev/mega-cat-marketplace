@@ -19,12 +19,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { ProfileComponent } from 'app/modules/bookcoin/profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CreateComponent } from './create/create.component';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
 import { NftDetailComponent } from './nft-detail/nft-detail.component';
+import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
+import { SalesHistoryComponent } from './sales-history/sales-history.component';
 
 import { WalletGuard } from 'app/core/auth/guards/wallet.guard';
 
@@ -35,16 +38,26 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { PayoutsStatusComponent } from './payouts-status/payouts-status.component';
 import { MatTableModule } from '@angular/material/table';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxFilesizeModule } from 'ngx-filesize';
 import { EditListingComponent } from './edit-listing/edit-listing.component';
 import { EditListingCardModule } from 'app/modules/elements/edit-listing-card/edit-listing-card.module';
 import { MyAuctionsComponent } from './my-auctions/my-auctions.component';
 import { ParticipatedAuctionsComponent } from './participated-auctions/participated-auctions.component';
 import { NftCardBkcnModule } from 'app/modules/elements/nft-card-bkcn/nft-card-bkcn.module';
 import { ProfileNavlinksComponent } from 'app/modules/elements/profile-navlinks/profile-navlinks.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { CreateRewardComponent } from './create-reward/create-reward.component';
+import { ListRewardsComponent } from './list-rewards/list-rewards.component';
+import { ListCollectionsComponent } from './list-collections/list-collections.component';
+import { EditCollectionComponent } from './edit-collection/edit-collection.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { RewardsExplorerComponent } from './rewards-explorer/rewards-explorer.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const routes: Route[] = [
   {
     path: '',
+    canActivate: [AuthGuard, WalletGuard],
     component: ProfileComponent
   },
   {
@@ -63,6 +76,14 @@ const routes: Route[] = [
     },
     canActivate: [AuthGuard, WalletGuard],
     component: CreateComponent
+  },
+  {
+    path: 'create-reward',
+    data: {
+      roles: [Role.Admin, Role.SuperUser]
+    },
+    canActivate: [AuthGuard, WalletGuard],
+    component: CreateRewardComponent
   },
   {
     path: 'payouts-status',
@@ -93,9 +114,43 @@ const routes: Route[] = [
     component: CreateCollectionComponent
   },
   {
+    path: 'list-collections',
+    data: {
+      roles: [Role.Admin, Role.SuperUser]
+    },
+    canActivate: [AuthGuard, WalletGuard],
+    component: ListCollectionsComponent
+  },
+  {
+    path: 'edit-collection/:smartContractAddress/:chain',
+    data: {
+      roles: [Role.Admin, Role.SuperUser]
+    },
+    canActivate: [AuthGuard, WalletGuard],
+    component: EditCollectionComponent
+  },
+  {
     path: 'nft-detail/:contractAddress/:tokenId',
     canActivate: [AuthGuard, WalletGuard],
     component: NftDetailComponent
+  },
+  {
+    path: 'list-rewards',
+    data: {
+      roles: [Role.Admin, Role.SuperUser]
+    },
+    canActivate: [AuthGuard, WalletGuard],
+    component: ListRewardsComponent
+  },
+  {
+    path: 'purchase-history',
+    canActivate: [AuthGuard, WalletGuard],
+    component: PurchaseHistoryComponent
+  },
+  {
+    path: 'sales-history',
+    canActivate: [AuthGuard, WalletGuard],
+    component: SalesHistoryComponent
   }
 ];
 
@@ -111,7 +166,14 @@ const routes: Route[] = [
     MyAuctionsComponent,
     ParticipatedAuctionsComponent,
     ProfileNavlinksComponent,
-    NftDetailComponent
+    NftDetailComponent,
+    CreateRewardComponent,
+    ListRewardsComponent,
+    ListCollectionsComponent,
+    EditCollectionComponent,
+    RewardsExplorerComponent,
+    PurchaseHistoryComponent,
+    SalesHistoryComponent
   ],
   imports: [
     NftCardBkcnModule,
@@ -126,18 +188,23 @@ const routes: Route[] = [
     MatDatepickerModule,
     MatDividerModule,
     MatFormFieldModule,
-    MatIconModule,
     MatInputModule,
     MatMenuModule,
     MatMomentDateModule,
     MatSelectModule,
     MatTableModule,
+    MatTreeModule,
+    MatIconModule,
     NgxPaginationModule,
+    NgxFilesizeModule,
     FuseHighlightModule,
     MatListModule,
     MatProgressSpinnerModule,
     RouterModule.forChild(routes),
-    IvyCarouselModule
+    IvyCarouselModule,
+    ColorPickerModule,
+    MatPaginatorModule,
+    MarkdownModule.forRoot({})
   ]
 })
 export class ProfileModule {}

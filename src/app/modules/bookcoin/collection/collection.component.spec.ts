@@ -38,6 +38,7 @@ describe('CollectionsComponent', () => {
   const activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['snapshot']);
   const nftServiceMock = jasmine.createSpyObj('NftUtilsService', ['getFallbackImage', 'buildNftCardFromVenlyOffer']);
 
+  routerMock.url = '/collection/p/';
   activatedRouteMock.snapshot = {
     params: {
       contractAddress: 'something',
@@ -193,31 +194,6 @@ describe('CollectionsComponent', () => {
       component.openPanel('Test Panel');
 
       expect(component.activePanel).toEqual('');
-    });
-  });
-
-  describe('getSaleNFTs', () => {
-    it('should get all sale nfts successfully', () => {
-      productServiceMock.getCollectionDetail.and.returnValue(of({ data: { lottie: 'test path' } }));
-      const mocked: Offer = JSON.parse(JSON.stringify(mockedOfferResponse));
-      mocked.status = 'READY';
-      productServiceMock.getAllListings.and.returnValue(of({ data: [mocked] }));
-      component.id = mockedOfferResponse.nft.contract.address;
-      productServiceMock.getUserOfCollection.and.returnValue(of({ data: { username: 'johndoe@test.com' } }));
-
-      component.getSaleNFTs();
-
-      expect(productServiceMock.getUserOfCollection).toHaveBeenCalled();
-      expect(component.filteredNFts.length).toEqual(1);
-      expect(component.username).toEqual('johndoe@test.com');
-    });
-
-    it('should respond with an error if it fails to get nfts', () => {
-      productServiceMock.getAllListings.and.returnValue(throwError('Some Error!'));
-
-      component.getSaleNFTs();
-
-      expect(errorServiceMock.openSnackBar).toHaveBeenCalledWith('Something went wrong!', 'Error');
     });
   });
 

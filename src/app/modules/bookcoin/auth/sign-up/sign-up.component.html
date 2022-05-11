@@ -12,7 +12,7 @@
       <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight" style="font-family: Editorial New; font-weight: bolder">Sign up</div>
       <div class="flex items-baseline mt-0.5 font-medium">
         <div>Already have an account?</div>
-        <a class="ml-1 link_button hover:underline" [routerLink]="['/sign-in']">Sign in </a>
+        <a class="ml-1 link_button hover:underline" [routerLink]="['/sign-in']" [queryParams]="{ ereader_redirect_uri: eReaderRedirectUri }">Sign in </a>
       </div>
 
       <!-- Alert -->

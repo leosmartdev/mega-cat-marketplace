@@ -1,0 +1,66 @@
+<app-profile-navlinks></app-profile-navlinks>
+<section class="profile-main create-item">
+  <div class="site-wrapper">
+    <div class="form-wrapper">
+      <form class="overflow-hidden dark-theme" [formGroup]="createRewardForm">
+        <div class="group-fields">
+          <h4>Reward</h4>
+          <div id="preview-formatting-container" class="field-row rewards">
+            <div class="row reward">
+              <div class="col-sm-6 reward-builder">
+                <p class="text-left">
+                  <span class="label"> Reward Title: <i class="required">*</i></span>
+                  <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+                    <input matInput [formControlName]="'title'" [(ngModel)]="editor.title" />
+                    <mat-error *ngIf="createRewardForm.get('title').hasError('required')"> Title is required </mat-error>
+                  </mat-form-field>
+                </p>
+
+                <p class="text-left">
+                  <span class="label"> Reward Markdown: <i class="required">*</i></span>
+                  <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+                    <textarea matInput class="markdown-editor text-left" [(ngModel)]="editor.markdown" [formControlName]="'markdown'" [rows]="15" matTextareaAutosize> </textarea>
+                    <mat-error *ngIf="createRewardForm.get('markdown').hasError('required')"> Markdown is required </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>
+              <div class="col-sm-6" id="markdown-viewer">
+                <h3>Section Previewer</h3>
+                <h1>{{ editor.title }}</h1>
+                <markdown [data]="editor.markdown"> </markdown>
+              </div>
+            </div>
+          </div>
+          <div class="field-row">
+            <span class="label"> Upload <i class="required">*</i> <span style="color: #191f25">File types supported: ZIP</span></span>
+            <div class="file-upload-wrapper">
+              <input id="image" (change)="onChange($event)" type="file" accept=".zip" />
+              <div *ngIf="!isFileUploaded" class="text-danger">Please Upload a File</div>
+              <div class="icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="rgb(229, 232, 235)">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                <div *ngIf="file" style="position: absolute; left: 50px">
+                  <span>File Name: {{ file.name }}</span
+                  ><br />
+                  <span>File Size: {{ file.size | filesize }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn primary" [disabled]="createRewardForm.disabled" (click)="createReward()">
+            <span> Create </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

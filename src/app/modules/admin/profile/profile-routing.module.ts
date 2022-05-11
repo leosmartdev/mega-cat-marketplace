@@ -11,6 +11,8 @@ import { PayoutsStatusComponent } from './payouts-status/payouts-status.componen
 import { ProfileComponent } from './profile.component';
 import { SettingsComponent } from './settings/settings.component';
 import { WalletComponent } from './wallet/wallet.component';
+import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
+import { SalesHistoryComponent } from './sales-history/sales-history.component';
 
 const profileRoutes: Route[] = [
   {
@@ -62,6 +64,16 @@ const profileRoutes: Route[] = [
         path: 'edit-listing',
         canActivate: [AuthGuard, WalletGuard],
         component: EditListingComponent
+      },
+      {
+        path: 'purchase-history',
+        canActivate: [AuthGuard, WalletGuard],
+        component: PurchaseHistoryComponent
+      },
+      {
+        path: 'sales-history',
+        canActivate: [AuthGuard, WalletGuard],
+        component: SalesHistoryComponent
       },
       {
         path: 'payouts',

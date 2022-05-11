@@ -65,6 +65,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
     ]
   },
   {
+    id: 'admin-purchase-history',
+    title: 'Purchase History',
+    type: 'basic',
+    icon: 'heroicons_outline:pencil-alt',
+    link: '/admin-purchase-history'
+  },
+  {
     id: 'blockchain',
     title: 'Blockchain',
     type: 'collapsable',

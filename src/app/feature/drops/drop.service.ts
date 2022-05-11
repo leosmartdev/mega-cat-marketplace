@@ -10,8 +10,8 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { WizardStage } from 'app/shared/wizard-dialog-service/wizard-stage.model';
 
 const baseUrl = environment.apiUrl;
-const DROP_POLL_INTERVAL = 1000;
-const ETHERSCAN_POLL_INTERVAL = 1000;
+const DROP_POLL_INTERVAL = 3000;
+const ETHERSCAN_POLL_INTERVAL = 3000;
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +59,13 @@ export class DropService {
     return this.httpClient.get(`${baseUrl}/sheets/whitelist/${googleSheetId}`, headerOptions);
   }
 
+  fetchWhitelistByDrop(dropId: string): Observable<any> | any {
+    const headerOptions = {
+      headers: this.authService.getAuthHeader()
+    };
+    return this.httpClient.get(`${baseUrl}/sheets/whitelist/drop/${dropId}`, headerOptions);
+  }
+
   calculateGasPricePerUnit(): Observable<any> {
     const headerOptions = {
       headers: this.authService.getAuthHeader()
@@ -100,11 +107,8 @@ export class DropService {
     return this.gasOraclePoller;
   }
 
-  requestEtherPayment(ether: number, destination: string, confirmations: number, onSuccess: (transferTxReceipt: any) => void, onError: (error) => void): void {
-    // TODO: Get this data from drop
-    // const priceInEther = drop.price;
-    // const destination = drop.dropCustodialWallet;
-    this.paymentService.requestEtherPayment(ether, destination, confirmations, onSuccess, onError);
+  requestEtherPayment(ether: number, destination: string): Promise<any> {
+    return this.paymentService.requestEtherPayment(ether, destination);
   }
 
   killPoll() {

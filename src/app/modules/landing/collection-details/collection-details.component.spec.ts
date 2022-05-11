@@ -10,6 +10,18 @@ import { mockedCartItem, mockedSaleNFt } from '../cart/spec-files/mocked';
 describe('CollectionDetailsComponent', () => {
   let component: CollectionDetailsComponent;
   let fixture: ComponentFixture<CollectionDetailsComponent>;
+  const mockedSaleNFtKeep = {
+    id: mockedCartItem._id,
+    nft: {
+      name: mockedCartItem.name,
+      tokenId: mockedCartItem.tokenId,
+      imageUrl: mockedCartItem.image
+    },
+    price: mockedCartItem.price,
+    subTotal: mockedCartItem.subTotal,
+    smartContractAddress: mockedCartItem.smartContractAddress,
+    sellerAddress: mockedCartItem.sellerAddress
+  };
 
   const productServiceMock = jasmine.createSpyObj('ProductService', ['specificOffer', 'getProducts', 'getProduct']);
   const cartServiceMock = jasmine.createSpyObj('CartService', ['addItemToCart']);

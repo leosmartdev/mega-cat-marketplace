@@ -5,12 +5,33 @@ h4,
 h5,
 h6 {
   text-align: center;
-  font-family: Roboto;
+  font-family: 'Gt sectra display', sans-serif;
   font-weight: 600;
 }
 
 .mat-dialog-container {
-  background-color: whitesmoke !important;
+  background-color: #bdbdbd !important;
+  color: white;
+  padding: 44px;
+}
+
+button {
+  background-color: #ddba77;
+  border-radius: 10px !important;
+  font-size: 24px;
+  font-family: Neue World Regular;
+  width: 200px;
+  color: white;
+}
+
+button:hover {
+  background-color: #ddba77;
+  color: white;
+}
+
+button:focus {
+  background-color: #ddba77;
+  color: white;
 }
 
 button.closing {
@@ -18,7 +39,7 @@ button.closing {
 }
 
 .wizard-container {
-  background: whitesmoke;
+  background: #bdbdbd;
 
   p {
     color: black;
@@ -28,6 +49,10 @@ button.closing {
     padding: 25px;
     text-align: center;
     max-width: 250px;
+
+    .description {
+      font-family: Inconsolata, monospace;
+    }
 
     $imgSide: 50px;
     .status-icon {

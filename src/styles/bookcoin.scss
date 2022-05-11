@@ -4,8 +4,18 @@ $bg: #202020;
 $bg-secondary: #2a2a2b;
 
 app-mint-pop-up {
-  height: 150px;
+  height: 175px;
   padding: 50px;
+}
+
+.btn.btn-primary {
+  background-color: #ddba77;
+  border-color: #ddba77;
+}
+
+.wizard-error {
+  font-size: 1.2em;
+  padding: 20px 100px;
 }
 
 .opened-snackbar-modal {
@@ -1112,5 +1122,31 @@ mat-dialog-container {
     font-size: 28px;
     line-height: 105%;
     font-weight: 500;
+  }
+}
+
+markdown {
+  p {
+    color: #17191c !important;
+  }
+  ul {
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+  ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
+  ul ul,
+  ol ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    margin-left: 15px;
+  }
+  ol ol,
+  ul ol {
+    list-style-type: lower-latin;
+    list-style-position: inside;
+    margin-left: 15px;
   }
 }

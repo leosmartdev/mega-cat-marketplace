@@ -158,7 +158,6 @@ describe('CollectionDetailComponent', () => {
 
   it('should add item to the cart', () => {
     const mockOffer = JSON.parse(JSON.stringify(mockedOfferResponse));
-    mockOffer.nft.collectionIdentifier = { value: 'xyz' };
     component.offerId = mockOffer.id;
     component.nft = mockOffer.nft;
     component.offerPrice = mockOffer.price;
@@ -207,7 +206,6 @@ describe('CollectionDetailComponent', () => {
 
     expect(component.username).toEqual(mockUser.username);
     expect(component.bio).toEqual(mockUser.bio);
-    expect(component.colId).toEqual(mockedOfferResponse.nft.contract.media[0].value);
   });
 
   it('should setup the common content with story from media of an nft', () => {
@@ -223,7 +221,6 @@ describe('CollectionDetailComponent', () => {
 
     expect(component.username).toEqual(mockUser.username);
     expect(component.bio).toEqual(mockUser.bio);
-    expect(component.colId).toEqual(mockedOfferResponse.nft.contract.media[0].value);
   });
 
   it('should not set user info if failed to get user of collection', () => {

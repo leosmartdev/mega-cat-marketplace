@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { NgModule } from '@angular/core';
-import { bkcnRoutes } from './bkcn-routes';
+import { limitedLaunchBkcnRoutes, bkcnRoutes } from './bkcn-routes';
 import { mclRoutes } from './mcl-routes';
 import { environment } from 'environments/environment';
 import { RouterModule } from '@angular/router';

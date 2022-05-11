@@ -22,7 +22,7 @@ export class ModalComponent implements OnInit {
       _id: saleNFT.listing.id,
       name: saleNFT.name,
       tokenId: saleNFT.tokenId,
-      collection: saleNFT.contract.address,
+      smartContractAddress: saleNFT.contract.address,
       image: saleNFT.image,
       price: saleNFT.listing.price,
       count: 1,

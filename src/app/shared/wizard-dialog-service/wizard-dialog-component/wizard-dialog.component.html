@@ -15,15 +15,17 @@
         <img src="assets/images/wizard/mcl-error.png" />
       </div>
       <h4 class="title">{{ stage.name }}</h4>
-      <div class="description">{{ stage.description }}</div>
+      <div [innerHtml]="stage.description"></div>
     </div>
   </div>
   <div *ngIf="wizard.hasError()">
-    <h4>There was an error. {{ wizard.getError() }}</h4>
+    <h4 class="wizard-error">There was an error. {{ wizard.getError() }}</h4>
   </div>
-  <div mat-dialog-actions align="end">
-    <button mat-button (click)="advanceStages()" *ngIf="wizard.testMode">Test</button>
-    <button mat-button (click)="makeError()" *ngIf="wizard.testMode">Error</button>
-    <button mat-button (click)="close()" [ngClass]="{ closing: wizard.isReadyToClose() }">{{ wizard.isReadyToClose() ? 'Closing' : 'Close' }}</button>
+  <div mat-dialog-actions align="center">
+    <button mat-button (click)="advanceStages()" class="btn btn-primary" *ngIf="wizard.testMode">Test</button>
+    <button mat-button (click)="makeError()" class="btn btn-primary" *ngIf="wizard.testMode">Error</button>
+    <button mat-button (click)="close()" *ngIf="!wizard.hideClose" class="btn btn-primary" [ngClass]="{ closing: wizard.isReadyToClose() }">
+      {{ wizard.isReadyToClose() ? 'Closing' : 'Close' }}
+    </button>
   </div>
 </div>

@@ -168,6 +168,16 @@ export class NftUtilsService {
     };
   }
 
+  getEtherscanTxLink(chain: string, txHash: string) {
+    const testnetRinkeby = chain === 'ethereum' ? '' : 'rinkeby.';
+    return `https://${testnetRinkeby}etherscan.io/tx/${txHash}`;
+  }
+
+  getOpenSeaNftLink(chain: string, contractAddress: string, tokenId: string) {
+    const testnet = chain === 'ethereum' ? '' : 'testnets.';
+    return `https://${testnet}opensea.io/assets/${contractAddress}/${tokenId}`;
+  }
+
   getTimeLeftFromDateAsString(dateTime: string) {
     const timeLeft = Math.round((new Date(dateTime).getTime() - new Date().getTime()) / 1000);
     return timeLeft;

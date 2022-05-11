@@ -44,15 +44,13 @@ describe('AchievementLandingComponent', () => {
     component.authService = component.authService || {};
     component.authService.user = 'user';
     spyOn(component.authService, 'signOut');
-    spyOn(component, 'getAllAchievements');
-    spyOn(component, 'getMyAchievementList');
+    spyOn(component, 'getAchievementList');
     component.ngOnInit();
-    expect(component.getAllAchievements).toHaveBeenCalled();
-    expect(component.getMyAchievementList).toHaveBeenCalled();
+    expect(component.getAchievementList).toHaveBeenCalled();
   });
 
   describe('get All Achievements', () => {
-    it('should run #getAllAchievements()', async () => {
+    it('should run #getAchievementList()', async () => {
       component.achievementService = component.achievementService || {};
       spyOn(component.achievementService, 'byUser').and.returnValue(
         observableOf({
@@ -63,8 +61,7 @@ describe('AchievementLandingComponent', () => {
           lastMonthCount: {}
         })
       );
-      component.getAllAchievements();
-      component.getMyAchievementList();
+      component.getAchievementList();
       expect(component.achievementService.byUser).toHaveBeenCalled();
     });
   });

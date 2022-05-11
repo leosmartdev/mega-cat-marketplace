@@ -39,7 +39,18 @@
                 <img src="{{ avatar }}" style="height: 30px; width: 30px" />
                 <span class="mt-1 ml-2"> {{ username }}</span>
               </div>
-              <h5 style="color: #ddba77; margin-left: 60px; cursor: pointer" [routerLink]="['/collection', specificOffer?.nft.contract.address]">
+              <h5
+                *ngIf="!isPolygonChain(specificOffer?.nft.contract.chain)"
+                style="color: #ddba77; margin-left: 60px; cursor: pointer"
+                [routerLink]="['/collection/', specificOffer?.nft.contract.address]"
+              >
+                {{ specificOffer?.nft.contract.name }}
+              </h5>
+              <h5
+                *ngIf="isPolygonChain(specificOffer?.nft.contract.chain)"
+                style="color: #ddba77; margin-left: 60px; cursor: pointer"
+                [routerLink]="['/collection/p', specificOffer?.nft.contract.address]"
+              >
                 {{ specificOffer?.nft.contract.name }}
               </h5>
             </div>
@@ -297,7 +308,7 @@
           </div>
         </div>
         <div class="d-flex col-btn">
-          <a [routerLink]="['/collection', specificOffer?.nft.contract.address]" class="btn btn-outline-primary mcl-button-outline_auction">Back to Collection</a>
+          <a [routerLink]="['/collection/p', specificOffer?.nft.contract.address]" class="btn btn-outline-primary mcl-button-outline_auction">Back to Collection</a>
         </div>
       </div>
     </div>

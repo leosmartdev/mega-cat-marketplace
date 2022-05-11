@@ -13,6 +13,7 @@ import { RolesService } from 'app/core/roles/roles.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule } from '@angular/material/paginator';
 const pendingPayoutsRoutes: Route[] = [
   {
     path: '',
@@ -33,6 +34,7 @@ const pendingPayoutsRoutes: Route[] = [
     ReactiveFormsModule,
     MatSelectModule,
     MatButtonModule,
+    MatPaginatorModule,
     MatCheckboxModule
   ],
   providers: [ProductService, RolesService]

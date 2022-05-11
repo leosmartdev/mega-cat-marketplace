@@ -12,6 +12,7 @@ import { NftUtilsService } from 'app/shared/nft-utils.service';
 import { NftCardModel } from 'app/core/models/nft-card.model';
 import { AuctionResponse } from 'app/core/auction/auction';
 import { AuctionService } from 'app/core/auction/auction.service';
+import { BookcoinLauncherService } from '../bookcoin-launcher.service';
 
 enum ListingCategory {
   SALE = 'buy',
@@ -56,7 +57,8 @@ export class HomeComponent implements OnInit {
     private nftUtilsService: NftUtilsService,
     private _cartService: CartService,
     private auctionService: AuctionService,
-    private authService: AuthService
+    private authService: AuthService,
+    public bookcoinLauncherService: BookcoinLauncherService
   ) {}
 
   ngOnInit(): void {
@@ -104,9 +106,6 @@ export class HomeComponent implements OnInit {
     const marketplaceType = this.SaleType === ListingCategory.SALE ? 'listing-buynow' : 'listing-auction';
     listings.forEach((offer: Offer) => {
       console.log(offer);
-
-      // TODO: Remove this usage of collectionId from code. This code is breaking NFTs from being purchaseable in home page.
-      const brokenFilter = offer.nft.contract.media !== null && offer.nft.contract.media.find((x) => x.type === 'collectionId') !== undefined;
 
       if (offer.nft !== undefined) {
         const nftCard = this.nftUtilsService.buildNftCardFromVenlyOffer({ offer, marketplaceType });

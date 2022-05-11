@@ -134,6 +134,48 @@ describe('RolesService', () => {
     httpTestingController.verify();
   });
 
+  it('should filter the pending payouts', (done) => {
+    const testUrl = `${baseUrl}/payouts/pending/filterData/all/1/5`;
+    const expectedResponse = {
+      payouts: [],
+      filteredPayouts: [],
+      nfts: [],
+      users: [],
+      page: 1
+    };
+
+    service.getFilterPayout('all', 1, 5).subscribe((res) => {
+      expect(res).toEqual(expectedResponse);
+      done();
+    });
+
+    const requestWrapper = httpTestingController.expectOne({ url: testUrl });
+    expect(requestWrapper.request.method).toEqual('GET');
+    requestWrapper.flush(expectedResponse);
+    httpTestingController.verify();
+  });
+
+  it('should search filter the pending payouts', (done) => {
+    const testUrl = `${baseUrl}/payouts/pending/filterSearchData/nftName/test/1/5`;
+    const expectedResponse = {
+      payouts: [],
+      filteredPayouts: [],
+      nfts: [],
+      users: [],
+      page: 1
+    };
+
+    service.getSearchFilterPayout('nftName', 'test', 1, 5).subscribe((res) => {
+      expect(res).toEqual(expectedResponse);
+      done();
+    });
+
+    const requestWrapper = httpTestingController.expectOne({ url: testUrl });
+    expect(requestWrapper.request.method).toEqual('GET');
+    requestWrapper.flush(expectedResponse);
+    httpTestingController.verify();
+  });
+
   it('should approve a payout', (done) => {
     const testUrl = `${baseUrl}/payouts/approve`;
     const data = {

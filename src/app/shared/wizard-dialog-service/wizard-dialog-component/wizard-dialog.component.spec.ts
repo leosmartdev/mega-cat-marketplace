@@ -41,18 +41,6 @@ describe('WizardDialogComponentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call advance stages of wizard service', () => {
-    component.advanceStages();
-
-    expect(wizardServiceMock.advanceStages).toHaveBeenCalled();
-  });
-
-  it('should set error', () => {
-    component.makeError();
-
-    expect(wizardServiceMock.setError).toHaveBeenCalledWith('OMG! Something went wrong');
-  });
-
   it('should close all dialogs', () => {
     component.close();
 

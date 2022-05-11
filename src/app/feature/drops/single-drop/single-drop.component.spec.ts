@@ -52,10 +52,20 @@ describe('SingleDropComponent', () => {
     'getGasCostForMintTransaction',
     'fetchDrop',
     'pollDrops',
-    'pollGasOracle'
+    'pollGasOracle',
+    'mintDrop',
+    'fetchWhitelistByDrop'
   ]);
   const jQueryServiceMock = jasmine.createSpyObj('JQueryService', ['resizeTextarea']);
-  const walletServiceMock = jasmine.createSpyObj('WalletService', ['isWalletActive', 'getConnectedWallet', 'getChainId', 'getChainName', 'getWeb3', 'getChainWatcher']);
+  const walletServiceMock = jasmine.createSpyObj('WalletService', [
+    'waitTransaction',
+    'isWalletActive',
+    'getConnectedWallet',
+    'getChainId',
+    'getChainName',
+    'getWeb3',
+    'getChainWatcher'
+  ]);
   walletServiceMock.isWalletActive.and.returnValue(true);
   walletServiceMock.getConnectedWallet.and.returnValue('0x02938049284093');
   const authServiceMock = jasmine.createSpyObj('AuthService', ['isAdmin', 'updateWalletAddresses', 'updateLinkedWalletAddresses']);
@@ -68,7 +78,7 @@ describe('SingleDropComponent', () => {
     'delay',
     'buildNftCardFromVenlyWalletNft'
   ]);
-  const wizardDialogServiceMock = jasmine.createSpyObj('WizardDialogService', ['showWizard']);
+  const wizardDialogServiceMock = jasmine.createSpyObj('WizardDialogService', ['showWizard', 'advanceStages', 'failStage']);
   const bsModalServiceMock = jasmine.createSpyObj('BsModalService', ['show']);
   const productServiceMock = jasmine.createSpyObj('ProductService', ['listingNFT']);
   const snackBarServiceMock = jasmine.createSpyObj('ErrorsService', ['openSnackBarTop']);
@@ -436,25 +446,44 @@ describe('SingleDropComponent', () => {
   });
 
   describe('Mint Drop', () => {
+    beforeEach(() => {
+      component.drop = mockedNftDrop;
+    });
+
     it('should return if chain name is invalid', fakeAsync(() => {
       walletServiceMock.getChainName.and.returnValue('matic');
 
       component.mintNftDrop();
       flush();
 
-      expect(snackBarServiceMock.openSnackBarTop).toHaveBeenCalledWith('Please select Rinkeby for testing or Ethereum for mainnet', 'Wrong Chain', 2500, false);
+      expect(snackBarServiceMock.openSnackBarTop).toHaveBeenCalledWith('Please select the correct chain for this drop. mumbai', 'Wrong Chain', 2500, false);
     }));
 
     it('should mint nft drop', fakeAsync(() => {
-      walletServiceMock.getConnectedWallet.and.returnValue('0xsiuugjakulfiew');
-      walletServiceMock.getChainName.and.returnValue('ethereum');
+      const chain = component.drop.chain;
+      const connectedWallet = '0xsiuugjakulfiew';
+      const txHash = '0x90893847598347';
+      const txReceipt = {
+        transactionHash: '0xsuccessfulTransferEventTx'
+      };
+      const mintDropResult = {
+        data: {
+          body: {
+            tokenIds: ['5'],
+            contractAddress: '0xsomecontract'
+          }
+        },
+        transactions: []
+      };
 
-      const spyWizard = spyOn<any>(component, 'showWizardDialog');
-
+      walletServiceMock.getConnectedWallet.and.returnValue(connectedWallet);
+      walletServiceMock.getChainName.and.returnValue(chain);
+      dropServiceMock.requestEtherPayment.and.returnValue(Promise.resolve(txHash));
+      walletServiceMock.waitTransaction.and.returnValue(Promise.resolve(txReceipt));
+      dropServiceMock.mintDrop.and.returnValue(of(mintDropResult));
       component.mintNftDrop();
       flush();
 
-      expect(spyWizard).toHaveBeenCalled();
       expect(dropServiceMock.requestEtherPayment).toHaveBeenCalled();
     }));
   });
@@ -548,12 +577,17 @@ describe('SingleDropComponent', () => {
   });
 
   describe('CheckAddressInWhitelist', () => {
+    beforeEach(() => {
+      component.drop = mockedNftDrop;
+      component.isWhitelisted = true;
+    });
+
     it('should return true', async () => {
       const whitelistResult = {
         whitelist: ['Test1', 'Test2', 'Test3']
       };
       walletServiceMock.getConnectedWallet.and.returnValue('Test2');
-      dropServiceMock.fetchWhitelist.and.returnValue(of(whitelistResult));
+      dropServiceMock.fetchWhitelistByDrop.and.returnValue(of(whitelistResult));
 
       const response = await component.checkAddressInWhitelist();
 
@@ -564,20 +598,22 @@ describe('SingleDropComponent', () => {
       const whitelistResult = {
         whitelist: ['Test1', 'Test2', 'Test3']
       };
+
       walletServiceMock.getConnectedWallet.and.returnValue('Test4');
-      dropServiceMock.fetchWhitelist.and.returnValue(of(whitelistResult));
+      dropServiceMock.fetchWhitelistByDrop.and.returnValue(of(whitelistResult));
 
       const response = await component.checkAddressInWhitelist();
 
       expect(response).toBe(false);
     });
 
-    it('should return false and log an error if fetching white List fails ', async () => {
+    it('should return original value if fetching white List fails', async () => {
       const expectedResponse = {
         error: 'Some Error'
       };
+      component.isWhitelisted = false;
 
-      dropServiceMock.fetchWhitelist.and.returnValue(throwError(expectedResponse));
+      dropServiceMock.fetchWhitelistByDrop.and.returnValue(throwError(expectedResponse));
 
       const response = await component.checkAddressInWhitelist();
 
@@ -716,7 +752,7 @@ describe('SingleDropComponent', () => {
   it('should respond with a dialog with provided information', () => {
     (component as any).showWizardDialog(1, '100', 1);
 
-    expect(wizardDialogServiceMock.showWizard).toHaveBeenCalledWith('Printing your Book to the Blockchain', stages, true);
+    expect(wizardDialogServiceMock.showWizard).toHaveBeenCalledWith('Printing your Book to the Blockchain', stages, true, true);
   });
 
   it('should setup create mode', async () => {

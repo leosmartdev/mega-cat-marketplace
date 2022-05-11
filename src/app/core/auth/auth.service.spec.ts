@@ -402,7 +402,7 @@ describe('AuthService', () => {
         token: 'anothertoken'
       };
 
-      service.signIn('test@test.com').subscribe((data) => expect(data).toEqual(expectedResponse));
+      service.signIn('test@test.com', 'z33km2kdgjgkd').subscribe((data) => expect(data).toEqual(expectedResponse));
 
       const requestWrapper = httpTestingController.expectOne({ url });
       expect(requestWrapper.request.method).toEqual('POST');

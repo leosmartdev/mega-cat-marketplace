@@ -21,8 +21,8 @@ describe('PendingPayoutsComponent', () => {
   const authServiceMock = jasmine.createSpyObj('AuthService', ['isSuperAdmin', 'isAdmin']);
   authServiceMock.isSuperAdmin.and.returnValue(of(true));
   const errorServiceMock = jasmine.createSpyObj('ErrorsService', ['openSnackBar']);
-  const rolesServiceMock = jasmine.createSpyObj('RolesService', ['getPendingPayouts', 'approveAllPayouts', 'approvePayout']);
-  rolesServiceMock.getPendingPayouts.and.returnValue(of({ payouts: [] }));
+  const rolesServiceMock = jasmine.createSpyObj('RolesService', ['getFilterPayout', 'approveAllPayouts', 'approvePayout']);
+  rolesServiceMock.getFilterPayout.and.returnValue(of({ payoutCount: 0, payouts: [] }));
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -112,34 +112,20 @@ describe('PendingPayoutsComponent', () => {
   });
 
   describe('filter', () => {
-    it('should respond with all payouts', () => {
-      const data = [{ status: 'approved' }, { status: 'pending' }];
-      component.payouts = data;
-
+    it('should respond with filter payouts', () => {
+      const data = [{ status: 'pending' }, { status: 'cleared' }];
+      rolesServiceMock.getFilterPayout.and.returnValue(of({ payoutCount: 2, payouts: data }));
       component.filter({ value: 'all' });
-
-      expect(component.filteredPayouts.length).toEqual(2);
       expect(component.filteredPayouts).toEqual(data);
     });
+  });
 
-    it('should respond with only pending payouts', () => {
-      const data = [{ status: 'approved' }, { status: 'pending' }];
-      component.payouts = data;
-
-      component.filter({ value: 'pending' });
-
-      expect(component.filteredPayouts.length).toEqual(1);
-      expect(component.filteredPayouts[0]).toEqual(data[1]);
-    });
-
-    it('should respond with only pending payouts', () => {
-      const data = [{ status: 'approved' }, { status: 'pending' }];
-      component.payouts = data;
-
-      component.filter({ value: 'approved' });
-
-      expect(component.filteredPayouts.length).toEqual(1);
-      expect(component.filteredPayouts[0]).toEqual(data[0]);
+  describe('onChangedPage', () => {
+    it('should respond with filter payouts of respective page', () => {
+      const data = [{ status: 'pending' }, { status: 'cleared' }];
+      rolesServiceMock.getFilterPayout.and.returnValue(of({ payoutCount: 2, payouts: data }));
+      component.onChangedPage({ pageIndex: 0 });
+      expect(component.filteredPayouts).toEqual(data);
     });
   });
 

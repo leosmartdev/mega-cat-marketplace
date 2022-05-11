@@ -229,7 +229,6 @@ describe('AuctionDetailComponent', () => {
 
   it('should add item to the cart', () => {
     const mockOffer = JSON.parse(JSON.stringify(mockedOfferResponse));
-    mockOffer.nft.collectionIdentifier = { value: 'xyz' };
     component.specificOffer = mockOffer;
 
     component.addToCart();

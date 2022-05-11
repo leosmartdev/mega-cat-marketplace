@@ -18,8 +18,8 @@ interface Web3Window extends Window {
   web3: any;
 }
 
-const DEFAULT_INTERVAL = 500;
-const DEFAULT_BLOCKS_TO_WAIT = 4;
+const DEFAULT_INTERVAL = 1000;
+const DEFAULT_BLOCKS_TO_WAIT = 2;
 
 interface Options {
   interval: number;
@@ -278,7 +278,7 @@ export class WalletService {
    * @param options Wait timers
    * @return Transaction receipt
    */
-  waitTransaction(txHash: string | string[], confirmations: number, options: Options = null): Promise<any> {
+  waitTransaction(txHash: string | string[], confirmations: number, options: Options = null, onBlockChange: (confirms: number) => void = () => {}): Promise<any> {
     const web3 = this.window.web3;
     const interval = options && options.interval ? options.interval : DEFAULT_INTERVAL;
     const blocksToWait = confirmations ?? (options && options.blocksToWait ? options.blocksToWait : DEFAULT_BLOCKS_TO_WAIT);
@@ -300,7 +300,9 @@ export class WalletService {
               try {
                 const block = await web3.eth.getBlock(resolvedReceipt.blockNumber);
                 const current = await web3.eth.getBlock('latest');
+                const confirms = current.number - block.number;
                 if (current.number - block.number >= blocksToWait) {
+                  onBlockChange(confirms);
                   const txn = await web3.eth.getTransaction(txnHash);
                   if (txn.blockNumber != null) {
                     resolve(resolvedReceipt);
@@ -308,6 +310,7 @@ export class WalletService {
                     reject(new Error('Transaction with hash: ' + txnHash + ' ended up in an uncle block.'));
                   }
                 } else {
+                  onBlockChange(confirms);
                   setTimeout(() => {
                     transactionReceiptAsync(txnHash, resolve, reject);
                   }, interval);

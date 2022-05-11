@@ -2,17 +2,16 @@ import { MetadataAttribute } from './attribute.model';
 import { Contract } from './contract.model';
 
 export class Nft {
-  id: string;
-  tokenId?: string;
   address: string;
+  attributes: MetadataAttribute[];
   chain: string;
-  name: string;
+  contract: Contract;
   description: string;
-  imageUrl: string;
-  url: string;
+  id: string;
   imagePreviewUrl: string;
   imageThumbnailUrl: string;
-  attributes: MetadataAttribute[];
-  contract: Contract;
-  collectionIdentifier: string;
+  imageUrl: string;
+  name: string;
+  tokenId?: string;
+  url: string;
 }

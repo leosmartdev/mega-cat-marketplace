@@ -79,8 +79,8 @@ export class LandingCollectionsComponent implements OnInit {
   priceFilter() {
     this.filteredNFt = [];
     console.log(this.maxValue, this.minValue);
-    this.saleNFTs.forEach((saleNFT: any) => {
-      if (this.minValue <= saleNFT.listing.price && this.maxValue >= saleNFT.listing.price) {
+    this.products.forEach((saleNFT: any) => {
+      if (this.minValue <= saleNFT.nft.listing.price && this.maxValue >= saleNFT.nft.listing.price) {
         this.filteredNFt.push(saleNFT);
       }
     });
@@ -169,8 +169,8 @@ export class LandingCollectionsComponent implements OnInit {
       price: saleNFT.price,
       count: 1,
       subTotal: saleNFT.price,
-      collection: saleNFT.collection,
-      sellerAddress: saleNFT.sellerAddress
+      sellerAddress: saleNFT.sellerAddress,
+      smartContractAddress: saleNFT.nft.contract.address
     };
 
     this.cartService.addItemToCart(item);
@@ -182,20 +182,21 @@ export class LandingCollectionsComponent implements OnInit {
 
     const marketplaceType = this.filter.status.listingCategory === ListingCategory.SALE ? 'listing-buynow' : 'listing-auction';
     listings.forEach((offer: Offer) => {
-      if (offer.nft !== undefined && offer.nft.contract.media !== null && offer.nft.contract.media.find((x) => x.type === 'collectionId') !== undefined) {
-        const nftCard = this.nftUtilsService.buildNftCardFromVenlyOffer({ offer, marketplaceType });
+      const nftCard = this.nftUtilsService.buildNftCardFromVenlyOffer({ offer, marketplaceType });
 
-        if (distinctCollections.indexOf(offer.nft.contract.address) === -1) {
-          distinctCollections.push(offer.nft.contract.address);
-        }
-        this.products.push({ nft: nftCard });
-        this.saleNFTs.push(nftCard);
-
-        this.filteredNFt.push({
-          nft: nftCard,
-          auction: marketplaceType === 'listing-auction' ? offer.auction : undefined
-        });
+      if (distinctCollections.indexOf(offer.nft.contract.address) === -1) {
+        distinctCollections.push(offer.nft.contract.address);
       }
+      this.products.push({
+        nft: nftCard,
+        auction: marketplaceType === 'listing-auction' ? offer.auction : undefined
+      });
+      this.saleNFTs.push(nftCard);
+
+      this.filteredNFt.push({
+        nft: nftCard,
+        auction: marketplaceType === 'listing-auction' ? offer.auction : undefined
+      });
     });
 
     console.log(`Found ${this.products.length} products across ${distinctCollections.length} collections`);

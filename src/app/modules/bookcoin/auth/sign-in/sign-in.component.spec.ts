@@ -25,6 +25,12 @@ describe('SignInComponent', () => {
   const routeMonitorServiceMock = jasmine.createSpyObj('RouteMonitorService', ['getPreviousUrl']);
   routeMonitorServiceMock.getPreviousUrl.and.returnValue('test url');
 
+  activatedRouteMock.snapshot = {
+    queryParamMap: {
+      get: (redirectUrl) => ''
+    }
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule],

@@ -14,5 +14,7 @@ export const environment = {
   },
   apiUrl: 'http://localhost:8080',
   bloxApiUrl: 'http://localhost:3000',
-  app: 'MCL'
+  app: 'MCL',
+  polygonChain: 'MUMBAI',
+  ethereumChain: 'RINKEBY'
 };

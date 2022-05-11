@@ -62,7 +62,8 @@ export class LandingComponent implements OnInit {
       this.getAuctionsCreatedByUser();
     } else {
       this.getNFTsForWallet();
-      this.getPendingOffers();
+      // no need to call now, as venly have no such states e.g. AWAITING_FINALIZING_OFFER,FINALIZING_OFFER
+      // this.getPendingOffers();
     }
   }
 
@@ -113,11 +114,6 @@ export class LandingComponent implements OnInit {
     this.productService.getAllListings('INITIATING_OFFER', true).subscribe((list) => {
       pendingOffersForUser = list.data.filter((listing: Offer) => listing.sellerAddress === this.walletAddress);
 
-      // filtering-out offers against old NFTs, having not enough data in them
-      pendingOffersForUser = pendingOffersForUser.filter(
-        (listing: Offer) => listing.nft.contract.media !== null && listing.nft.contract.media.find((x) => x.type === 'collectionId') !== undefined
-      );
-
       this.productService.listingNFT().subscribe(
         (data) => {
           if (Boolean(data.data) === false) {
@@ -148,31 +144,6 @@ export class LandingComponent implements OnInit {
       );
     });
   }
-
-  // getAllListing() {
-  //   this.isFetching = true;
-  //   this.filteredNFTs = [];
-
-  //   this.productService.getAllListings().subscribe(
-  //     (data) => {
-  //       const listings = data.data.filter(
-  //         (listing: Offer) =>
-  //           listing.status !== 'AWAITING_FINALIZING_OFFER' &&
-  //           listing.status !== 'FINALIZING_OFFER' &&
-  //           (listing.buyerWalletAddress === this.walletAddress || listing.externalBuyerId === this.user.id)
-  //       );
-
-  //       listings.forEach((listing: Offer) => {
-  //         const nftCard = this.nftUtilsService.buildNftCardFromVenlyOffer({ offer: listing });
-
-  //         this.nfts.push({ nft: nftCard });
-  //       });
-  //     },
-  //     (error) => {
-  //       this.isFetching = false;
-  //     }
-  //   );
-  // }
 
   getAuctionsParticipatedByUser() {
     this.isFetching = true;

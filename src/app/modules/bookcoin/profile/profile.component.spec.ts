@@ -11,10 +11,11 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { mockedNftCard, mockedOfferResponse, mockedvenlyWalletNft, mockUser } from 'app/core/auction/spec-files/mocked';
+import { mockedNftCard, mockedOfferResponse, mockedvenlyWalletNft, mockUser, mockedCollectionResponse } from 'app/core/auction/spec-files/mocked';
 import { WalletService } from 'app/core/wallet/wallet.service';
 import { NftCardModel } from 'app/core/models/nft-card.model';
 import { NftUtilsService } from 'app/shared/nft-utils.service';
+import { RewardsService } from 'app/core/rewards/rewards.service';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -23,10 +24,18 @@ describe('ProfileComponent', () => {
   authServiceMock.updateAvatar.and.returnValue(of(null));
   authServiceMock.isAdmin.and.returnValue(of(true));
   const matDialogMock = jasmine.createSpyObj('MatDialog', ['close', 'closeAll']);
-  const productServiceMock = jasmine.createSpyObj('ProductService', ['getAllListings', 'listingNFTByLinkedWallets', 'listingNFTByWallet']);
+  const productServiceMock = jasmine.createSpyObj('ProductService', [
+    'getAllListings',
+    'getCollections',
+    'getCollectionsByLinkedWallets',
+    'listingNFTByLinkedWallets',
+    'listingNFTByWallet'
+  ]);
   const walletServiceMock = jasmine.createSpyObj('WalletService', ['user', 'getAccounts']);
   const nftServiceMock = jasmine.createSpyObj('NftUtilsService', ['buildNftCardFromVenlyWalletNft', 'buildNftCardFromVenlyOffer']);
   const errorServiceMock = jasmine.createSpyObj('ErrorsService', ['openSnackBar']);
+  const rewardsServiceMock = jasmine.createSpyObj('RewardsService', ['listRewards', 'createReward', 'listUserRewards']);
+  rewardsServiceMock.listUserRewards.and.returnValue(of([]));
 
   walletServiceMock.user = 'someone';
   walletServiceMock.getAccounts.and.returnValue(of([]));
@@ -36,6 +45,8 @@ describe('ProfileComponent', () => {
   productServiceMock.getAllListings.and.returnValue(of({ data: [mockedOffer] }));
   nftServiceMock.buildNftCardFromVenlyWalletNft.and.returnValue(mockedNftCard);
   productServiceMock.listingNFTByLinkedWallets.and.returnValue(of({ data: [mockedvenlyWalletNft] }));
+  productServiceMock.getCollections.and.returnValue(of({ data: [mockedCollectionResponse] }));
+  productServiceMock.getCollectionsByLinkedWallets.and.returnValue(of({ data: [mockedCollectionResponse] }));
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -52,7 +63,8 @@ describe('ProfileComponent', () => {
         { provide: SharedService },
         { provide: ErrorsService, useValue: errorServiceMock },
         { provide: FormBuilder },
-        { provide: NftUtilsService, useValue: nftServiceMock }
+        { provide: NftUtilsService, useValue: nftServiceMock },
+        { provide: RewardsService, useValue: rewardsServiceMock }
       ]
     }).compileComponents();
   });
@@ -62,6 +74,7 @@ describe('ProfileComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.nfts = [];
+    component.walletAddressFilter = { walletAddress: 'testAddress' };
   });
 
   afterEach(() => {

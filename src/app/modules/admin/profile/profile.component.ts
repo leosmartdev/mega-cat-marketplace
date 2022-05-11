@@ -10,6 +10,9 @@ import { VenlyService } from 'app/core/venly/venly.service';
 import { Offer } from 'app/core/models/offer.model';
 import { VenlyWalletNft } from 'app/core/models/venly/venly-wallet-nft.model';
 import { AchievementService } from 'app/core/achievement/achievement.service';
+import { Subscription } from 'rxjs';
+import { SettingsComponent } from './settings/settings.component';
+import { subscribeOn } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -22,8 +25,10 @@ export class ProfileComponent implements OnInit {
   banner: string = null;
   walletAddress: string;
   updateAvatarForm: FormGroup;
+  updateBannerForm: FormGroup;
   isAdmin: boolean = false;
   loading: false;
+  subscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -44,7 +49,29 @@ export class ProfileComponent implements OnInit {
     this.updateAvatarForm = this.formBuilder.group({
       image: ['', Validators.required]
     });
+    this.updateBannerForm = this.formBuilder.group({
+      image: ['', Validators.required]
+    });
     this.isAdmin = this.authService.isAdmin();
+  }
+
+  subscribeToEmiter(componentRef) {
+    if (!(componentRef instanceof SettingsComponent)) {
+      return;
+    }
+    const child: SettingsComponent = componentRef;
+    child.clickEvent.subscribe((event) => {
+      if (typeof event === 'string') {
+        this.banner = event;
+        return;
+      }
+      this.onChangeAvatar(event);
+    });
+  }
+  unsubscribe() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   setAvatar() {

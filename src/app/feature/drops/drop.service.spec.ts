@@ -190,12 +190,9 @@ describe('DropService', () => {
   it('should request ether payment', () => {
     const ether = 100;
     const destination = 'testAddress';
-    const confirmations = 1;
-    const onSucess = () => {};
-    const onError = () => {};
 
-    service.requestEtherPayment(ether, destination, confirmations, onSucess, onError);
+    service.requestEtherPayment(ether, destination);
 
-    expect(paymentServiceMock.requestEtherPayment).toHaveBeenCalledOnceWith(ether, destination, confirmations, onSucess, onError);
+    expect(paymentServiceMock.requestEtherPayment).toHaveBeenCalledOnceWith(ether, destination);
   });
 });

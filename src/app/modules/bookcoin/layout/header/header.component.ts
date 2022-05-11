@@ -1,3 +1,4 @@
+import { BookcoinLauncherService } from './../../bookcoin-launcher.service';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { AuthService } from 'app/core/auth/auth.service';
 import { User } from 'app/core/user/user.types';
@@ -31,7 +32,8 @@ export class HeaderComponent implements OnInit {
     private cartService: CartService,
     public walletService: WalletService,
     private sharedService: SharedService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    public bookcoinLauncherService: BookcoinLauncherService
   ) {
     this.sharedService.url.subscribe((value) => (this.url = value));
   }

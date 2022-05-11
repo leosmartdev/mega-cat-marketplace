@@ -13,7 +13,7 @@ describe('ModalComponent', () => {
     _id: mockedNftCard.listing.id,
     name: mockedNftCard.name,
     tokenId: mockedNftCard.tokenId,
-    collection: mockedNftCard.contract.address,
+    smartContractAddress: mockedNftCard.contract.address,
     image: mockedNftCard.image,
     price: mockedNftCard.listing.price,
     count: 1,

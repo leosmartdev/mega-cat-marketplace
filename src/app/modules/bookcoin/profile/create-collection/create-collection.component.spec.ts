@@ -14,6 +14,7 @@ import { VenlyCollectionResponseModel } from 'app/core/models/venly-collection-r
 import { CollectionCreatedPopupComponent } from 'app/modules/elements/collection-created-popup/collection-created-popup.component';
 import { WizardDialogService } from 'app/shared/wizard-dialog-service/wizard-dialog.service';
 import Swal from 'sweetalert2';
+import { RewardsService } from 'app/core/rewards/rewards.service';
 
 describe('CreateCollectionComponent', () => {
   let component: CreateCollectionComponent;
@@ -38,6 +39,9 @@ describe('CreateCollectionComponent', () => {
   const bsModalServiceMock = jasmine.createSpyObj('BsModalService', ['show']);
   const bsModalRefMock = jasmine.createSpyObj('BsModalRef', ['']);
   const wizardServiceMock = jasmine.createSpyObj('WizardDialogService', ['advanceStages', 'showWizard', 'setError', 'failStage']);
+  const rewardsServiceMock = jasmine.createSpyObj('RewardsService', ['listRewards', 'createReward', 'listUserRewards', 'listUnassignedRewards']);
+  rewardsServiceMock.listRewards.and.returnValue(of([]));
+  rewardsServiceMock.listUnassignedRewards.and.returnValue(of([]));
   authServiceMock.check.and.returnValue(of(true));
   authServiceMock.isAdmin.and.returnValue(of(false));
   walletServiceMock.requireChain.and.resolveTo(true);
@@ -61,7 +65,8 @@ describe('CreateCollectionComponent', () => {
         { provide: ProductService, useValue: productServiceMock },
         { provide: ErrorsService, useValue: errorServiceMock },
         { provide: BsModalRef, useValue: bsModalRefMock },
-        { provide: WizardDialogService, useValue: wizardServiceMock }
+        { provide: WizardDialogService, useValue: wizardServiceMock },
+        { provide: RewardsService, useValue: rewardsServiceMock }
       ]
     }).compileComponents();
   });
@@ -81,7 +86,7 @@ describe('CreateCollectionComponent', () => {
       component.createCollectionForm.controls['name'].setValue('test');
       component.createCollectionForm.controls['subheading'].setValue('test subheading');
       component.createCollectionForm.controls['about'].setValue('test about info');
-      component.createCollectionForm.controls['royality'].setValue('test royalty');
+      component.createCollectionForm.controls['royalty'].setValue('test royalty');
       component.createCollectionForm.controls['story'].setValue('test story');
       component.createCollectionForm.controls['perks'].setValue('test perk');
 
@@ -142,19 +147,6 @@ describe('CreateCollectionComponent', () => {
 
       expect(Swal.fire).toHaveBeenCalledWith(alert as any);
     }));
-  });
-
-  it('should set images source to the according to event', (done) => {
-    const event = { target: { files: [new Blob(['test1.png', 'test2.png', 'test3.png'])], result: 'Test Result' } };
-    spyOn(window.URL, 'createObjectURL');
-    spyOn(window.URL, 'revokeObjectURL');
-
-    component.onChange(event);
-
-    setTimeout(() => {
-      expect(errorServiceMock.openSnackBar).toHaveBeenCalledWith('Banner should be 1600 x 400 size!', 'Error');
-      done();
-    }, 3000);
   });
 
   it('should show collection modal', () => {

@@ -1,4 +1,5 @@
 import { Nft } from 'app/core/models/nft.model';
+import { CollectionModel } from 'app/core/models/collection.model';
 import { Offer } from 'app/core/models/offer.model';
 import { Role } from 'app/core/models/role';
 import { VenlyWalletNft } from 'app/core/models/venly/venly-wallet-nft.model';
@@ -51,8 +52,25 @@ export const mockedNft: Nft = {
     categories: [],
     url: 'test.xyz',
     imageUrl: 'test.png'
-  },
-  collectionIdentifier: 'abcd'
+  }
+};
+
+export const mockedCollectionResponse: CollectionModel = {
+  name: 'test',
+  ownerAddress: 'test',
+  venlyCollectionId: 'test',
+  collectionId: 'test',
+  smartContractAddress: 'test',
+  chain: 'test',
+  subheading: 'test',
+  about: 'test',
+  royality: 'test',
+  story: 'test',
+  perks: 'test',
+  lottie: 'test',
+  rewards: [],
+  userId: {},
+  createdAt: new Date()
 };
 
 export const mockedOfferResponse: Offer = {
@@ -114,8 +132,7 @@ export const mockedNftUtilsOffer = {
       categories: [],
       url: '',
       imageUrl: ''
-    },
-    collectionIdentifier: ''
+    }
   },
   sellerId: '',
   sellerAddress: '',

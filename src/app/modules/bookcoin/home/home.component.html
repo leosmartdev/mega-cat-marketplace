@@ -1,9 +1,10 @@
 <div class="container py-5">
   <div class="row">
     <div class="col-md-5 center-vertically">
-      <h1 class="h1">Featured <br /><span class="underline-quote">Book</span> Drops</h1>
-      <h6>
-        Collect your favourite books with<br />
+      <h2 class="accent-verbiage">Welcome to the</h2>
+      <h1 class="h1"><span class="underline-quote">MetaLibrary</span></h1>
+      <h6 class="subtitle-message">
+        Collect your favorite books as<br />
         Limited-Edition,Author-Issued<br />
         NFTs!
       </h6>
@@ -29,35 +30,46 @@
       </carousel>
       <h3 class="feat-drops">
         Featured
-        <a [routerLink]="['/drops']" *ngIf="canViewDrops()">Drops</a>
-        <span *ngIf="!canViewDrops()">Drops</span>
+        <a [routerLink]="['/drops']" *ngIf="canViewDrops()">Collections</a>
+        <span *ngIf="!canViewDrops()">Collections</span>
       </h3>
     </div>
   </div>
 </div>
 <div class="container-fluid intro" style="margin-top: 50px">
-  <div class="container row mx-auto" style="margin-left: 56px !important; padding-right: 0px; margin-right: 50px; padding-left: 0px">
+  <div class="container row mx-auto">
     <div class="col-md-5">
-      <h4 class="white-neue h2 strong">How to</h4>
-      <h1 class="white-neue h1">BookCoin</h1>
-
-      <p class="text-uppercase" style="font-family: Source Serif">start collecting in 3 easy steps</p>
+      <h4 class="white-neue h1">Books, meet</h4>
+      <h1 class="white-neue h1">Blockchain.</h1>
+      <h6 class="section-two-message">
+        We are memorializing books to the blockchain and offering readers the opportunity to collect them as Limited-Edition NFTs, get access to exclusive content, & more.
+      </h6>
     </div>
 
     <div class="col-md-7" style="color: white; align-items: center; padding-left: 50px">
-      <div class="d-flex flex-coloumn">
-        <div style="padding-right: 20px; padding-top: 20px">
-          <h5 class="gold-line neue-reg">01) CREATE YOUR ACCOUNT</h5>
+      <div class="d-flex flex-column">
+        <div *ngIf="!this.bookcoinLauncherService.may18thLaunchFeatureOn" style="padding-right: 20px; padding-top: 20px">
+          <h5 class="gold-line neue-reg"><01) CREATE YOUR ACCOUNT></h5>
           <h5 class="neue-reg">02) CONNECT YOUR WALLET</h5>
           <h5 class="neue-reg">03) BUILD YOUR LIBRARY</h5>
         </div>
-        <div class="white-rect"></div>
+        <div class="row">
+          <div class="col-sm">
+            <a href="#"><img src="assets/bookcoin/roadmap.png" /></a>
+          </div>
+          <div class="col-sm">
+            <a href="#"><img src="assets/bookcoin/community.png" /></a>
+          </div>
+          <div class="col-sm">
+            <a href="#"><img src="assets/bookcoin/3-things-to-know.png" /></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <div class="container carousel-padding">
-  <h2 class="black-neue h2 strong" style="padding-bottom: 20px"><span class="gold-line black-neue">FEATUR</span>ED TITLES</h2>
+  <h2 class="black-neue h2 strong" style="padding-bottom: 20px"><span class="gold-line black-neue text-uppercase">Upcoming Mints</span></h2>
   <carousel height="500" class="pad" [arrowsOutside]="true" [cellsToShow]="4" [margin]="45">
     <div class="carousel-cell" *ngFor="let saleNFT of cards">
       <div class="card card-feat" style="background-color: #000">
@@ -78,7 +90,45 @@
 
 <div class="container py-5">
   <div class="d-flex my-10">
-    <h2 class="gold-line black-neue h2 strong">EXPLORE</h2>
+    <h2 class="gold-line black-neue h2 strong text-uppercase">All Collections</h2>
+    <div class="mt-2 ml-5 z-ind">
+      <mat-select class="ml-5" [(value)]="Collection" (selectionChange)="PriceFilter($event.value, 'collection')">
+        <mat-option value="all">All</mat-option>
+        <mat-option *ngFor="let collection of ExistCollections" [value]="{collection}">{{ collection }}</mat-option>
+      </mat-select>
+      <mat-select class="ml-5" (selectionChange)="PriceFilter($event.value, 'type')" [(value)]="SaleType">
+        <mat-option value="buy">Buy</mat-option>
+        <mat-option value="auction">Auction</mat-option>
+      </mat-select>
+      <mat-select class="ml-5" [(value)]="pricefilterValue" (selectionChange)="PriceFilter($event.value, 'price')">
+        <mat-option value="All">All Prices</mat-option>
+        <mat-option value="Less Than 50">Less Than 50</mat-option>
+        <mat-option value="50-100">50-100</mat-option>
+        <mat-option value="Greater Than 100">Greater Than 100</mat-option>
+      </mat-select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="carousel-cell col-sm-3 mb-10" *ngFor="let saleNFT of cards.slice(0, 8)">
+      <div class="card card-feat" style="background-color: #000">
+        <img class="card-img" [src]="saleNFT.image" style="object-fit: contain !important" />
+        <div class="mt-5 text-center">
+          <h4 class="h4 strong center bm4">{{ saleNFT.name.slice(0, 16) }}</h4>
+
+          <p>{{ saleNFT.description | truncate: 70:'No description provided' }}</p>
+
+          <div class="d-flex mt-2 container">
+            <a class="btn btn-outline-primary mcl-button-outline_auction btn-border" [routerLink]="['/drops', saleNFT._id]">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!this.bookcoinLauncherService.may18thLaunchFeatureOn" class="container py-5">
+  <div class="d-flex my-10">
+    <h2 class="gold-line black-neue h2 strong text-uppercase">All Collections</h2>
     <div class="mt-2 ml-5 z-ind">
       <mat-select class="ml-5" [(value)]="Collection" (selectionChange)="PriceFilter($event.value, 'collection')">
         <mat-option value="all">All</mat-option>

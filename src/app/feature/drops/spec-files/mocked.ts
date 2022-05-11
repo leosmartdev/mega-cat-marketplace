@@ -9,7 +9,7 @@ export const mockedNftDrop: NftDrop = {
   user: mockUser,
   smartContractAddress: 'test address',
   contractName: 'test contract',
-  chain: 'test chain',
+  chain: 'mumbai',
   standardTokens: 10,
   premiumTokens: 5,
   premiumTokenIds: [],

@@ -13,3 +13,14 @@ h2.section-title {
     padding: 50px;
   }
 }
+.btn .btn-secondary .mcl-button {
+  max-width: fit-content !important;
+}
+::ng-deep .pay-stat .mat-cell {
+  color: white !important;
+  background-color: rgba(50, 49, 49) !important;
+}
+::ng-deep .pay-stat .mat-header-cell {
+  color: white !important;
+  background-color: rgba(50, 49, 49) !important;
+}

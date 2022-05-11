@@ -32,10 +32,7 @@ describe('NftDetailComponent', () => {
   mockedMetadata.metadata = {
     ...mockedMetadata.metadata,
     contract: {
-      media: [
-        { type: 'collectionId', value: 'testId' },
-        { type: 'about', value: 'test' }
-      ]
+      media: [{ type: 'about', value: 'test' }]
     }
   };
   mockedMetadata.metadata.attributes = [
@@ -94,7 +91,6 @@ describe('NftDetailComponent', () => {
     component.nftPage(mockedNftMetadata.contract.address, '123');
 
     expect(component.attributes).toEqual([{ name: 'test' }]);
-    expect(component.colId).toEqual('testId');
   });
 
   describe('OpenPanel', () => {

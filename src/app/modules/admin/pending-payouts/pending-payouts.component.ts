@@ -15,6 +15,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class PendingPayoutsComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'status', 'price', 'fee', 'payout', 'order', 'action', 'button'];
   selectedPayouts: any[] = [];
+  itemperpage: number = 5;
+  pageSizeOption = [2, 5, 10];
+  totalData: number = 0;
   selection = new SelectionModel<any>(true, []);
   initialSelection = [];
   allowMultiSelect = true;
@@ -22,12 +25,17 @@ export class PendingPayoutsComponent implements OnInit {
   filteredPayouts: any[] = [];
   nfts: any[] = [];
   users: any[] = [];
-  page: number = 1;
   payoutStatus = 'pending';
   payoutStatusForm: FormGroup;
   options: string[] = ['all', 'pending', 'cleared'];
   formFieldHelpers: string[] = [''];
   selectedFilter: string = 'all';
+  tableData = { pageIndex: 0 };
+  names: any[] = [
+    { key: 'Name', value: 'nftName' },
+    { key: 'Status', value: 'status' }
+  ];
+  selectedCollection: string = 'nftName';
   constructor(
     private roleService: RolesService,
     private activatedRoute: ActivatedRoute,
@@ -43,8 +51,16 @@ export class PendingPayoutsComponent implements OnInit {
   }
 
   getPendingPayouts() {
-    this.roleService.getPendingPayouts().subscribe((data: any) => {
-      console.log(data);
+    this.roleService.getFilterPayout('all', this.tableData.pageIndex + 1, this.itemperpage).subscribe((data: any) => {
+      this.totalData = data.payoutCount;
+      this.payouts = data.payouts;
+      this.filteredPayouts = data.payouts;
+    });
+  }
+  onChangedPage(event) {
+    this.tableData = { pageIndex: event.pageIndex };
+    this.roleService.getFilterPayout(this.selectedFilter, event.pageIndex + 1, event.pageSize).subscribe((data: any) => {
+      this.totalData = data.payoutCount;
       this.payouts = data.payouts;
       this.filteredPayouts = data.payouts;
     });
@@ -90,17 +106,19 @@ export class PendingPayoutsComponent implements OnInit {
   }
 
   filter(event) {
-    if (event.value === 'all') {
-      this.filteredPayouts = this.payouts;
-    } else {
-      this.filteredPayouts = this.payouts.filter((value) => {
-        if (value.status === event.value) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-    }
+    this.roleService.getFilterPayout(event.value, this.tableData.pageIndex + 1, this.itemperpage).subscribe((data: any) => {
+      this.totalData = data.payoutCount;
+      this.payouts = data.payouts;
+      this.filteredPayouts = data.payouts;
+    });
+  }
+
+  searchFilter(event) {
+    this.roleService.getSearchFilterPayout(this.selectedCollection, event.target.value, this.tableData.pageIndex + 1, this.itemperpage).subscribe((data: any) => {
+      this.totalData = data.payoutCount;
+      this.payouts = data.payouts;
+      this.filteredPayouts = data.payouts;
+    });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

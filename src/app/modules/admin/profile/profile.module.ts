@@ -35,6 +35,9 @@ import { Role } from 'app/core/models/role';
 import { PayoutsStatusComponent } from './payouts-status/payouts-status.component';
 import { MatTableModule } from '@angular/material/table';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SalesHistoryComponent } from './sales-history/sales-history.component';
+import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const routes: Route[] = [
   {
@@ -70,13 +73,33 @@ const routes: Route[] = [
     },
     canActivate: [AuthGuard, WalletGuard],
     component: CreateCollectionComponent
+  },
+  {
+    path: 'purchase-history',
+    canActivate: [AuthGuard, WalletGuard],
+    component: PurchaseHistoryComponent
+  },
+  {
+    path: 'sales-history',
+    canActivate: [AuthGuard, WalletGuard],
+    component: SalesHistoryComponent
   }
 ];
 import { LandingComponent } from './landing/landing.component';
 import { EditListingComponent } from './edit-listing/edit-listing.component';
-
 @NgModule({
-  declarations: [ProfileComponent, SettingsComponent, CreateComponent, WalletComponent, CreateCollectionComponent, PayoutsStatusComponent, LandingComponent, EditListingComponent],
+  declarations: [
+    ProfileComponent,
+    SettingsComponent,
+    CreateComponent,
+    WalletComponent,
+    CreateCollectionComponent,
+    PayoutsStatusComponent,
+    LandingComponent,
+    EditListingComponent,
+    PurchaseHistoryComponent,
+    SalesHistoryComponent
+  ],
   imports: [
     SharedModule,
     CommonModule,
@@ -100,7 +123,8 @@ import { EditListingComponent } from './edit-listing/edit-listing.component';
     FuseHighlightModule,
     MatListModule,
     MatProgressSpinnerModule,
-    ProfileRoutingModule
+    ProfileRoutingModule,
+    MatPaginatorModule
   ]
 })
 export class ProfileModule {}

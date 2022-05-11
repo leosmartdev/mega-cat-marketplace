@@ -15,5 +15,7 @@ export const environment = {
   //apiUrl: 'https://mega-cat-labs-playground.herokuapp.com',
   apiUrl: 'https://dev-api.bookcoin.com',
   bloxApiUrl: 'https://blox-nft-metadata-api.herokuapp.com',
-  app: 'BKCN'
+  app: 'BKCN',
+  polygonChain: 'MUMBAI',
+  ethereumChain: 'RINKEBY'
 };

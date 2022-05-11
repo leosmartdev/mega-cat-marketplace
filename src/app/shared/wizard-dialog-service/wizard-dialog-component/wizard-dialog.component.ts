@@ -13,14 +13,6 @@ export class WizardDialogComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  advanceStages() {
-    this.wizard.advanceStages();
-  }
-
-  makeError() {
-    this.wizard.setError('OMG! Something went wrong');
-  }
-
   close() {
     this.dialog.closeAll();
   }

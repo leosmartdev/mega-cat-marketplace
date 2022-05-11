@@ -39,39 +39,33 @@
   <div class="row mt-7" *ngIf="selectedTab === 1">
     <section class="profile-main">
       <div class="site-wrapper">
-        <div *ngIf="filteredNFTs.length > 0">
-          <div class="row" *ngFor="let nft of collectionsNFTKeys">
-            <div class="row" style="cursor: pointer" (click)="openPanel(nft)">
-              <div class="col-md-3"></div>
-              <h2 class="feat-drops2 col-md-6">{{ collectionsNFTs.get(nft)[0].nft.contract.name }}</h2>
-              <div class="col-md-3">
-                <button *ngIf="activePanel !== nft" class="mt-3" style="color: #ddba77; font-size: 20px">+</button>
-                <button *ngIf="activePanel === nft" class="mt-3" style="color: #ddba77; font-size: 20px">-</button>
-              </div>
-            </div>
-            <div *ngIf="activePanel === nft" class="pt-4 row mx-auto">
+        <div *ngIf="collectionsWithRewards.length > 0">
+          <div class="row" *ngFor="let collection of collectionsWithRewards">
+            <div class="col-md-3"></div>
+            <h2 class="feat-drops2 col-md-6">{{ collection.collectionName }}</h2>
+
+            <div class="pt-4 row mx-auto">
               <div class="col-md-2"></div>
               <div class="col-md-8">
-                <div *ngFor="let nf of collectionsNFTs.get(nft)">
-                  <p style="color: #202020" class="text-center">
-                    {{ nf.nft.name }}
-                  </p>
-                  <div class="d-flex flex-row">
-                    <img class="reward-image mr-4 rounded" src="{{ nf.nft.image }}" />
-                    <p style="color: #202020">{{ nf.nft.description.length > 200 ? (nf.nft.description | slice: 0:200) + '...' : nf.nft.description }}</p>
-                  </div>
-                  <div class="text-center">
-                    <a [routerLink]="['collections/sale', nft?.nft?.id]" class="btn btn-outline-primary mcl-button-outline_auction mx-auto">Go Now</a>
-                  </div>
+                <p style="color: #202020; font-size: 23px" class="text-center underline-quote">
+                  {{ collection.reward.title }}
+                </p>
+                <div class="d-flex flex-row">
+                  <markdown [data]="collection.reward.markdown"> </markdown>
+                </div>
+                <br />
+                <h3>S3:</h3>
+                <div>
+                  <app-rewards-explorer [files]="collection.reward.s3Structure"></app-rewards-explorer>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="no-results">
-          <span class="no-nft-label" *ngIf="!isFetching && filteredNFTs.length === 0">No Reward found</span>
-          <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetching">
-            <span class="loading-label">Fetching NFTs</span>
+          <span class="no-nft-label" *ngIf="!isFetchingRewards && collectionsWithRewards.length === 0">No Reward found</span>
+          <div class="d-flex justify-content-center align-items-baseline nr-wrapper" *ngIf="isFetchingRewards">
+            <span class="loading-label">Fetching Rewards</span>
             <div class="spinner-grow spinner-wrapper text-primary" role="status">
               <span class="sr-only">Loading...</span>
             </div>

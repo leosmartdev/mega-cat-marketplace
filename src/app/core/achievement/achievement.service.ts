@@ -12,14 +12,15 @@ export class AchievementService {
   // eslint-disable-next-line no-bitwise
   constructor(private _httpClient: HttpClient) {}
 
-  byUser(): Observable<any> {
+  byUser(all?): Observable<any> {
+    all = all === undefined ? false : all;
     const user = JSON.parse(localStorage.getItem('user') as string);
     console.log(user);
     let id = '';
     if (user) {
       id = user.id;
     }
-    return this._httpClient.post(`${this.baseUrl}/achievement/user`, { id: id });
+    return this._httpClient.post(`${this.baseUrl}/achievement/user`, { id: id, all: all });
   }
 
   getByAchieveId(achieveId): Observable<any> {

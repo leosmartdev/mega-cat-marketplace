@@ -4,6 +4,28 @@
   object-fit: contain !important;
   border-radius: 25px;
 }
+
+::ng-deep .carousel-arrows.carousel-arrows-outside.ng-star-inserted {
+  padding-left: 100px !important;
+}
+
+.accent-verbiage {
+  font-family: 'Gt sectra display';
+  font-size: 1.9rem;
+  margin-bottom: -20px;
+}
+
+.subtitle-message {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+}
+
+.section-two-message {
+  width: 450px;
+  font-size: 1.25em;
+  line-height: 1.1em;
+}
+
 .no-results {
   font-family: Poppins, sans-serif !important;
   opacity: 50;

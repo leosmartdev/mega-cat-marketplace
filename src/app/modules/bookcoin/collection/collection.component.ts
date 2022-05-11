@@ -11,6 +11,7 @@ import { HomepageService } from 'app/core/homepage/homepage.service';
 import { NftCardModel } from 'app/core/models/nft-card.model';
 import { AuctionResponse } from 'app/core/auction/auction';
 import { AuctionService } from 'app/core/auction/auction.service';
+import { environment } from 'environments/environment';
 
 export interface NftAuctionModel {
   nft: NftCardModel;
@@ -41,16 +42,22 @@ export class CollectionComponent implements OnInit {
   auctionNfts: NftAuctionModel[] = [];
   username: any = 'no username available';
   avatar: any = '../../../../assets/images/avatars/brian-hughes.jpg';
-  colId: any;
   aboutCol: any = '';
   defaultStory: any = 'no story available';
   defaultPerks: any = 'no perks available';
-  story: any = '';
-  perks: any = '';
-  subheadCol: any = '';
   filteredNFtsToDisplay: NftAuctionModel[] = [];
   currentCount: number = 6;
   colDate: any;
+  collection: any = {
+    subheading: '',
+    name: '',
+    about: '',
+    imageUrl: '',
+    description: '',
+    story: '',
+    perks: ''
+  };
+
   constructor(
     private productService: ProductService,
     private errorsService: ErrorsService,
@@ -66,13 +73,11 @@ export class CollectionComponent implements OnInit {
   ngOnInit(): void {
     this.sharedService.url.next(this.router.url);
     this.id = this.activatedRoute.snapshot.params['id'];
-    //this.getSaleNFTs();
     this.homepageService.getDrops().subscribe((data) => {
       this.cards = data.data;
       this.cards = this.cards.slice(0, 1);
     });
-    this.getSaleListing();
-    this.getAuctionListing();
+    this.getCollection();
   }
 
   getAuctionListing(): void {
@@ -80,11 +85,40 @@ export class CollectionComponent implements OnInit {
       this.errorsService.openSnackBar('Something went wrong!', 'Error');
     });
   }
+
   getSaleListing(): void {
     this.productService.getAllReadyListings().subscribe(this.processListingResponse, () => {
       this.errorsService.openSnackBar('Something went wrong!', 'Error');
     });
   }
+
+  getCollection(): void {
+    const chain = this.router.url.includes('/collection/p/') ? environment.polygonChain : environment.ethereumChain;
+    this.productService.getCollectionDetail(this.id, chain).subscribe(
+      (response) => {
+        console.log('Successfully imported a collection', response);
+        this.collection.name = response.data.name;
+        this.collection.subheading = response.data.subheading;
+        this.collection.about = response.data.about;
+        this.collection.story = response.data.story;
+        this.collection.perks = response.data.perks;
+        this.collection.imageUrl = response.data.imageUrl;
+        this.collection.description = response.data.description;
+        this.username = response.data.userId.username;
+        this.avatar = response.data.userId.avatar;
+        this.colDate = response.data.createdAt;
+        this.colDate = this.colDate.slice(0, 10);
+        if (!response.data.isImported) {
+          this.getSaleListing();
+          this.getAuctionListing();
+        }
+      },
+      () => {
+        this.errorsService.openSnackBar('Something went wrong!', 'Error');
+      }
+    );
+  }
+
   loadMore() {
     if (this.filteredNFts.length < this.currentCount + 3) {
       const diff = this.currentCount + 3 - this.filteredNFts.length;
@@ -125,72 +159,18 @@ export class CollectionComponent implements OnInit {
     this.filteredNFtsToDisplay = this.filteredNFts.slice(0, this.currentCount);
   }
 
-  getSaleNFTs(): void {
-    this.productService.getAllListings().subscribe(
-      (data: { data: Offer[] }) => {
-        const distinctCollections = [];
-        const listings = data.data.filter((listing: Offer) => listing.status === 'READY');
-
-        listings.forEach((offer: Offer) => {
-          if (offer.nft.contract.address === this.id) {
-            if (offer.nft.contract.media !== null && offer.nft.contract.media.find((x) => x.type === 'collectionId') !== undefined) {
-              this.offer = offer;
-              const listing: any = Object.assign({}, offer);
-              listing.metadata = offer.nft;
-              listing.type = 'buy-now';
-              listing.metadata.image = offer.nft.imageUrl;
-              const contract = offer.nft.contract;
-              const contractAddress = contract.address;
-
-              listing.collection = contract.name;
-              listing.tokenId = offer.nft.id;
-              this.priceArray.push(offer.price);
-
-              if (this.sellers.indexOf(offer.sellerAddress) === -1) {
-                this.sellers.push(offer.sellerAddress);
-              }
-
-              if (distinctCollections.indexOf(contract.address) === -1) {
-                distinctCollections.push(contractAddress);
-              }
-              this.products.push(listing);
-              this.saleNFTs.push(listing);
-              this.filteredNFts.push(listing);
-              this.colId = offer.nft.contract.media.find((x) => x.type === 'collectionId').value;
-            }
-          }
-        });
-        //this.colId = this.offer.nft.contract.media.find((x) => x.type === 'collectionId').value;
-        this.aboutCol = this.offer.nft.contract.media.find((x) => x.type === 'about');
-        this.subheadCol = this.offer.nft.contract.media.find((x) => x.type === 'subheading');
-        this.story = this.offer.nft.contract.media.find((x) => x.type === 'story');
-        this.perks = this.offer.nft.contract.media.find((x) => x.type === 'perks');
-        this.productService.getUserOfCollection(this.colId).subscribe((res) => {
-          this.username = res.data.username;
-          this.avatar = res.avatar;
-        });
-        this.floorPrice = Math.min(...this.priceArray);
-
-        this.filteredNFtsToDisplay = this.filteredNFts.slice(0, this.currentCount);
-      },
-      () => {
-        this.errorsService.openSnackBar('Something went wrong!', 'Error');
-      }
-    );
-  }
-
   addToCart(saleNFT: any) {
     // TODO: Make this a Product and fix tests and code.
     const item = {
       _id: saleNFT.id,
-      name: saleNFT.nft.name,
-      tokenId: saleNFT.nft.tokenId,
-      image: saleNFT.nft.imageUrl,
-      price: saleNFT.price,
       count: 1,
+      image: saleNFT.nft.imageUrl,
+      name: saleNFT.nft.name,
+      price: saleNFT.price,
+      sellerAddress: saleNFT.sellerAddress,
+      smartContractAddress: saleNFT.nft.contract.address,
       subTotal: saleNFT.price,
-      collection: saleNFT.collection,
-      sellerAddress: saleNFT.sellerAddress
+      tokenId: saleNFT.nft.tokenId
     };
 
     this._cartService.addItemToCart(item);
@@ -202,6 +182,7 @@ export class CollectionComponent implements OnInit {
       this.activePanel = '';
     }
   }
+
   private processListingResponse = (data: { data: Offer[] }) => {
     const listings = data.data;
 
@@ -222,16 +203,6 @@ export class CollectionComponent implements OnInit {
       }
     });
 
-    this.colId = this.offer.nft.contract.media?.find((x) => x.type === 'collectionId').value;
-    this.aboutCol = this.offer.nft.contract.media?.find((x) => x.type === 'about');
-    this.subheadCol = this.offer.nft.contract.media?.find((x) => x.type === 'subheading');
-    this.story = this.offer.nft.contract.media?.find((x) => x.type === 'story');
-    this.perks = this.offer.nft.contract.media?.find((x) => x.type === 'perks');
-    this.productService.getUserOfCollection(this.colId).subscribe((res) => {
-      this.username = res.data.username;
-      this.colDate = res.date;
-      this.colDate = this.colDate.slice(0, 10);
-    });
     this.floorPrice = Math.min(...this.priceArray);
     this.filteredNFtsToDisplay = this.filteredNFts.slice(0, this.currentCount);
   };
@@ -254,14 +225,7 @@ export class CollectionComponent implements OnInit {
         });
       }
     });
-    this.colId = this.offer.nft.contract.media.find((x) => x.type === 'collectionId').value;
-    this.aboutCol = this.offer.nft.contract.media.find((x) => x.type === 'about');
-    this.subheadCol = this.offer.nft.contract.media.find((x) => x.type === 'subheading');
-    this.story = this.offer.nft.contract.media.find((x) => x.type === 'story');
-    this.perks = this.offer.nft.contract.media.find((x) => x.type === 'perks');
-    this.productService.getUserOfCollection(this.colId).subscribe((res) => {
-      this.username = res.data.username;
-    });
+
     this.floorPrice = Math.min(...this.priceArray);
   };
 }

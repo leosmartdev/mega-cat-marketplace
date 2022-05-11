@@ -1,0 +1,54 @@
+<app-profile-navlinks></app-profile-navlinks>
+<section class="profile-main create-item">
+  <div class="site-wrapper">
+    <div class="form-wrapper">
+      <form class="overflow-hidden dark-theme" [formGroup]="editCollectionForm">
+        <div class="group-fields">
+          <div class="field-row">
+            <span class="label"> Name <i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input id="username" matInput [formControlName]="'name'" />
+              <mat-error *ngIf="editCollectionForm.get('name').hasError('required')"> Name is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-row">
+            <span class="label">
+              Description <i class="required">*</i>
+              <span>The description will be included on the item's detail page underneath its image.</span>
+            </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <textarea id="desc" matInput [formControlName]="'description'" [rows]="3" matTextareaAutosize></textarea>
+              <mat-error *ngIf="editCollectionForm.get('description').hasError('required')"> Description is required </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field-row">
+            <span class="label"> Subheading <i class="required">*</i> </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full">
+              <input id="subheading" matInput [formControlName]="'subheading'" />
+              <mat-error *ngIf="editCollectionForm.get('subheading').hasError('required')"> Subheading is required </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field-row">
+            <span class="label"> Reward </span>
+            <mat-form-field class="flex-auto gt-xs:pr-3 col-md-12 w-full" appearance="fill">
+              <mat-select [formControlName]="'selectedReward'">
+                <mat-option *ngFor="let reward of rewards" [value]="reward.title">
+                  {{ reward.title }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <button class="btn primary" [disabled]="editCollectionForm.invalid" (click)="editCollection()">
+            <span> Save </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#fff">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
